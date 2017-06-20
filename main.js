@@ -12,5 +12,6 @@ app.on('ready', function(){
         titleBarStyle : 'hidden-inset'
     })
     win.setMenu(null)
+    win.webContents.openDevTools({detach:true})
     win.loadURL('file://' + __dirname + '/index.html')
 })
