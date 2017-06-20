@@ -1,9 +1,7 @@
 # ElectronTest
----
 Electron using react framework
 
 ## Installation
----
 Installation via github 
 
 ```bash
