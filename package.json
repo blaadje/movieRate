@@ -4,8 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "dev": "webpack --watch",
-    "start": "electron .",
+    "start": "electron . && webpack --watch",
     "prod": "webpack --config=webpack.config.js",
     "build": "electron-packager . montest"
   },
