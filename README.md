@@ -12,7 +12,7 @@ git clone https://github.com/blaadje/Electron.git your-project-name
 cd your-project-name
 
 # Install dependencies
-yarn install
+yarn install / npm install
 
 # Start the webpack first
 npm run dev
