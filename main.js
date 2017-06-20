@@ -11,5 +11,6 @@ app.on('ready', function(){
         transparent: true,
         titleBarStyle : 'hidden-inset'
     })
+    win.setMenu(null)
     win.loadURL('file://' + __dirname + '/index.html')
 })
