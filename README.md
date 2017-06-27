@@ -15,9 +15,9 @@ cd your-project-name
 yarn install / npm install
 
 # Start the webpack first
-npm run dev
+yarn run dev
 
 # In different terminal, start app
-npm start
+yarn start
 
 ```
