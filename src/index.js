@@ -4,8 +4,9 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Home from './components/Home'
 
 ReactDOM.render(
-  <h1>Mon application React</h1>,
+  <Home />,
   document.getElementById('root')
 )
