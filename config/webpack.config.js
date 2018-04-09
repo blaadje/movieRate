@@ -4,7 +4,11 @@ const publicPath = `http://localhost:${port}/dist`
 
 module.exports = {
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json']
+    extensions: ['.ts', '.tsx', '.js', '.json'],
+    alias: {
+      images: path.resolve(__dirname, '../src/assets/images/'),
+      components: path.resolve(__dirname, '../src/components')
+    }
   },
   module: {
     rules: [

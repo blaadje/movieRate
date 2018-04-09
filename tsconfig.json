@@ -1,19 +1,22 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
     "module": "es6",
     "target": "es5",
     "jsx": "react",
     "allowJs": true,
+    "experimentalDecorators": true,
     "moduleResolution": "node",
+    "baseUrl": "src",
     "paths": {
-      "components": [
-        "src/components/"
-      ]
+      "images/*": ["assets/images/*"],
+      "components/*": ["components/*"]
     }
   },
   "exclude": [
     "node_modules",
     "build"
+  ],
+  "files": [
+    "src/typings.d.ts"
   ]
 }
