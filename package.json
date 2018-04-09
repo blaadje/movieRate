@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "start": "concurrently \"webpack-dev-server --config=./config/webpack.config.js --hot --inline --mode development\" \"sleep 2 && electron .\"",
+    "start": "NODE_ENV=development concurrently \"webpack-dev-server --config=./config/webpack.config.js --hot --inline --mode development\" \"sleep 2 && electron .\"",
     "prod": "webpack --config=webpack.config.js",
     "build": "node ./config/build.js && electron-builder",
     "lint": "eslint --ext .js,.tsx src",
