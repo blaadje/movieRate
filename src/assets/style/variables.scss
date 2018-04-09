@@ -1,0 +1,11 @@
+$dark: #1E2E3D;
+$highlight: #00FFFF;
+$grey: rgba(#EBF2F9, 0.6);
+$border: rgba(#EBF2F9, 0.1);
+// radius
+$radius: .4em;
+
+@mixin box-shadow($color: black, $opacity: 0.14) {
+  box-shadow: 0px 0px 30px rgba($color, $opacity);
+}
+

@@ -7,7 +7,8 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
       images: path.resolve(__dirname, '../src/assets/images/'),
-      components: path.resolve(__dirname, '../src/components')
+      components: path.resolve(__dirname, '../src/components'),
+      containers: path.resolve(__dirname, '../src/containers')
     }
   },
   module: {
@@ -45,7 +46,15 @@ module.exports = {
         use: [
           { loader: 'style-loader' },
           { loader: 'css-loader' },
-          { loader: 'sass-loader' }
+          {
+            loader: 'sass-loader',
+            options: {
+              data: '@import "variables";',
+              includePaths: [
+                path.resolve(__dirname, '../src/assets/style')
+              ]
+            }
+          }
         ]
       }
     ]

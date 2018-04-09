@@ -6,10 +6,11 @@
     "allowJs": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
       "images/*": ["assets/images/*"],
-      "components/*": ["components/*"]
+      "components/*": ["components/*"],
+      "containers/*": ["containers/*"],
     }
   },
   "exclude": [

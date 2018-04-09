@@ -4,10 +4,12 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Home from './components/Home'
+import Application from './containers/Application'
 import './assets/style/application.scss'
+import { BrowserRouter } from 'react-router-dom'
 
-ReactDOM.render(
-  <Home />,
-  document.getElementById('root')
+ReactDOM.render((
+  <BrowserRouter>
+    <Application />
+  </BrowserRouter>), document.getElementById('root')
 )
