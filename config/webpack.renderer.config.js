@@ -3,6 +3,7 @@ const { dependencies } = require('../package.json')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 let rendererConfig = {
+  mode: 'production',
   entry: {
     renderer: path.join(__dirname, '../src/index.js')
   },
@@ -46,12 +47,12 @@ let rendererConfig = {
         loader: 'ts-loader',
         exclude: /node_modules/
       },
-      { 
+      {
         test: /\.scss$/,
         use: [
-          { loader: "style-loader" },
-          { loader: "css-loader" },
-          { loader: "sass-loader" }
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' }
         ]
       }
     ]
@@ -61,7 +62,6 @@ let rendererConfig = {
     libraryTarget: 'commonjs2',
     path: path.join(__dirname, '../dist/electron')
   },
-  target: 'electron-renderer',
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -73,7 +73,8 @@ let rendererConfig = {
       },
       nodeModules: false
     })
-  ]
+  ],
+  target: 'electron-renderer'
 }
 
 module.exports = rendererConfig

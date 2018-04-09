@@ -4,9 +4,9 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "start": "concurrently \"webpack-dev-server --config=./.config/webpack.config.js --hot --inline --mode development\" \"sleep 2 && electron .\"",
+    "start": "concurrently \"webpack-dev-server --config=./config/webpack.config.js --hot --inline --mode development\" \"sleep 2 && electron .\"",
     "prod": "webpack --config=webpack.config.js",
-    "build": "node ./.config/build.js && electron-builder",
+    "build": "node ./config/build.js && electron-builder",
     "lint": "eslint --ext .js,.tsx src",
     "lint:fix": "eslint --ext .js,.tsx --fix src"
   },
@@ -60,6 +60,7 @@
     "del": "^3.0.0",
     "electron": "^1.8.4",
     "electron-builder": "^20.8.1",
+    "electron-devtools-installer": "^2.2.3",
     "electron-packager": "^11.1.0",
     "electron-prebuilt": "^1.4.13",
     "electron-prebuilt-compile": "^1.8.3",

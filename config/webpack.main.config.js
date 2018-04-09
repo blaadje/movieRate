@@ -1,6 +1,7 @@
 const path = require('path')
 
 let mainConfig = {
+  mode: 'production',
   entry: {
     main: path.join(__dirname, '../src/main.js')
   },
@@ -15,8 +16,7 @@ let mainConfig = {
     filename: '[name].js',
     path: path.join(__dirname, '../dist/electron')
   },
-  target: 'electron-main',
-  
+  target: 'electron-main'
 }
 
 module.exports = mainConfig

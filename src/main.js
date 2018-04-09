@@ -12,8 +12,8 @@ function createWindow () {
   win = new BrowserWindow({
     width: 800,
     height: 600,
-    transparent: true,
-    titleBarStyle: 'hidden-inset'
+    transparent: true
+    // titleBarStyle: 'hidden-inset'
   })
   win.openDevTools({ detach: true })
   win.setMenu(null)
@@ -22,6 +22,15 @@ function createWindow () {
   win.on('closed', () => {
     win = null
   })
+
+  if (process.env.NODE_ENV === 'development') {
+    const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer')
+
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .catch((err) => {
+        console.error('An error occurred: ', err) // eslint-disable-line no-console
+      })
+  }
 }
 
 app.on('ready', createWindow)
