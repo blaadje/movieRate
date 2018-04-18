@@ -1,7 +1,7 @@
 import { app, BrowserWindow } from 'electron'
 import { enableLiveReload } from 'electron-compile'
 
-if (process.env.NODE_ENV === 'development') enableLiveReload()
+if (process.env.NODE_ENV === 'development') enableLiveReload({ strategy: 'react-hmr' })
 
 let win
 

@@ -39,7 +39,7 @@
 
           .navIcon > svg {
             width: 14px;
-            stroke: $grey;
+            fill: $grey;
             margin-right: 1em;
           }
 
@@ -49,7 +49,7 @@
             }
 
             .navIcon > svg {
-              stroke: $highlight;
+              fill: $highlight;
             }
 
             &:after {

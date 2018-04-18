@@ -9,14 +9,14 @@ import Playlist from 'containers/Playlist'
 import { Gradient } from './Gradient'
 import './index.scss'
 
-export default class Home extends React.Component {
+export default class Application extends React.Component {
   render () {
     return (
       <div>
         <Sidebar />
         <Gradient>
+          <Route exact path='/' component={Trends} />
           <Route path='/seen' component={Seen} />
-          <Route path='/trends' component={Trends} />
           <Route path='/playlist' component={Playlist} />
         </Gradient>
       </div>

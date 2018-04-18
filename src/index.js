@@ -1,15 +1,21 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
-
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Application from './containers/Application'
-import './assets/style/application.scss'
-import { BrowserRouter } from 'react-router-dom'
+import { AppContainer } from 'react-hot-loader'
 
-ReactDOM.render((
-  <BrowserRouter>
-    <Application />
-  </BrowserRouter>), document.getElementById('root')
-)
+import './assets/style/application.scss'
+
+const render = () => {
+  const Application = require('./containers/Application').default
+  const BrowserRouter = require('react-router-dom').BrowserRouter
+
+  ReactDOM.render((
+    <AppContainer>
+      <BrowserRouter>
+        <Application />
+      </BrowserRouter>
+    </AppContainer>), document.getElementById('root')
+  )
+}
+
+render()
+if (module.hot) module.hot.accept(render)

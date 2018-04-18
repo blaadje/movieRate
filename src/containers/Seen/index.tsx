@@ -4,7 +4,7 @@ import * as React from 'react'
 export default class Seen extends React.Component {
   render () {
     return (
-      <div>test2</div>
+      <div>test1</div>
     )
   }
 }

@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="Item-wrapper"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "background": "url(foo/bar)",
+      "backgroundRepeat": "no-repeat",
+      "backgroundSize": "cover",
+    }
+  }
+>
+  <div
+    className="Item-filter"
+  >
+    <div
+      className="Item-description"
+    >
+      <span
+        className="Item-description--title"
+      >
+        Pacific Rim
+      </span>
+      <span
+        className="Item-description--date"
+      >
+        (2018)
+      </span>
+      <span
+        className="Item-description--rate"
+      >
+        30
+      </span>
+    </div>
+  </div>
+</div>
+`;
