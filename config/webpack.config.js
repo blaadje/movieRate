@@ -8,7 +8,8 @@ module.exports = {
     alias: {
       images: path.resolve(__dirname, '../src/assets/images/'),
       components: path.resolve(__dirname, '../src/components'),
-      containers: path.resolve(__dirname, '../src/containers')
+      containers: path.resolve(__dirname, '../src/containers'),
+      core: path.resolve(__dirname, '../src/core')
     }
   },
   module: {
@@ -68,6 +69,7 @@ module.exports = {
     publicPath,
     compress: false,
     noInfo: false,
+    overlay: true,
     stats: 'errors-only',
     inline: true,
     lazy: false,

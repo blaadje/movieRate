@@ -4,6 +4,8 @@ import Svg from 'react-inlinesvg'
 import * as checked from 'images/checked.svg'
 import * as add from 'images/add.svg'
 
+import BasePopper from 'components/Popper'
+
 import './style.scss'
 
 interface iProps {
@@ -47,11 +49,19 @@ export default class MovieItem extends React.Component<iProps, iState> {
             <span className='Item-description--rate'>{this.props.rate}</span>
           </div>
         </div>
-        {isHovered &&
+        {/* {isHovered && */}
           <div className='Item-menu--wrapper'>
             <div className='Item-menu'>
               <div className='Item-menu--options Option-rate'>
-                <Svg className='Option-image' src={checked} />
+                <BasePopper
+                  popperPlacement='right'
+                  targetComponent={
+                    <Svg className='Option-image' src={checked} />
+                  }
+                  popperComponent={
+                    <div>test2</div>
+                  }
+                />
               </div>
               <div className='Item-menu--options Option-playlist'>
                 <Svg className='Option-image' src={add} />

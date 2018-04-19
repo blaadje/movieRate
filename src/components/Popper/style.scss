@@ -1,0 +1,10 @@
+.Popper {
+  z-index: 1000 !important; 
+  padding: 1em;
+  font-size: 1em;
+  color: white;
+  background-color: black;
+  border: 1px solid black;
+  border-radius: $radius;
+  box-shadow: 0 0 r(2) rgba(black, 0.1);
+}

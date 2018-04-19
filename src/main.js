@@ -10,7 +10,7 @@ function createWindow () {
    * Initial window options
    */
   win = new BrowserWindow({
-    width: 1600,
+    width: 1450,
     height: 900,
     transparent: true
     // titleBarStyle: 'hidden-inset'
