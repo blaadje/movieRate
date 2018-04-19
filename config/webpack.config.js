@@ -49,7 +49,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              data: '@import "variables";',
+              data: '@import "loader";',
               includePaths: [
                 path.resolve(__dirname, '../src/assets/style')
               ]

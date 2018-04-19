@@ -1,0 +1,16 @@
+.Search-wrapper {
+  display: inline-block;
+}
+
+.Input {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0 1em;
+  font-weight: 600;
+  color: $grey;
+
+  &::placeholder {
+    color: $grey;
+  }
+}

@@ -1,0 +1,22 @@
+<svg width="15" height="15" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Canvas" fill="none">
+<g id="search" opacity="0.8">
+<g id="Ellipse">
+<g mask="url(#path0_ins)">
+<ellipse cx="5.6" cy="5.67568" rx="5.6" ry="5.67568" stroke-width="2" stroke="white"/>
+</g>
+</g>
+<g id="Vector">
+<path d="M 0 0L 4.29333 4.35135" stroke-linecap="round" stroke-linejoin="round" transform="translate(9.70667 9.64862)" stroke="white"/>
+</g>
+</g>
+</g>
+<defs>
+
+<mask id="path0_ins" fill="white">
+<ellipse cx="5.6" cy="5.67568" rx="5.6" ry="5.67568"/>
+</mask>
+
+</defs>
+</svg>
+

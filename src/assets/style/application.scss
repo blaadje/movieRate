@@ -22,6 +22,11 @@ a {
 	text-decoration: none;
 }
 
+input {
+	font-family: 'Catamaran', sans-serif;
+	-webkit-font-smoothing: antialiased;
+}
+
 body {
 	font-family: 'Catamaran', sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -29,4 +34,20 @@ body {
 	width: 100%;
 	font-size: 2em;
 	color: white;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 3px;
+  border-radius: 10px;
+  background: rgba($highlight, 0.05);
+	-webkit-box-shadow: inset 0 0 6px rgba($highlight, 0.05);
+	box-shadow: inset 0 0 6px rgba($highlight, 0.05);
+
+}
+::window-inactive {
+	background: rgba(white, 0.4);
 }

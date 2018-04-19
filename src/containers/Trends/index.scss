@@ -1,6 +1,19 @@
+.Trends-wrapper {
+  height: 100vh;
+  overflow: auto;
+}
+
+.Trends-header {
+  padding: 3em 4em;
+  font-size: .6em;
+  font-weight: 600;
+}
+
 .Movie-wrapper {
-  display: flex;
+  display: inline-flex;
   justify-content: flex-start;
+  align-content: center;
   flex-wrap: wrap;
+  width: 100%;
   flex-direction: row;
 }

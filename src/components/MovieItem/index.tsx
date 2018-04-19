@@ -1,9 +1,8 @@
 import * as React from 'react'
 import Svg from 'react-inlinesvg'
 
-import * as checked from '../../assets/images/checked.svg'
-import * as add from '../../assets/images/add.svg'
-// import * as blurry from '../../assets/images/blurryFilter.png'
+import * as checked from 'images/checked.svg'
+import * as add from 'images/add.svg'
 
 import './style.scss'
 
@@ -42,7 +41,6 @@ export default class MovieItem extends React.Component<iProps, iState> {
         <div className='Item-filter'>
           <div
             className='Item-description'
-            // style={{ background: `url(${blurry})`, ...background }}
           >
             <span className='Item-description--title'>{this.props.title}</span>
             <span className='Item-description--date'>{`(${this.props.date})`}</span>
