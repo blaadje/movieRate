@@ -1,14 +1,13 @@
 import * as React from 'react'
 
-import * as PopperJS from "popper.js"
+import * as PopperJS from 'popper.js'
 
 import onClickOutside from 'react-onclickoutside'
 
 import {
   Manager,
   Reference,
-  Popper,
-  PopperProps
+  Popper
 } from 'react-popper'
 
 import uuid from 'core/uuid'
@@ -16,14 +15,14 @@ import uuid from 'core/uuid'
 import './style.scss'
 
 interface iProps {
-  style?: any
-  hidePopper?: boolean
-  popperComponent: React.ReactNode
-  targetComponent: React.ReactNode
-  popperModifiers?: Object
-  onClickOutside?: () => void
-  onOpen?: () => void
-  popperPlacement?: PopperJS.Placement
+  style?: any,
+  hidePopper?: boolean,
+  popperComponent: React.ReactNode,
+  targetComponent: React.ReactNode,
+  popperModifiers?: Object,
+  onClickOutside?: () => void,
+  onOpen?: () => void,
+  popperPlacement?: PopperJS.Placement,
   className?: string
 }
 
@@ -32,7 +31,7 @@ interface iState {
   popperLinkId: string
 }
 
-export default class BasePopper extends React.Component<iProps, iState> {
+class BasePopper extends React.Component<iProps, iState> {
   constructor (props: iProps) {
     super(props)
     this.state = {
@@ -41,22 +40,8 @@ export default class BasePopper extends React.Component<iProps, iState> {
     }
   }
 
-  static get defaultProps () {
-    return {
-      popperModifiers: {
-        preventOverflow: {
-          enabled: true,
-          escapeWithReference: true,
-          boundariesElement: 'viewport'
-        }
-      },
-      popperPlacement: 'bottom-start',
-      style: { display: 'block' }
-    }
-  }
-
-  handleClickOutside(evt) {
-    this.onClickOutsideWrapper && this.onClickOutsideWrapper(evt)
+  handleClickOutside = (event) => {
+    this.onClickOutsideWrapper && this.onClickOutsideWrapper(event)
   }
 
   componentDidUpdate () {
@@ -68,7 +53,6 @@ export default class BasePopper extends React.Component<iProps, iState> {
   }
 
   onClickOutsideWrapper (event) {
-    const { onClickOutside } = this.props
     const path = event.path || (event.composedPath && event.composedPath()) || []
 
     for (let i = 0; i < path.length - 1; i++) {
@@ -77,12 +61,11 @@ export default class BasePopper extends React.Component<iProps, iState> {
       }
     }
 
-    onClickOutside ? onClickOutside() : this.setState({ hideBasePopper: true })
+    this.handleClickOutside ? this.handleClickOutside(event) : this.setState({ hideBasePopper: true })
   }
 
   setListeners (manager) {
     for (let prop in manager) {
-      // Skip mousemove (not very useful and perf impact)
       if (prop.startsWith('on') && ['onmousemove', 'onmouseover', 'ontouchmove', 'onmouseenter', 'onmouseout', 'onmouseleave', 'onpointerenter', 'onpointerout', 'onpointerleave', 'onpointermove', 'onpointerover', 'onwheel'].indexOf(prop) === -1) {
         manager.addEventListener(prop.substring(2), e => {
           try {
@@ -92,7 +75,6 @@ export default class BasePopper extends React.Component<iProps, iState> {
                 (e.target.closest('[close-popper]') && e.target.closest('[close-popper]').getAttribute('close-popper') === e.type)
               )
             ) {
-              // Send state update after processing other events (as it can destroy children elements)
               setTimeout(() => this.setState({ hideBasePopper: true }), 0)
             }
           } catch (e) {
@@ -105,11 +87,8 @@ export default class BasePopper extends React.Component<iProps, iState> {
 
   render () {
     const {
-      style,
-      className,
       hidePopper,
       popperComponent,
-      popperModifiers,
       popperPlacement,
       targetComponent
     } = this.props
@@ -136,8 +115,12 @@ export default class BasePopper extends React.Component<iProps, iState> {
               {({ ref, style, placement, arrowProps }) => (
                 <div ref={ref} className='Popper' style={style} data-placement={popperPlacement}>
                   {popperComponent}
-                  {console.log(arrowProps)}
-                  <div ref={arrowProps.ref} style={{background: 'red'}} />
+                  <div
+                    className='Arrow'
+                    ref={arrowProps.ref}
+                    data-placement={placement}
+                    style={arrowProps.style}
+                  />
                 </div>
               )}
             </Popper>
@@ -147,3 +130,5 @@ export default class BasePopper extends React.Component<iProps, iState> {
     )
   }
 }
+
+export default onClickOutside(BasePopper)

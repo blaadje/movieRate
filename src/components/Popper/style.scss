@@ -1,10 +1,73 @@
 .Popper {
-  z-index: 1000 !important; 
   padding: 1em;
   font-size: 1em;
+  z-index: 1;
   color: white;
-  background-color: black;
-  border: 1px solid black;
+  background: rgba($dark, 0.9);
   border-radius: $radius;
-  box-shadow: 0 0 r(2) rgba(black, 0.1);
+  margin: 0.9em;
+}
+
+.Arrow {
+  $margin: -0.7em;
+
+  position: absolute;
+  width: 3em;
+  height: 3em;
+  transform: scaleX(.4) scaleY(.3);
+  border-radius: 100px;
+  &[data-placement*='bottom'] {
+    top: 0;
+    left: 0;
+    margin-top: $margin;
+    width: 3em;
+    height: 1em;
+    &::before {
+      border-width: 0 1.5em 1em 1.5em;
+      border-color: transparent transparent rgba($dark, 0.9) transparent;
+    }
+  }
+
+  &[data-placement*='top'] {
+    bottom: 0;
+    left: 0;
+    margin-bottom: $margin;
+    width: 3em;
+    height: 1em;
+    &::before {
+      border-width: 1em 1.5em 0 1.5em;
+      border-color: rgba($dark, 0.9) transparent transparent transparent;
+    }
+  }
+
+  &[data-placement*='right'] {
+    left: 0;
+    margin-left: $margin;
+    height: 3em;
+    width: 1em;
+    &::before {
+      border-width: 1.5em 1em 1.5em 0;
+      border-color: transparent rgba($dark, 0.9) transparent transparent;
+    }
+  }
+
+  &[data-placement*='left'] {
+    right: 0;
+    margin-right: $margin;
+    height: 3em;
+    width: 1em;
+    &::before {
+      border-width: 1.5em 0 1.5em 1em;
+      border-color: transparent transparent transparent rgba($dark, 0.9);
+    }
+  }
+
+  &::before {
+    content: '';
+    margin: auto;
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
 }

@@ -4,7 +4,7 @@ import Svg from 'react-inlinesvg'
 import * as checked from 'images/checked.svg'
 import * as add from 'images/add.svg'
 
-import BasePopper from 'components/Popper'
+import Popper from 'components/Popper'
 
 import './style.scss'
 
@@ -41,28 +41,31 @@ export default class MovieItem extends React.Component<iProps, iState> {
         onMouseLeave={() => this.setState({ isHovered: false })}
       >
         <div className='Item-filter'>
-          <div
-            className='Item-description'
-          >
+          <div className='Item-description'>
             <span className='Item-description--title'>{this.props.title}</span>
             <span className='Item-description--date'>{`(${this.props.date})`}</span>
             <span className='Item-description--rate'>{this.props.rate}</span>
           </div>
         </div>
-        {/* {isHovered && */}
+        {isHovered &&
           <div className='Item-menu--wrapper'>
             <div className='Item-menu'>
-              <div className='Item-menu--options Option-rate'>
-                <BasePopper
-                  popperPlacement='right'
-                  targetComponent={
+              <Popper
+                popperPlacement='right'
+                targetComponent={
+                  <div className='Item-menu--options Option-rate'>
                     <Svg className='Option-image' src={checked} />
-                  }
-                  popperComponent={
+                  </div>
+                }
+                popperComponent={
+                  <div>
                     <div>test2</div>
-                  }
-                />
-              </div>
+                    <div>test2</div>
+                    <div>test2</div>
+                    <div>test2</div>
+                  </div>
+                }
+              />
               <div className='Item-menu--options Option-playlist'>
                 <Svg className='Option-image' src={add} />
               </div>
