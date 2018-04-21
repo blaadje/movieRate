@@ -7,9 +7,7 @@
   height: 100vh;
   width: 20%;
 
-  // @include box-shadow();
-
-  header {
+  .Sidebar-header {
     padding: 2.5em 0;
     text-align: center;
 
@@ -18,61 +16,53 @@
     }
   }
 
-  nav {
+  .Sidebar-nav {
     border-top: 1px solid $border;
     border-bottom: 1px solid $border;
-    padding: 2em 0;
+    padding: 1.8em 0;
 
-    ul {
-      margin: 0;
-      li {
-        list-style: none;
-        padding: 0;
-        height: 35px;
+    li {
+      height: 35px;
+      margin-left: 2em;
+      
+      a {
+        font-size: 1em !important;
+        position: relative;
+        height: 100%;
+        width: 100%;
+        display: block;
+        padding-top: 10px;
 
-        a {
-          position: relative;
-          height: 100%;
-          width: 100%;
-          display: block;
-          padding-top: 10px;
+        .navIcon > svg {
+          width: 15px;
+          fill: $grey;
+          margin-right: 1em;
+        }
+
+        &.isActive {
+          span {
+            color: $highlight;
+          }
 
           .navIcon > svg {
-            width: 14px;
-            fill: $grey;
-            margin-right: 1em;
+            fill: $highlight;
           }
 
-          &.isActive {
-            span {
-              color: $highlight;
-            }
-
-            .navIcon > svg {
-              fill: $highlight;
-            }
-
-            &:after {
-              position: absolute;
-              top: 0;
-              right: 0;
-              content: '';
-              background: $highlight;
-              width: 5px;
-              height: 100%;
-              border-radius: .2em;
-            }
+          &:after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            content: '';
+            background: $highlight;
+            width: 5px;
+            height: 100%;
+            border-radius: .2em;
           }
+        }
+      }
 
-        }
-
-        .navIcon {
-          display: inline-block;
-          vertical-align: middle;
-        }
-        &:not(:last-child) {
-          margin-bottom: .5em;
-        }
+      &:not(:last-child) {
+        margin-bottom: 1.2em;
       }
     }
   }
