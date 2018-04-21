@@ -22,9 +22,40 @@ a {
 	text-decoration: none;
 }
 
+h1, h2, h3 {
+	font-family: 'Catamaran', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	color: white;
+	margin: .6em 0;
+	font-size: 1em;
+	font-weight: 300;
+	cursor: default;
+}
+
 input {
 	font-family: 'Catamaran', sans-serif;
 	-webkit-font-smoothing: antialiased;
+}
+
+hr {
+	border-top: 0; border-left: 0; border-right: 0;
+	border-bottom: 1px solid rgba(white, 0.1);
+}
+
+textarea {
+	font-family: 'Catamaran', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	background: transparent;
+	border: none;
+	line-height: 1.5em;
+	font-size: .5em;
+	outline: none;
+	resize: none;
+	color: white;
+
+	&::placeholder {
+		color: white;
+	}
 }
 
 body {
@@ -51,3 +82,4 @@ body {
 ::window-inactive {
 	background: rgba(white, 0.4);
 }
+

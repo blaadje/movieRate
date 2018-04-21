@@ -40,7 +40,7 @@ class BasePopper extends React.Component<iProps, iState> {
     }
   }
 
-  handleClickOutside = (event) => {
+  handleClickOutside = (event: any) => {
     this.onClickOutsideWrapper && this.onClickOutsideWrapper(event)
   }
 
@@ -52,7 +52,7 @@ class BasePopper extends React.Component<iProps, iState> {
     }
   }
 
-  onClickOutsideWrapper (event) {
+  onClickOutsideWrapper (event: any) {
     const path = event.path || (event.composedPath && event.composedPath()) || []
 
     for (let i = 0; i < path.length - 1; i++) {
@@ -64,15 +64,15 @@ class BasePopper extends React.Component<iProps, iState> {
     this.handleClickOutside ? this.handleClickOutside(event) : this.setState({ hideBasePopper: true })
   }
 
-  setListeners (manager) {
+  setListeners (manager: any) {
     for (let prop in manager) {
       if (prop.startsWith('on') && ['onmousemove', 'onmouseover', 'ontouchmove', 'onmouseenter', 'onmouseout', 'onmouseleave', 'onpointerenter', 'onpointerout', 'onpointerleave', 'onpointermove', 'onpointerover', 'onwheel'].indexOf(prop) === -1) {
-        manager.addEventListener(prop.substring(2), e => {
+        manager.addEventListener(prop.substring(2), (event:any) => {
           try {
-            if ((e.target && typeof e.target.hasAttribute === 'function') &&
+            if ((event.target && typeof event.target.hasAttribute === 'function') &&
               (
-                (e.target.hasAttribute('close-popper') && e.target.getAttribute('close-popper') === e.type) ||
-                (e.target.closest('[close-popper]') && e.target.closest('[close-popper]').getAttribute('close-popper') === e.type)
+                (event.target.hasAttribute('close-popper') && event.target.getAttribute('close-popper') === event.type) ||
+                (event.target.closest('[close-popper]') && event.target.closest('[close-popper]').getAttribute('close-popper') === event.type)
               )
             ) {
               setTimeout(() => this.setState({ hideBasePopper: true }), 0)

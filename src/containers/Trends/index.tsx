@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import MovieItem from 'components/MovieItem'
+import MovieItem from 'containers/MovieItem'
 import Search from 'containers/Search'
 
 import * as tomb from 'images/tombraider.jpg'

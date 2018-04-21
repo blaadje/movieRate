@@ -4,8 +4,10 @@
     "target": "es6",
     "jsx": "react",
     "allowJs": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
     "moduleResolution": "node",
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "images/*": ["src/assets/images/*"],
       "components/*": ["src/components/*"],
@@ -13,9 +15,12 @@
       "core/*": ["src/core/*"],
     }
   },
+  "include": [
+    "./src/**/*"
+  ],
   "exclude": [
-    "node_modules",
-    "build"
+    "./node_modules",
+    "./build"
   ],
   "files": [
     "src/typings.d.ts"

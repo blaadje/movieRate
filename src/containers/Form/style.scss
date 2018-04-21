@@ -1,0 +1,20 @@
+.Form-wrapper {
+  .Form-rate > svg {
+    width: 20px;
+    margin-right: .2em;
+  }
+
+  .Form-title {
+    font-size: .6em;
+  }
+
+  .Form-textarea {
+    min-width: 285px;
+    min-height: 40px;
+    height: auto;
+
+    &::placeholder {
+      color: $grey;
+    }
+  }
+}
