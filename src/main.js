@@ -12,8 +12,8 @@ function createWindow () {
   win = new BrowserWindow({
     width: 1450,
     height: 900,
-    transparent: true
-    // titleBarStyle: 'hidden-inset'
+    transparent: true,
+    titleBarStyle: 'hidden-inset'
   })
   win.openDevTools({ detach: true })
   win.setMenu(null)

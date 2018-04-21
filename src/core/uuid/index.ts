@@ -1,8 +1,8 @@
-export default function uuid () {
+export default function uuid ():string {
   let d = new Date().getTime()
 
   if (typeof window.performance !== 'undefined' && typeof window.performance.now === 'function') {
-    d += window.performance.now() // use high-precision timer if available
+    d += window.performance.now()
   }
 
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {

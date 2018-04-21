@@ -2,12 +2,14 @@ import * as React from 'react'
 import * as gradient1 from 'images/Rectangle.svg'
 import * as gradient2 from 'images/Rectangle2.png'
 
+import * as CSS from 'csstype'
+
 interface iProps {
   children?: React.ReactNode
 }
 
 export const Gradient: React.SFC<iProps> = (props: iProps) => {
-  const background: Object = {
+  const background: CSS.Properties<string | number> = {
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover'
   }

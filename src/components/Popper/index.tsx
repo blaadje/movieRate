@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import * as PopperJS from 'popper.js'
 
-import onClickOutside from 'react-onclickoutside'
+// import onClickOutside from 'react-onclickoutside'
 
 import {
   Manager,
@@ -131,4 +131,4 @@ class BasePopper extends React.Component<iProps, iState> {
   }
 }
 
-export default onClickOutside(BasePopper)
+export default BasePopper

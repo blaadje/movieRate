@@ -5,6 +5,9 @@ import * as checked from 'images/checked.svg'
 import * as add from 'images/add.svg'
 
 import Popper from 'components/Popper'
+import Form from 'containers/Form'
+
+import * as CSS from 'csstype'
 
 import './style.scss'
 
@@ -28,7 +31,7 @@ export default class MovieItem extends React.Component<iProps, iState> {
   }
   render () {
     const { isHovered } = this.state
-    const background: Object = {
+    const background: CSS.Properties<string | number> = {
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover'
     }
@@ -58,12 +61,7 @@ export default class MovieItem extends React.Component<iProps, iState> {
                   </div>
                 }
                 popperComponent={
-                  <div>
-                    <div>test2</div>
-                    <div>test2</div>
-                    <div>test2</div>
-                    <div>test2</div>
-                  </div>
+                  <Form />
                 }
               />
               <div className='Item-menu--options Option-playlist'>
