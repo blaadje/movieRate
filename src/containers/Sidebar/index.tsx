@@ -14,11 +14,11 @@ export default class Sidebar extends React.Component {
   render () {
     return (
       <div className='Sidebar-wrapper'>
-        <header>
+        <header className='Sidebar-header'>
           <strong>Movie Rate</strong>
           <img src={stars} />
         </header>
-        <nav>
+        <nav className='Sidebar-nav'>
           <ul>
             <li>
               <NavLink exact to='/' activeClassName='isActive'>

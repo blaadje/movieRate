@@ -2,13 +2,13 @@ import * as React from 'react'
 
 import * as PopperJS from 'popper.js'
 
-// import onClickOutside from 'react-onclickoutside'
-
 import {
   Manager,
   Reference,
   Popper
 } from 'react-popper'
+
+import PopperContent from './PopperContent'
 
 import uuid from 'core/uuid'
 
@@ -31,17 +31,13 @@ interface iState {
   popperLinkId: string
 }
 
-class BasePopper extends React.Component<iProps, iState> {
+export default class BasePopper extends React.Component<iProps, iState> {
   constructor (props: iProps) {
     super(props)
     this.state = {
       hideBasePopper: true,
       popperLinkId: `jsPopperTarget-${uuid()}`
     }
-  }
-
-  handleClickOutside = (event: any) => {
-    this.onClickOutsideWrapper && this.onClickOutsideWrapper(event)
   }
 
   componentDidUpdate () {
@@ -53,6 +49,8 @@ class BasePopper extends React.Component<iProps, iState> {
   }
 
   onClickOutsideWrapper (event: any) {
+    const { onClickOutside } = this.props
+
     const path = event.path || (event.composedPath && event.composedPath()) || []
 
     for (let i = 0; i < path.length - 1; i++) {
@@ -61,7 +59,7 @@ class BasePopper extends React.Component<iProps, iState> {
       }
     }
 
-    this.handleClickOutside ? this.handleClickOutside(event) : this.setState({ hideBasePopper: true })
+    onClickOutside ? onClickOutside() : this.setState({ hideBasePopper: true })
   }
 
   setListeners (manager: any) {
@@ -114,7 +112,10 @@ class BasePopper extends React.Component<iProps, iState> {
             <Popper placement={popperPlacement}>
               {({ ref, style, placement, arrowProps }) => (
                 <div ref={ref} className='Popper' style={style} data-placement={popperPlacement}>
-                  {popperComponent}
+                  <PopperContent
+                    content={popperComponent}
+                    onClickOutside={(event: any) => { this.onClickOutsideWrapper(event) }}
+                  />
                   <div
                     className='Arrow'
                     ref={arrowProps.ref}
@@ -130,5 +131,3 @@ class BasePopper extends React.Component<iProps, iState> {
     )
   }
 }
-
-export default BasePopper

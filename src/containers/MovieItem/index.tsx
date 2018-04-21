@@ -6,6 +6,7 @@ import * as add from 'images/add.svg'
 
 import Popper from 'components/Popper'
 import Form from 'containers/Form'
+import List from 'containers/List'
 
 import * as CSS from 'csstype'
 
@@ -35,6 +36,14 @@ export default class MovieItem extends React.Component<iProps, iState> {
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover'
     }
+    const collection = [
+      {
+        title: 'ma playlist'
+      },
+      {
+        title: 'ma playlist2'
+      }
+    ]
 
     return (
       <div
@@ -51,24 +60,32 @@ export default class MovieItem extends React.Component<iProps, iState> {
           </div>
         </div>
         {isHovered &&
-          <div className='Item-menu--wrapper'>
-            <div className='Item-menu'>
-              <Popper
-                popperPlacement='right'
-                targetComponent={
-                  <div className='Item-menu--options Option-rate'>
-                    <Svg className='Option-image' src={checked} />
-                  </div>
-                }
-                popperComponent={
-                  <Form />
-                }
-              />
-              <div className='Item-menu--options Option-playlist'>
-                <Svg className='Option-image' src={add} />
-              </div>
-            </div>
+        <div className='Item-menu--wrapper'>
+          <div className='Item-menu'>
+            <Popper
+              popperPlacement='right'
+              targetComponent={
+                <div className='Item-menu--options Option-rate'>
+                  <Svg className='Option-image' src={checked} />
+                </div>
+              }
+              popperComponent={
+                <Form />
+              }
+            />
+            <Popper
+              popperPlacement='right'
+              targetComponent={
+                <div className='Item-menu--options Option-rate'>
+                  <Svg className='Option-image' src={add} />
+                </div>
+              }
+              popperComponent={
+                <List collection={collection}/>
+              }
+            />
           </div>
+        </div>
         }
       </div >
     )

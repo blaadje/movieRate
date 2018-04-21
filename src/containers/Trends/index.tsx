@@ -7,12 +7,19 @@ import * as tomb from 'images/tombraider.jpg'
 
 import './index.scss'
 
-export default class Trends extends React.Component {
-  render () {
+interface iProps {}
+
+interface iState {}
+
+export default class Trends extends React.Component<iProps, iState> {
+  constructor (props: iProps, state: iState) {
+    super(props)
+  }
+  render (): React.ReactNode {
     return (
       <div className='Trends-wrapper'>
         <header className='Trends-header'>
-          <Search />
+          <Search inputClassName='Trends-header--SearchInput'/>
           <span className='u-c--grey u-fl--r'>Categorie</span>
         </header>
         <div className='Movie-wrapper'>
