@@ -27,6 +27,7 @@ h1, h2, h3 {
 	-webkit-font-smoothing: antialiased;
 	color: white;
 	margin: $font-size;
+	margin: .8em 0;
 	font-size: 1em;
 	font-weight: 300;
 	cursor: default;
@@ -45,9 +46,11 @@ ul {
 input {
 	font-family: 'Catamaran', sans-serif;
 	-webkit-font-smoothing: antialiased;
+	font-size: $font-size;
 }
 
 hr {
+	margin: .6em 0;
 	border-top: 0; border-left: 0; border-right: 0;
 	border-bottom: 1px solid rgba(white, 0.1);
 }

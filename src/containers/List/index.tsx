@@ -1,5 +1,8 @@
 import * as React from 'react'
-// import './index.scss'
+
+import Search from 'containers/Search'
+
+import './style.scss'
 
 interface collectionDatas {
   [title: string]: string
@@ -23,11 +26,15 @@ export default class List extends React.Component<iProps, iState> {
     const { collection } = this.props
 
     return (
-      <ul>
-        {collection.map((item, index) => {
-          return <li key={index}>{item.title}</li>
-        })}
-      </ul>
+      <div className='List-wrapper'>
+        <Search />
+        <hr/>
+        <ul>
+          {collection.map((item, index) => {
+            return <li className='List-item' key={index}>{item.title}</li>
+          })}
+        </ul>
+      </div>
     )
   }
 }

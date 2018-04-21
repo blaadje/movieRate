@@ -1,16 +1,21 @@
 .Search-wrapper {
-  display: inline-block;
-}
+  display: inline-flex;
+  align-items: center;
 
-.Input {
-  background: transparent;
-  border: none;
-  outline: none;
-  padding: 0 1em;
-  font-weight: 600;
-  color: $grey;
-
-  &::placeholder {
-    color: $grey;
+  .Search-icon > svg {
+    height: 20px;
+  }
+  
+  .Input {
+    background: transparent;
+    border: none;
+    outline: none;
+    line-height: 2em;
+    padding: 0 1em;
+    color: white;
+  
+    &::placeholder {
+      color: white;
+    }
   }
 }

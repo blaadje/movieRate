@@ -19,7 +19,7 @@ export default class Trends extends React.Component<iProps, iState> {
     return (
       <div className='Trends-wrapper'>
         <header className='Trends-header'>
-          <Search />
+          <Search inputClassName='Trends-header--SearchInput'/>
           <span className='u-c--grey u-fl--r'>Categorie</span>
         </header>
         <div className='Movie-wrapper'>
