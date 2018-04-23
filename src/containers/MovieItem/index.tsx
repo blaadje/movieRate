@@ -55,32 +55,32 @@ export default class MovieItem extends React.Component<iProps, iState> {
           </div>
         </div>
         {isHovered &&
-        <div className='Item-menu--wrapper'>
-          <div className='Item-menu'>
-            <Popper
-              popperPlacement='right'
-              targetComponent={
-                <div className='Item-menu--options Option-rate'>
-                  <Svg className='Option-image' src={checked} />
-                </div>
-              }
-              popperComponent={
-                <Form />
-              }
-            />
-            <Popper
-              popperPlacement='right'
-              targetComponent={
-                <div className='Item-menu--options Option-rate'>
-                  <Svg className='Option-image' src={add} />
-                </div>
-              }
-              popperComponent={
-                <List collection={collection}/>
-              }
-            />
+          <div className='Item-menu--wrapper'>
+            <div className='Item-menu'>
+              <Popper
+                popperPlacement='right'
+                targetComponent={
+                  <div className='Item-menu--options Option-rate'>
+                    <Svg className='Option-image' src={checked} />
+                  </div>
+                }
+                popperComponent={
+                  <Form />
+                }
+              />
+              <Popper
+                popperPlacement='right'
+                targetComponent={
+                  <div className='Item-menu--options Option-rate'>
+                    <Svg className='Option-image' src={add} />
+                  </div>
+                }
+                popperComponent={
+                  <List collection={collection}/>
+                }
+              />
+            </div>
           </div>
-        </div>
         }
       </Image >
     )

@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="Item-wrapper"
+  className="Image-wrapper Item-wrapper"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
   style={
