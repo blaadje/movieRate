@@ -4,18 +4,24 @@
 }
 
 .Trends-header {
+  display: flex;
+  align-items: center;
   padding: 4em 4em;
   font-size: .6em;
   font-weight: 600;
-}
 
-.Trends-header--SearchInput {
-  font-size: 1em;
-  font-weight: 600;
-  color: $grey;
+  .Trends-header--SearchInput {
+    font-size: 1em;
+    font-weight: 600;
+    color: $grey;
+    &::placeholder {
+      color: $grey !important;
+    }
+  }
 
-  &::placeholder {
-    color: $grey !important;
+  .Trends-header--Category {
+    color: $grey;
+    margin-left: auto;
   }
 }
 
