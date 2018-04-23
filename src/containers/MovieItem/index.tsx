@@ -4,11 +4,10 @@ import Svg from 'react-inlinesvg'
 import * as checked from 'images/checked.svg'
 import * as add from 'images/add.svg'
 
+import Image from 'components/Image'
 import Popper from 'components/Popper'
 import Form from 'containers/Form'
 import List from 'containers/List'
-
-import * as CSS from 'csstype'
 
 import './style.scss'
 
@@ -32,10 +31,6 @@ export default class MovieItem extends React.Component<iProps, iState> {
   }
   render () {
     const { isHovered } = this.state
-    const background: CSS.Properties<string | number> = {
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover'
-    }
     const collection = [
       {
         title: 'ma playlist'
@@ -46,9 +41,9 @@ export default class MovieItem extends React.Component<iProps, iState> {
     ]
 
     return (
-      <div
+      <Image
         className='Item-wrapper'
-        style={{ background: `url(${this.props.image})`, ...background }}
+        src={this.props.image}
         onMouseEnter={() => this.setState({ isHovered: true })}
         onMouseLeave={() => this.setState({ isHovered: false })}
       >
@@ -87,7 +82,7 @@ export default class MovieItem extends React.Component<iProps, iState> {
           </div>
         </div>
         }
-      </div >
+      </Image >
     )
   }
 }
