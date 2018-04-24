@@ -21,7 +21,7 @@ export default class Sidebar extends React.Component {
         <nav className='Sidebar-nav'>
           <ul>
             <li>
-              <NavLink exact to='/' activeClassName='isActive'>
+              <NavLink exact={!window.location.pathname.includes('index.html')} to='/' activeClassName='isActive'>
                 <Svg className='navIcon' src={clock} />
                 <span>Trends</span>
               </NavLink>

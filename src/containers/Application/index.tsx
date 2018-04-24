@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 import Sidebar from 'containers/Sidebar'
 import Trends from 'containers/Trends'
@@ -15,9 +15,11 @@ export default class Application extends React.Component {
       <div>
         <Sidebar />
         <Gradient>
-          <Route exact path='/' component={Trends} />
-          <Route path='/seen' component={Seen} />
-          <Route path='/playlist' component={Playlist} />
+          <Switch>
+            <Route path='/' exact={!window.location.pathname.includes('index.html')} component={Trends} />
+            <Route path='/seen' component={Seen} />
+            <Route path='/playlist' component={Playlist} />
+          </Switch>
         </Gradient>
       </div>
     )
