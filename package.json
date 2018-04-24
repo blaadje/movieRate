@@ -122,6 +122,7 @@
     "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-preset-es2017-node7": "^0.5.2",
     "emotion": "^9.1.2",
     "react": "^16.2.0",

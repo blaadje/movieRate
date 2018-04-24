@@ -79,6 +79,17 @@ export default class MovieItem extends React.Component<iProps, iState> {
                   <List collection={collection}/>
                 }
               />
+              <Popper
+                popperPlacement='right'
+                targetComponent={
+                  <div className='Item-menu--options Option-rate'>
+                    <Svg className='Option-image' src={add} />
+                  </div>
+                }
+                popperComponent={
+                  <List collection={collection} />
+                }
+              />
             </div>
           </div>
         }
