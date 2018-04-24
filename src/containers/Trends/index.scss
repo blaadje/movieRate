@@ -10,15 +10,6 @@
   font-size: .6em;
   font-weight: 600;
 
-  .Trends-header--SearchInput {
-    font-size: 1em;
-    font-weight: 600;
-    color: $grey;
-    &::placeholder {
-      color: $grey !important;
-    }
-  }
-
   .Trends-header--Category {
     color: $grey;
     margin-left: auto;
