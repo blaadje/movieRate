@@ -8,7 +8,13 @@ let rendererConfig = {
     renderer: path.join(__dirname, '../src/index.js')
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json']
+    extensions: ['.ts', '.tsx', '.js', '.json'],
+    alias: {
+      images: path.resolve(__dirname, '../src/assets/images/'),
+      components: path.resolve(__dirname, '../src/components'),
+      containers: path.resolve(__dirname, '../src/containers'),
+      core: path.resolve(__dirname, '../src/core')
+    }
   },
   externals: [
     ...Object.keys(dependencies || {})
@@ -52,7 +58,15 @@ let rendererConfig = {
         use: [
           { loader: 'style-loader' },
           { loader: 'css-loader' },
-          { loader: 'sass-loader' }
+          {
+            loader: 'sass-loader',
+            options: {
+              data: '@import "loader";',
+              includePaths: [
+                path.resolve(__dirname, '../src/assets/style')
+              ]
+            }
+          }
         ]
       }
     ]

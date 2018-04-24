@@ -15,7 +15,7 @@ function createWindow () {
     transparent: true,
     titleBarStyle: 'hidden-inset'
   })
-  win.openDevTools({ detach: true })
+  if (process.env.NODE_ENV === 'development') win.openDevTools({ detach: true })
   win.setMenu(null)
   win.loadURL(`file:///${__dirname}/index.html`)
 
