@@ -1,44 +1,45 @@
 import * as React from 'react'
-
-import { flow }  from 'lodash'
-
 import { connect } from 'react-redux'
-import axios from 'axios'
+
+import { flow } from 'lodash'
 
 import MovieItem from 'containers/MovieItem'
 import Search from 'containers/Search'
 
 import './index.scss'
+import { Movie } from 'core/model'
 
 interface iProps {
-  dispatch: (Object: any) => void
+  dispatch: (Object: any) => void,
+  movies: Array<Movie>
 }
 
 interface iState {
-  datas: any
+  isLoading: boolean
 }
 
 class Trends extends React.Component<iProps, iState> {
   constructor (props: iProps, state: iState) {
     super(props)
     this.state = {
-      datas: []
+      isLoading: true
     }
   }
 
   componentDidMount () {
     this.props.dispatch({ type: 'MOVIES_FETCH' })
-    axios.get('https://api.themoviedb.org/3/discover/movie?api_key=9a216746b14d5069ec45091058ad259b')
-      .then((response) => {
-        this.setState({ datas: response.data.results })
-      })
-      .catch(function (error) {
-        console.log(error) // eslint-disable-line no-console
-      })
+  }
+
+  componentWillReceiveProps (props: any) {
+    if (props.movies) {
+      this.setState({ isLoading: false })
+    }
   }
 
   render (): React.ReactNode {
-    const { datas } = this.state
+    const { isLoading } = this.state
+    const { movies } = this.props
+
     const imageLink = 'https://image.tmdb.org/t/p/w500'
     return (
       <div className='Trends-wrapper'>
@@ -46,22 +47,33 @@ class Trends extends React.Component<iProps, iState> {
           <Search inputClassName='Input-bold'/>
           <span className='Trends-header--Category'>Categorie</span>
         </header>
-        <div className='Movie-wrapper'>
-          {datas.map((item: any, key: number) => {
-            return <MovieItem
-              key={key}
-              image={imageLink + item.poster_path}
-              title={item.title}
-              date={item.release_date}
-              rate={30}
-            />
-          })}
-        </div>
+        {isLoading &&
+          <div>isLoading</div>
+        }
+        {!isLoading &&
+          <div className='Movie-wrapper'>
+            {movies.map((item: any, key: number) => {
+              return <MovieItem
+                key={key}
+                image={imageLink + item.poster_path}
+                title={item.title}
+                date={item.release_date}
+                rate={30}
+              />
+            })}
+          </div>
+        }
       </div>
     )
   }
 }
 
+const mapStateToProps = (state: any) => {
+  return {
+    movies: state.Movies.result
+  }
+}
+
 export default flow(
-  connect()
+  connect(mapStateToProps)
 )(Trends)

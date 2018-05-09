@@ -27,22 +27,16 @@ function createWindow () {
     const {
       default: installExtension,
       REACT_DEVELOPER_TOOLS,
-      REDUX_DEVTOOLS,
-      REACT_PERF
+      REDUX_DEVTOOLS
     } = require('electron-devtools-installer')
 
-    installExtension(REACT_DEVELOPER_TOOLS)
-      .catch((err) => {
-        console.error('An error occurred: ', err) // eslint-disable-line no-console
-      })
-    installExtension(REDUX_DEVTOOLS)
-      .catch((err) => {
-        console.error('An error occurred: ', err) // eslint-disable-line no-console
-      })
-    installExtension(REACT_PERF)
-      .catch((err) => {
-        console.error('An error occurred: ', err) // eslint-disable-line no-console
-      })
+    installExtension(REACT_DEVELOPER_TOOLS).catch((err) => {
+      console.error('An error occurred: ', err) // eslint-disable-line no-console
+    })
+
+    installExtension(REDUX_DEVTOOLS).catch((err) => {
+      console.error('An error occurred: ', err) // eslint-disable-line no-console
+    })
   }
 }
 

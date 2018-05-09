@@ -1,6 +1,6 @@
-export default function getMovies (state = {}, action: any) {
+export default function setMovies (state = {}, action: any) {
   switch (action.type) {
-    case 'MOVIES_FETCH':
+    case 'MOVIES_SET':
       return {
         ...state, result: action.result
       }

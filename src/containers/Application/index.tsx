@@ -1,9 +1,6 @@
 import * as React from 'react'
-import * as redux from 'redux'
 import { Route, Switch } from 'react-router-dom'
-import { bindActionCreators, Store } from 'redux'
-import * as actionCreators from 'core/actions'
-import { connect, Provider } from 'react-redux'
+import { Provider } from 'react-redux'
 
 import Sidebar from 'containers/Sidebar'
 import Trends from 'containers/Trends'
@@ -18,7 +15,7 @@ import './index.scss'
 const App: React.SFC = () => {
   return (
     <Provider store={store}>
-      <>
+      <React.Fragment>
         <Sidebar />
         <Gradient>
           <Switch>
@@ -27,7 +24,7 @@ const App: React.SFC = () => {
             <Route path='/playlist' component={Playlist} />
           </Switch>
         </Gradient>
-      </>
+      </React.Fragment>
     </Provider>
   )
 }
