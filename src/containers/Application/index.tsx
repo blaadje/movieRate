@@ -1,18 +1,21 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
+import { Provider } from 'react-redux'
 
 import Sidebar from 'containers/Sidebar'
 import Trends from 'containers/Trends'
 import Seen from 'containers/Seen'
 import Playlist from 'containers/Playlist'
 
+import store from 'core/store'
+
 import { Gradient } from './Gradient'
 import './index.scss'
 
-export default class Application extends React.Component {
-  render () {
-    return (
-      <div>
+const App: React.SFC = () => {
+  return (
+    <Provider store={store}>
+      <React.Fragment>
         <Sidebar />
         <Gradient>
           <Switch>
@@ -21,7 +24,9 @@ export default class Application extends React.Component {
             <Route path='/playlist' component={Playlist} />
           </Switch>
         </Gradient>
-      </div>
-    )
-  }
+      </React.Fragment>
+    </Provider>
+  )
 }
+
+export default App
