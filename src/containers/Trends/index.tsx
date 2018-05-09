@@ -1,4 +1,8 @@
 import * as React from 'react'
+
+import { flow }  from 'lodash'
+
+import { connect } from 'react-redux'
 import axios from 'axios'
 
 import MovieItem from 'containers/MovieItem'
@@ -6,13 +10,15 @@ import Search from 'containers/Search'
 
 import './index.scss'
 
-interface iProps {}
+interface iProps {
+  dispatch: (Object: any) => void
+}
 
 interface iState {
   datas: any
 }
 
-export default class Trends extends React.Component<iProps, iState> {
+class Trends extends React.Component<iProps, iState> {
   constructor (props: iProps, state: iState) {
     super(props)
     this.state = {
@@ -21,6 +27,7 @@ export default class Trends extends React.Component<iProps, iState> {
   }
 
   componentDidMount () {
+    this.props.dispatch({ type: 'MOVIES_FETCH' })
     axios.get('https://api.themoviedb.org/3/discover/movie?api_key=9a216746b14d5069ec45091058ad259b')
       .then((response) => {
         this.setState({ datas: response.data.results })
@@ -54,3 +61,7 @@ export default class Trends extends React.Component<iProps, iState> {
     )
   }
 }
+
+export default flow(
+  connect()
+)(Trends)

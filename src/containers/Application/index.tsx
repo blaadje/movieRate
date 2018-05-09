@@ -15,42 +15,21 @@ import store from 'core/store'
 import { Gradient } from './Gradient'
 import './index.scss'
 
-interface AppProps {
-  dispatch: redux.Dispatch
-}
-
-const mapStateToProps = (state: any): any => ({
-  result: state.datas.result
-})
-
-
-function mapDispachToProps(dispatch: redux.Dispatch) {
-  return bindActionCreators(actionCreators, dispatch)
-}
-
 const App: React.SFC = () => {
   return (
-    <>
-      <Sidebar />
-      <Gradient>
-        <Switch>
-          <Route path='/' exact={!window.location.pathname.includes('index.html')} component={Trends} />
-          <Route path='/seen' component={Seen} />
-          <Route path='/playlist' component={Playlist} />
-        </Switch>
-      </Gradient>
-    </>
-  )
-}
-
-connect(mapStateToProps, mapDispachToProps)(App)
-
-const AppWrapper: React.SFC = () => {
-  return (
     <Provider store={store}>
-      <App />
+      <>
+        <Sidebar />
+        <Gradient>
+          <Switch>
+            <Route path='/' exact={!window.location.pathname.includes('index.html')} component={Trends} />
+            <Route path='/seen' component={Seen} />
+            <Route path='/playlist' component={Playlist} />
+          </Switch>
+        </Gradient>
+      </>
     </Provider>
   )
 }
 
-export default AppWrapper
+export default App
