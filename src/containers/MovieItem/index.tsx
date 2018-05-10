@@ -55,12 +55,12 @@ export default class MovieItem extends React.Component<iProps, iState> {
           </div>
         </div>
         {isHovered &&
-          <div className='Item-menu--wrapper'>
-            <div className='Item-menu'>
+          <div className='ItemMenu-wrapper'>
+            <div className='ItemMenu'>
               <Popper
                 popperPlacement='right'
                 targetComponent={
-                  <div className='Item-menu--options Option-rate'>
+                  <div className='ItemMenu-options'>
                     <Svg className='Option-image' src={checked} />
                   </div>
                 }
@@ -71,7 +71,7 @@ export default class MovieItem extends React.Component<iProps, iState> {
               <Popper
                 popperPlacement='right'
                 targetComponent={
-                  <div className='Item-menu--options Option-rate'>
+                  <div className='ItemMenu-options'>
                     <Svg className='Option-image' src={add} />
                   </div>
                 }
@@ -82,7 +82,7 @@ export default class MovieItem extends React.Component<iProps, iState> {
               <Popper
                 popperPlacement='right'
                 targetComponent={
-                  <div className='Item-menu--options Option-rate'>
+                  <div className='ItemMenu-options'>
                     <Svg className='Option-image' src={add} />
                   </div>
                 }
