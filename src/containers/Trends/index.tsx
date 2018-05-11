@@ -3,9 +3,13 @@ import { connect } from 'react-redux'
 
 import { flow } from 'lodash'
 
+import Svg from 'react-inlinesvg'
+
 import MovieItem from 'containers/MovieItem'
 import Search from 'containers/Search'
+import Popper from 'components/Popper'
 
+import * as vector from 'images/Vector.svg'
 import './index.scss'
 import { Movie } from 'core/model'
 
@@ -26,8 +30,10 @@ class Trends extends React.Component<iProps, iState> {
     }
   }
 
-  componentDidMount () {
-    this.props.dispatch({ type: 'MOVIES_FETCH' })
+  componentWillMount () {
+    this.props.dispatch({ type: 'MOVIES_FETCH',
+      query: 'discover/movie'
+    })
   }
 
   componentWillReceiveProps (props: any) {
@@ -45,7 +51,22 @@ class Trends extends React.Component<iProps, iState> {
       <div className='Trends-wrapper'>
         <header className='Trends-header'>
           <Search inputClassName='Input-bold'/>
-          <span className='Trends-header--Category'>Categorie</span>
+          <Popper
+            popperPlacement='bottom'
+            wrapperClass='Trends-header--Category'
+            targetComponent={
+              <div>
+                <span>Category</span>
+                <Svg className='u-mgl--s' src={vector} />
+              </div>
+            }
+            popperComponent={
+              <ul>
+                <li>Popular movies</li>
+                <li>Last movies</li>
+              </ul>
+            }
+          />
         </header>
         {isLoading &&
           <div>isLoading</div>

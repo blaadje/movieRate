@@ -13,6 +13,7 @@
       "components/*": ["src/components/*"],
       "containers/*": ["src/containers/*"],
       "core/*": ["src/core/*"],
+      "settings": ["src/settings"],
     }
   },
   "include": [
