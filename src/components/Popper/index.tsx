@@ -23,6 +23,7 @@ interface iProps {
   onClickOutside?: () => void,
   onOpen?: () => void,
   popperPlacement?: PopperJS.Placement,
+  wrapperClass?: string,
   className?: string
 }
 
@@ -88,7 +89,8 @@ export default class BasePopper extends React.Component<iProps, iState> {
       hidePopper,
       popperComponent,
       popperPlacement,
-      targetComponent
+      targetComponent,
+      wrapperClass
     } = this.props
 
     const { hideBasePopper } = this.state
@@ -101,6 +103,7 @@ export default class BasePopper extends React.Component<iProps, iState> {
           {({ ref }) => (
             <div
               id={this.state.popperLinkId}
+              className={wrapperClass}
               onClick={() => !hasHidePopper ? this.setState({ hideBasePopper: !hideBasePopper }) : null}
             >
               {<div ref={ref}>{targetComponent}</div>}
