@@ -3,6 +3,7 @@ import Svg from 'react-inlinesvg'
 
 import * as checked from 'images/checked.svg'
 import * as add from 'images/add.svg'
+import * as infos from 'images/information.svg'
 
 import Rate from 'components/Rate'
 import Image from 'components/Image'
@@ -82,10 +83,10 @@ export default class MovieItem extends React.Component<iProps, iState> {
                 popperPlacement='right'
                 targetComponent={
                   <div className='ItemMenu-options'>
-                    <Svg className='Option-image' src={add} />
+                    <Svg className='Option-image' src={infos} />
                   </div>
                 }
-                popperComponent={ <List collection={collection} /> }
+                popperComponent={ <p>test</p> }
               />
             </div>
           </div>
