@@ -50,8 +50,8 @@ export default class MovieItem extends React.Component<iProps, iState> {
       >
         <div className='Item-filter'>
           <div className='Item-description'>
-            <span className='Item-description--title'>{this.props.title}</span>
-            <span className='Item-description--date'>{`(${this.props.date})`}</span>
+            <span className='Item-description--title u-mgb--xs'>{this.props.title}</span>
+            <span className='Item-description--date u-mgb--xs'>{`(${this.props.date})`}</span>
             <Rate
               rate={this.props.rate}
             />
