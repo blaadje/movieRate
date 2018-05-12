@@ -20,20 +20,22 @@ interface iProps {
 }
 
 interface iState {
-  isLoading: boolean
+  isLoading: boolean,
+  category: string
 }
 
 class Trends extends React.Component<iProps, iState> {
   constructor (props: iProps, state: iState) {
     super(props)
     this.state = {
-      isLoading: true
+      isLoading: true,
+      category: 'movie'
     }
   }
 
   componentWillMount () {
     this.props.dispatch({ type: 'MOVIES_FETCH',
-      query: 'discover/movie'
+      query: `discover/${this.state.category}`
     })
   }
 
@@ -43,8 +45,16 @@ class Trends extends React.Component<iProps, iState> {
     }
   }
 
+  fetch (category: string): void {
+    this.props.dispatch({
+      type: 'MOVIES_FETCH',
+      query: `discover/${category}`
+    })
+    this.setState({ category })
+  }
+
   render (): React.ReactNode {
-    const { isLoading } = this.state
+    const { isLoading, category } = this.state
     const { movies } = this.props
 
     return (
@@ -53,7 +63,7 @@ class Trends extends React.Component<iProps, iState> {
           <Search inputClassName='Input-bold'/>
           <Popper
             popperPlacement='bottom'
-            wrapperClass='Trends-header--Category'
+            wrapperClass='TrendsHeader-Category'
             targetComponent={
               <div>
                 <span>Category</span>
@@ -61,9 +71,15 @@ class Trends extends React.Component<iProps, iState> {
               </div>
             }
             popperComponent={
-              <ul>
-                <li>Popular movies</li>
-                <li>Last movies</li>
+              <ul className='HeaderCategory-wrapper'>
+                <li
+                  className={`${category === 'movie' ? 'isSelected' : ''} HeaderCategory-item u-mgb--m`}
+                  onClick={() => this.fetch('movie')}
+                >Popular movies</li>
+                <li
+                  className={`${category === 'tv' ? 'isSelected' : ''} HeaderCategory-item`}
+                  onClick={() => this.fetch('tv')}
+                >Popular TV shows</li>
               </ul>
             }
           />
@@ -77,8 +93,8 @@ class Trends extends React.Component<iProps, iState> {
               return <MovieItem
                 key={key}
                 image={API_IMAGE_LINK + item.poster_path}
-                title={item.title}
-                date={item.release_date}
+                title={item.title || item.name}
+                date={item.release_date || item.first_air_date}
                 rate={item.vote_average}
               />
             })}

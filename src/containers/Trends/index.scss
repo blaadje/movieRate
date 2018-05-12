@@ -9,11 +9,36 @@
   padding: 4em;
   font-size: .6em;
   
-  .Trends-header--Category {
+  .TrendsHeader-Category {
     font-weight: 600;
     color: $grey;
     margin-left: auto;
     cursor: pointer;
+  }
+
+  .HeaderCategory-wrapper {
+    padding: .6em .5em;
+  }
+
+  .HeaderCategory-item {
+    padding: .4em .6em;
+    position: relative;
+    transition: .3s ease-in-out;
+    cursor: pointer;
+
+    &.isSelected::before {
+      content: '';
+      top: 0;
+      left: -29px;
+      position: absolute;
+      border-radius: $radius;
+      width: 4px;
+      height: 100%;
+      background: $highlight;
+    }
+    &:hover {
+      color: $highlight;
+    }
   }
 }
 

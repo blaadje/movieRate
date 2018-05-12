@@ -4,14 +4,12 @@ import { Movie } from 'core/model'
 import { Action } from 'redux'
 import request from './request'
 
-export default function* movieSaga (): Iterator<ForkEffect[]> {
-  function* getMovies({ query }: any): Iterator<CallEffect | PutEffect<Action>> {
+export default function * movieSaga (): Iterator<ForkEffect[]> {
+  function * getMovies ({ query }: any): Iterator<CallEffect | PutEffect<Action>> {
     try {
       const result = yield call(request, query)
       yield put({ type: 'MOVIES_SET', result })
-    }
-
-    catch (error) {
+    } catch (error) {
       console.error(error)
     }
   }

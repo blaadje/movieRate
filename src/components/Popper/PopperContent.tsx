@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 import onClickOutside from 'react-onclickoutside'
-// import './index.scss'
 
 interface iProps {
   content: React.ReactNode,
