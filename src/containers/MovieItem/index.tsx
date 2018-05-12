@@ -4,6 +4,7 @@ import Svg from 'react-inlinesvg'
 import * as checked from 'images/checked.svg'
 import * as add from 'images/add.svg'
 
+import Rate from 'components/Rate'
 import Image from 'components/Image'
 import Popper from 'components/Popper'
 import Form from 'containers/Form'
@@ -51,7 +52,9 @@ export default class MovieItem extends React.Component<iProps, iState> {
           <div className='Item-description'>
             <span className='Item-description--title'>{this.props.title}</span>
             <span className='Item-description--date'>{`(${this.props.date})`}</span>
-            <span className='Item-description--rate'>{this.props.rate}</span>
+            <Rate
+              rate={this.props.rate}
+            />
           </div>
         </div>
         {isHovered &&
@@ -64,9 +67,7 @@ export default class MovieItem extends React.Component<iProps, iState> {
                     <Svg className='Option-image' src={checked} />
                   </div>
                 }
-                popperComponent={
-                  <Form />
-                }
+                popperComponent={ <Form /> }
               />
               <Popper
                 popperPlacement='right'
@@ -75,9 +76,7 @@ export default class MovieItem extends React.Component<iProps, iState> {
                     <Svg className='Option-image' src={add} />
                   </div>
                 }
-                popperComponent={
-                  <List collection={collection}/>
-                }
+                popperComponent={ <List collection={collection}/> }
               />
               <Popper
                 popperPlacement='right'
@@ -86,9 +85,7 @@ export default class MovieItem extends React.Component<iProps, iState> {
                     <Svg className='Option-image' src={add} />
                   </div>
                 }
-                popperComponent={
-                  <List collection={collection} />
-                }
+                popperComponent={ <List collection={collection} /> }
               />
             </div>
           </div>

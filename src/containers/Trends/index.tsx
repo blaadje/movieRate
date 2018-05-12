@@ -12,6 +12,7 @@ import Popper from 'components/Popper'
 import * as vector from 'images/Vector.svg'
 import './index.scss'
 import { Movie } from 'core/model'
+import { API_IMAGE_LINK } from 'settings'
 
 interface iProps {
   dispatch: (Object: any) => void,
@@ -36,7 +37,7 @@ class Trends extends React.Component<iProps, iState> {
     })
   }
 
-  componentWillReceiveProps (props: any) {
+  componentWillReceiveProps (props: iProps) {
     if (props.movies) {
       this.setState({ isLoading: false })
     }
@@ -46,7 +47,6 @@ class Trends extends React.Component<iProps, iState> {
     const { isLoading } = this.state
     const { movies } = this.props
 
-    const imageLink = 'https://image.tmdb.org/t/p/w500'
     return (
       <div className='Trends-wrapper'>
         <header className='Trends-header'>
@@ -76,10 +76,10 @@ class Trends extends React.Component<iProps, iState> {
             {movies.map((item: any, key: number) => {
               return <MovieItem
                 key={key}
-                image={imageLink + item.poster_path}
+                image={API_IMAGE_LINK + item.poster_path}
                 title={item.title}
                 date={item.release_date}
-                rate={30}
+                rate={item.vote_average}
               />
             })}
           </div>
