@@ -12,7 +12,6 @@ import Popper from 'components/Popper'
 import * as vector from 'images/Vector.svg'
 import './index.scss'
 import { Movie } from 'core/model'
-import { API_IMAGE_LINK } from 'settings'
 
 interface iProps {
   dispatch: (Object: any) => void,
@@ -92,10 +91,7 @@ class Trends extends React.Component<iProps, iState> {
             {movies.map((item: any, key: number) => {
               return <MovieItem
                 key={key}
-                image={API_IMAGE_LINK + item.poster_path}
-                title={item.title || item.name}
-                date={item.release_date || item.first_air_date}
-                rate={item.vote_average}
+                movie={item}
               />
             })}
           </div>

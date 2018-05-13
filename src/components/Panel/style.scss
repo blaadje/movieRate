@@ -1,0 +1,17 @@
+.Panel-wrapper {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+  opacity: 0.9;
+  margin-left: 20%;
+  z-index: 2;
+  cursor: initial;
+}
+
+.Panel-container {
+  width: 55%;
+  height: 100vh;
+  background: $dark;
+}

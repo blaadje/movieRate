@@ -15,4 +15,23 @@ export type Movie = {
   vote_count: number
 };
 
-export type IState = Movie[];
+export type State = Movie[];
+
+export type TV = {
+  adult: boolean
+  backdrop_path: string
+  genre_ids: Array<number>
+  id?: number
+  original_language: string
+  original_title: string
+  overview: string
+  popularity: number
+  poster_path: string
+  first_air_date: Date
+  name: string
+  vide: boolean
+  vote_average: number
+  vote_count: number
+};
+
+export type IState = TV[];

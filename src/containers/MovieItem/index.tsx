@@ -5,19 +5,21 @@ import * as checked from 'images/checked.svg'
 import * as add from 'images/add.svg'
 import * as infos from 'images/information.svg'
 
+import Panel from 'components/Panel'
 import Rate from 'components/Rate'
 import Image from 'components/Image'
 import Popper from 'components/Popper'
 import Form from 'containers/Form'
 import List from 'containers/List'
 
+import { API_IMAGE_LINK } from 'settings'
+
+import { Movie, TV } from 'core/model'
+
 import './style.scss'
 
 interface iProps {
-  image: string,
-  title: string,
-  date: string,
-  rate: number
+  movie: TV & Movie
 }
 
 interface iState {
@@ -33,6 +35,8 @@ export default class MovieItem extends React.Component<iProps, iState> {
   }
   render () {
     const { isHovered } = this.state
+    const { movie } = this.props
+
     const collection = [
       {
         title: 'ma playlist'
@@ -45,16 +49,16 @@ export default class MovieItem extends React.Component<iProps, iState> {
     return (
       <Image
         className='Item-wrapper'
-        src={this.props.image}
+        src={API_IMAGE_LINK + movie.poster_path}
         onMouseEnter={() => this.setState({ isHovered: true })}
         onMouseLeave={() => this.setState({ isHovered: false })}
       >
         <div className='Item-filter'>
           <div className='Item-description'>
-            <span className='Item-description--title u-mgb--xs'>{this.props.title}</span>
-            <span className='Item-description--date u-mgb--xs'>{`(${this.props.date})`}</span>
+            <span className='Item-description--title u-mgb--xs'>{movie.title || movie.name}</span>
+            <span className='Item-description--date u-mgb--xs'>{`(${movie.release_date || movie.first_air_date})`}</span>
             <Rate
-              rate={this.props.rate}
+              rate={movie.vote_average}
             />
           </div>
         </div>
@@ -79,14 +83,15 @@ export default class MovieItem extends React.Component<iProps, iState> {
                 }
                 popperComponent={ <List collection={collection}/> }
               />
-              <Popper
-                popperPlacement='right'
+              <Panel
                 targetComponent={
                   <div className='ItemMenu-options'>
                     <Svg className='Option-image' src={infos} />
                   </div>
                 }
-                popperComponent={ <p>test</p> }
+                panelComponent={
+                  <div>test</div>
+                }
               />
             </div>
           </div>
