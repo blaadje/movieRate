@@ -4,13 +4,13 @@
   height: 100vh;
   top: 0px;
   left: 0px;
-  opacity: 0.9;
+  opacity: 0.99;
   margin-left: 20%;
-  z-index: 2;
   cursor: initial;
 }
 
 .Panel-container {
+  box-shadow: 10px 0px 52px 1px rgba(0, 0, 0, 0.35);
   width: 55%;
   height: 100vh;
   background: $dark;

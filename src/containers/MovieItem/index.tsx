@@ -9,8 +9,10 @@ import Panel from 'components/Panel'
 import Rate from 'components/Rate'
 import Image from 'components/Image'
 import Popper from 'components/Popper'
+
 import Form from 'containers/Form'
 import List from 'containers/List'
+import MovieInfos from 'containers/MovieInfos'
 
 import { API_IMAGE_LINK } from 'settings'
 
@@ -90,7 +92,7 @@ export default class MovieItem extends React.Component<iProps, iState> {
                   </div>
                 }
                 panelComponent={
-                  <div>test</div>
+                  <MovieInfos movie={movie} />
                 }
               />
             </div>

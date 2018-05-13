@@ -3,7 +3,7 @@ import * as React from 'react'
 import './style.scss'
 
 interface iProps extends React.HTMLAttributes<any> {
-  className: string,
+  className?: string,
   src: string,
   children?: React.ReactNode,
 }
