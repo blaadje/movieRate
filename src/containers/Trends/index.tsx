@@ -16,11 +16,11 @@ import { appplicationCall } from 'core/sagas/movieSaga/actions'
 
 interface iProps {
   dispatch: (Object: any) => void,
-  movies: Array<Movie>
 }
 
 interface iState {
   isLoading: boolean,
+  movies: Array<Movie>,
   category: string
 }
 
@@ -29,7 +29,8 @@ class Trends extends React.Component<iProps, iState> {
     super(props)
     this.state = {
       isLoading: true,
-      category: 'discover/modevie'
+      movies: [],
+      category: 'discover/movie'
     }
   }
 
@@ -37,20 +38,17 @@ class Trends extends React.Component<iProps, iState> {
     this.fetch(this.state.category)
   }
 
-  componentWillReceiveProps (props: iProps) {
-    if (props.movies) {
-      this.setState({ isLoading: false })
-    }
-  }
-
   fetch (category: string): void {
-    this.props.dispatch(appplicationCall(category))
+    this.props.dispatch(appplicationCall(category, {
+      callback: (movies: Array<Movie>) => {
+        this.setState({ movies, isLoading: false })
+      }
+    }))
     this.setState({ category })
   }
 
   render (): React.ReactNode {
-    const { isLoading, category } = this.state
-    const { movies } = this.props
+    const { isLoading, category, movies } = this.state
 
     return (
       <div className='Trends-wrapper'>
