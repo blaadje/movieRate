@@ -12,7 +12,7 @@ import Popper from 'components/Popper'
 import * as vector from 'images/Vector.svg'
 import './index.scss'
 import { Movie } from 'core/model'
-import { appplicationCall } from 'core/sagas/movieSaga/actions'
+import { appplicationCall } from 'core/sagas/applicationSaga/actions'
 
 interface iProps {
   dispatch: (Object: any) => void,
@@ -99,12 +99,6 @@ class Trends extends React.Component<iProps, iState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
-  return {
-    // movies: state.Movies.result
-  }
-}
-
 export default flow(
-  connect(mapStateToProps)
+  connect()
 )(Trends)

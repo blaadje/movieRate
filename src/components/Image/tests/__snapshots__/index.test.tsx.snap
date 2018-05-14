@@ -8,5 +8,9 @@ exports[`renders correctly 1`] = `
       "background": "url(foo)",
     }
   }
-/>
+>
+  <div
+    className=" undefined"
+  />
+</div>
 `;

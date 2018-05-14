@@ -50,19 +50,18 @@ export default class MovieItem extends React.Component<iProps, iState> {
 
     return (
       <Image
+        filter
         className='Item-wrapper'
         src={API_IMAGE_LINK + movie.poster_path}
         onMouseEnter={() => this.setState({ isHovered: true })}
         onMouseLeave={() => this.setState({ isHovered: false })}
       >
-        <div className='Item-filter'>
-          <div className='Item-description'>
-            <span className='Item-description--title u-mgb--xs'>{movie.title || movie.name}</span>
-            <span className='Item-description--date u-mgb--xs'>{`(${movie.release_date || movie.first_air_date})`}</span>
-            <Rate
-              rate={movie.vote_average}
-            />
-          </div>
+        <div className='Item-description'>
+          <span className='Item-description--title u-mgb--xs'>{movie.title || movie.name}</span>
+          <span className='Item-description--date u-mgb--xs'>{`(${movie.release_date || movie.first_air_date})`}</span>
+          <Rate
+            rate={movie.vote_average}
+          />
         </div>
         {isHovered &&
           <div className='ItemMenu-wrapper'>

@@ -24,3 +24,26 @@
   display: inline-block;
   width: 170px;
 }
+
+.MovieInfosContent-actors {
+  display: flex;
+  justify-content: space-around;
+  height: 100%;
+  border-radius: $radius;
+}
+
+.MovieInfosContent-actor {
+  @include box-shadow();
+}
+
+.Actor-image {
+  height: 170px;
+  width: 140px;
+}
+
+.Actor-name {
+  width: 140px;
+  padding: 1.2em 1em;
+  background: $dark;
+  font-size: .7em;
+}

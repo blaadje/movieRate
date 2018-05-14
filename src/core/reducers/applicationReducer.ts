@@ -1,4 +1,4 @@
-import { RESOURCE_ERROR } from "core/sagas/movieSaga/constants"
+import { RESOURCE_ERROR } from "core/sagas/applicationSaga/constants"
 
 export default function applicationReducers (state = {}, action: any) {
   switch (action.type) {

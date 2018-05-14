@@ -1,4 +1,11 @@
 .Image-wrapper {
+  position: relative;
   background-repeat: no-repeat !important;
   background-size: cover !important;
+}
+
+.Image-filter {
+  width: 100%;
+  height: 100%;
+  background: rgba(#176087, 0.2);
 }
