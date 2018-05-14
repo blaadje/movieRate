@@ -1,4 +1,4 @@
-export default function uuid ():string {
+export default function uuid (): string {
   let d = new Date().getTime()
 
   if (typeof window.performance !== 'undefined' && typeof window.performance.now === 'function') {

@@ -1,5 +1,4 @@
 import * as React from 'react'
-
 import { connect } from 'react-redux'
 
 import { flow } from 'lodash'
@@ -7,9 +6,11 @@ import { flow } from 'lodash'
 import Image from 'components/Image'
 
 import { Movie, TV } from 'core/model'
-import './style.scss'
-import { API_IMAGE_LINK, API_POSTER_LINK } from 'settings'
 import { appplicationCall } from 'core/sagas/applicationSaga/actions'
+
+import { API_IMAGE_LINK, API_POSTER_LINK } from 'settings'
+
+import './style.scss'
 
 interface iProps {
   movie: Movie & TV,

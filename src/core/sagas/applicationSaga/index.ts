@@ -1,10 +1,10 @@
 import { put, call, takeLatest, CallEffect, ForkEffect, PutEffect } from 'redux-saga/effects'
 
-import { Movie } from 'core/model'
-import { Action } from 'redux'
-import request from './request'
 import { resourceError } from 'core/sagas/applicationSaga/actions'
 import { APPLICATION_CALL } from 'core/sagas/applicationSaga/constants'
+
+import { Action } from 'redux'
+import request from './request'
 
 export default function * applicationSaga (): Iterator<ForkEffect[]> {
   function* makeCall ({ url, options, body }: any): Iterator<CallEffect | PutEffect<Action>> {
