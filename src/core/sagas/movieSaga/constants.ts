@@ -1,2 +1,3 @@
-export const MOVIES_FETCH: string = 'globalSagas/MOVIES_FETCH'
-export const MOVIES_SET: string = 'globalSagas/MOVIES_SET'
+export const APPLICATION_CALL: string = 'globalSagas/APPLICATION_CALL'
+export const RESOURCE_SET: string = 'globalSagas/RESOURCE_SET'
+export const RESOURCE_ERROR: string = 'globalSagas/RESOURCE_ERROR'

@@ -12,6 +12,7 @@ import Popper from 'components/Popper'
 import * as vector from 'images/Vector.svg'
 import './index.scss'
 import { Movie } from 'core/model'
+import { appplicationCall } from 'core/sagas/movieSaga/actions'
 
 interface iProps {
   dispatch: (Object: any) => void,
@@ -28,14 +29,12 @@ class Trends extends React.Component<iProps, iState> {
     super(props)
     this.state = {
       isLoading: true,
-      category: 'movie'
+      category: 'discover/modevie'
     }
   }
 
   componentWillMount () {
-    this.props.dispatch({ type: 'MOVIES_FETCH',
-      query: `discover/${this.state.category}`
-    })
+    this.fetch(this.state.category)
   }
 
   componentWillReceiveProps (props: iProps) {
@@ -45,10 +44,7 @@ class Trends extends React.Component<iProps, iState> {
   }
 
   fetch (category: string): void {
-    this.props.dispatch({
-      type: 'MOVIES_FETCH',
-      query: `discover/${category}`
-    })
+    this.props.dispatch(appplicationCall(category))
     this.setState({ category })
   }
 
@@ -65,20 +61,24 @@ class Trends extends React.Component<iProps, iState> {
             wrapperClass='TrendsHeader-Category'
             targetComponent={
               <div>
-                <span>Category</span>
+                <span>{category}</span>
                 <Svg className='u-mgl--s' src={vector} />
               </div>
             }
             popperComponent={
               <ul className='HeaderCategory-wrapper'>
                 <li
-                  className={`${category === 'movie' ? 'isSelected' : ''} HeaderCategory-item u-mgb--m`}
-                  onClick={() => this.fetch('movie')}
+                  className={`${category === 'discover/movie' ? 'isSelected' : ''} HeaderCategory-item u-mgb--m`}
+                  onClick={() => this.fetch('discover/movie')}
                 >Popular movies</li>
                 <li
-                  className={`${category === 'tv' ? 'isSelected' : ''} HeaderCategory-item`}
-                  onClick={() => this.fetch('tv')}
+                  className={`${category === 'discover/tv' ? 'isSelected' : ''} HeaderCategory-item u-mgb--m`}
+                  onClick={() => this.fetch('discover/tv')}
                 >Popular TV shows</li>
+                <li
+                  className={`${category === 'movie/now_playing' ? 'isSelected' : ''} HeaderCategory-item`}
+                  onClick={() => this.fetch('movie/now_playing')}
+                >Now playing</li>
               </ul>
             }
           />
@@ -103,7 +103,7 @@ class Trends extends React.Component<iProps, iState> {
 
 const mapStateToProps = (state: any) => {
   return {
-    movies: state.Movies.result
+    // movies: state.Movies.result
   }
 }
 

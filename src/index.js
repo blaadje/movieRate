@@ -1,6 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
+import { Provider } from 'react-redux'
+
+import store from 'core/store'
 
 import './assets/style/application.scss'
 
@@ -9,11 +12,13 @@ const render = () => {
   const BrowserRouter = require('react-router-dom').BrowserRouter
 
   ReactDOM.render((
-    <AppContainer>
-      <BrowserRouter>
-        <Application />
-      </BrowserRouter>
-    </AppContainer>), document.getElementById('root')
+    <Provider store={store}>
+      <AppContainer>
+        <BrowserRouter>
+          <Application />
+        </BrowserRouter>
+      </AppContainer>
+    </Provider>), document.getElementById('root')
   )
 }
 

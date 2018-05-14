@@ -1,0 +1,25 @@
+.ErrorManager-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: .6em;
+  padding: 1em;
+  z-index: 3;
+  background: rgba(185, 37, 37, 0.4);
+}
+
+.ErrorManager-message {
+  display: inline-block;
+}
+
+.ErrorManager-close {
+  cursor: pointer;
+  float: right;
+  margin-left: auto;
+  svg {
+    width: 15px;
+    height: 15px;
+  }
+}
