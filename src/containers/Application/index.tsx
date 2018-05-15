@@ -1,48 +1,23 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { Provider } from 'react-redux'
 
-import { flow } from 'lodash'
-
+import ErrorManager from 'containers/ErrorManager'
 import Sidebar from 'containers/Sidebar'
 import Trends from 'containers/Trends'
 import Seen from 'containers/Seen'
 import Playlist from 'containers/Playlist'
-import ErrorManager from 'containers/ErrorManager'
+
+import store from 'core/store'
 
 import { Gradient } from './Gradient'
 import './index.scss'
 
-interface iProps {
-  error?: any
-}
-
-interface iState {
-  error: any
-}
-
-class App extends React.Component<iProps, iState> {
-  constructor (props: iProps) {
-    super(props)
-    this.state = {
-      error: null
-    }
-  }
-  componentWillReceiveProps ({error}: any) {
-    this.setState(error)
-  }
-
-  render () {
-    const { error } = this.state
-
-    return (
+const AppContainer: React.SFC = () => {
+  return (
+    <Provider store={store}>
       <React.Fragment>
-        {error &&
-          <ErrorManager
-            error={error}
-            onClick={() => this.setState({ error: null })}
-          />
-        }
+        <ErrorManager />
         <Sidebar />
         <Gradient>
           <Switch>
@@ -52,16 +27,8 @@ class App extends React.Component<iProps, iState> {
           </Switch>
         </Gradient>
       </React.Fragment>
-    )
-  }
+    </Provider>
+  )
 }
 
-const mapStateToProps = (state: any) => {
-  return {
-    error: state.application
-  }
-}
-
-export default flow(
-  connect(mapStateToProps)
-)(App)
+export default AppContainer

@@ -15,7 +15,7 @@ const Image: React.SFC<iProps> = (props: iProps) => {
 
   return (
     <div {...htmlProps} className={`Image-wrapper ${className}`} style={{ background: `url(${props.src})` }}>
-      <div className={`${filter ? 'Image-filter' : ''} ${filterClass}`}>
+      <div className={`${filter ? 'isShowed' : ''} ${filterClass || ''} Image-filter`}>
         {props.children}
       </div>
     </div>

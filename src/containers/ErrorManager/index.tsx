@@ -1,5 +1,8 @@
 import * as React from 'react'
 
+import { connect } from 'react-redux'
+import { flow } from 'lodash'
+
 import Svg from 'react-inlinesvg'
 
 import * as close from 'images/close.svg'
@@ -11,9 +14,29 @@ interface iProps {
   onClick: () => void
 }
 
-export default class ErrorManager extends React.Component<iProps> {
+interface iState {
+  error: any
+}
+
+class ErrorManager extends React.Component<iProps, iState> {
+  constructor (props: iProps, state: iState) {
+    super(props)
+    this.state = {
+      error: null
+    }
+  }
+
+  componentWillReceiveProps ({ error }: any) {
+    this.setState(error)
+  }
+
   render () {
-    const { error, onClick } = this.props
+    const { error } = this.state
+
+    if (!error) {
+      return null
+    }
+
     return (
       <div className='ErrorManager-wrapper'>
         <div className='ErrorManager-message'>
@@ -21,7 +44,7 @@ export default class ErrorManager extends React.Component<iProps> {
         </div>
         <div
           className='ErrorManager-close'
-          onClick={() => onClick()}
+          onClick={() => this.setState({ error: null })}
         >
           <Svg src={close}/>
         </div>
@@ -29,3 +52,13 @@ export default class ErrorManager extends React.Component<iProps> {
     )
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return {
+    error: state.application
+  }
+}
+
+export default flow(
+  connect(mapStateToProps)
+)(ErrorManager)

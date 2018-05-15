@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { flow } from 'lodash'
 
 import Image from 'components/Image'
+import Rate from 'components/Rate'
 
 import { Movie, TV } from 'core/model'
 import { appplicationCall } from 'core/sagas/applicationSaga/actions'
@@ -51,7 +52,10 @@ class MovieInfos extends React.Component<iProps, iState> {
         >
           <div className='MovieInfos-gradient'>
             <header className='u-mgb--l'>
-              {movie.original_title || movie.name}
+              <div>
+                {movie.original_title || movie.name}
+              </div>
+              <Rate rate={movie.vote_average}/>
             </header>
             <div className='MovieInfos-overview'>
               <img

@@ -10,7 +10,7 @@ exports[`renders correctly 1`] = `
   }
 >
   <div
-    className=" undefined"
+    className="  Image-filter"
   />
 </div>
 `;
