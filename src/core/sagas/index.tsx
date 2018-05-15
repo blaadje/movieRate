@@ -1,3 +1,3 @@
-import movieSaga from './movieSaga'
+import movieSaga from './applicationSaga'
 
 export default movieSaga
