@@ -53,7 +53,10 @@ class Trends extends React.Component<iProps, iState> {
     return (
       <div className='Trends-wrapper'>
         <header className='Trends-header'>
-          <Search inputClassName='Input-bold'/>
+          <Search
+            className='TrendsHeader-search'
+            inputClassName='Input-bold'
+          />
           <Popper
             popperPlacement='bottom'
             wrapperClass='TrendsHeader-Category'
