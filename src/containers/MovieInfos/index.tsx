@@ -46,6 +46,7 @@ class MovieInfos extends React.Component<iProps, iState> {
     return (
       <div className='MovieInfos-wrapper'>
         <Image
+          loader={false}
           filter
           className='MovieInfos-header'
           src={API_POSTER_LINK + movie.backdrop_path}

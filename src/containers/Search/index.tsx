@@ -26,7 +26,7 @@ class Search extends React.Component<iProps, iState> {
   constructor (props: iProps, state: iState) {
     super(props)
     this.state = {
-      movies: []
+      movies: null
     }
   }
   getMovie (event: React.ChangeEvent<any>): void {
@@ -35,6 +35,7 @@ class Search extends React.Component<iProps, iState> {
       this.setState({ movies: null })
       return
     }
+
     this.props.dispatch(appplicationCall('search/multi',
       {
         args: `query=${event.target.value}`,
@@ -67,11 +68,13 @@ class Search extends React.Component<iProps, iState> {
 
                 return (
                   <li key={index} className='SearchResult-item'>
-                    {movie.title}
                     <Image
                       className='Item-image'
                       src={API_IMAGE_LINK + movie.poster_path}
                     />
+                    <span>
+                      {movie.title}
+                    </span>
                   </li>
                 )
               })

@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="imageloader imageloader-loading ImageLoader-wrapper "
+  className="imageloader imageloader-loading"
 >
   <div
     className="u-pos--r bar"
