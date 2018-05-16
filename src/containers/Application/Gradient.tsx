@@ -11,7 +11,7 @@ interface iProps {
 
 export const Gradient: React.SFC<iProps> = (props: iProps) => {
   return (
-    <Image className='Gradient' src={gradient1}>
+    <Image wrapperclass='Gradient' src={gradient1}>
       <Image className='MainWrapper' src={gradient2}>
         {props.children}
       </Image>
