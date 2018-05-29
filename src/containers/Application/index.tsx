@@ -13,7 +13,7 @@ import store from 'core/store'
 import { Gradient } from './Gradient'
 import './index.scss'
 
-const AppContainer: React.SFC = () => {
+const App: React.SFC = () => {
   return (
     <Provider store={store}>
       <React.Fragment>
@@ -31,4 +31,4 @@ const AppContainer: React.SFC = () => {
   )
 }
 
-export default AppContainer
+export default App
