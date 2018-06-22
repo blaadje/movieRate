@@ -11,6 +11,7 @@ import { appplicationCall } from 'core/sagas/applicationSaga/actions'
 import { Movie } from 'core/model'
 import { API_IMAGE_LINK } from 'settings'
 import './style.scss'
+import Rate from 'components/Rate';
 
 interface iProps {
   className: string,
@@ -72,9 +73,13 @@ class Search extends React.Component<iProps, iState> {
                       className='Item-image'
                       src={API_IMAGE_LINK + movie.poster_path}
                     />
-                    <span>
-                      {movie.title}
-                    </span>
+                    <div className='u-mgl--m'>
+                      <div>{movie.title}</div>
+                      <div>{movie.release_date}</div>
+                      <Rate 
+                        rate={movie.vote_average}
+                      />
+                    </div>
                   </li>
                 )
               })

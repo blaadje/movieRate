@@ -85,6 +85,7 @@ export default class MovieItem extends React.Component<iProps, iState> {
                 popperComponent={ <List collection={collection}/> }
               />
               <Panel
+                onClickOutside={() => this.setState({ isHovered: false })}
                 targetComponent={
                   <div className='ItemMenu-options'>
                     <Svg className='Option-image' src={infos} />

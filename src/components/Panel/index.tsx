@@ -7,6 +7,7 @@ import './style.scss'
 interface iProps {
   targetComponent: React.ReactNode,
   panelComponent: React.ReactNode,
+  onClickOutside?: () => void
 }
 
 interface iState {
@@ -21,6 +22,11 @@ export default class Panel extends React.Component<iProps, iState> {
     }
   }
 
+  onClickWrapper (): void {
+    this.props.onClickOutside()
+    this.setState({ isOpen: false })
+  }
+
   render () {
     const { targetComponent, panelComponent } = this.props
     const { isOpen } = this.state
@@ -33,7 +39,7 @@ export default class Panel extends React.Component<iProps, iState> {
         {isOpen &&
           <div className='Panel-wrapper'>
             <PanelContainer
-              onClickOutside={() => this.setState({ isOpen: false })}
+              onClickOutside={() => this.onClickWrapper()}
               content={panelComponent}
             />
           </div>
