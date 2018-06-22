@@ -11,7 +11,9 @@ import { appplicationCall } from 'core/sagas/applicationSaga/actions'
 import { Movie } from 'core/model'
 import { API_IMAGE_LINK } from 'settings'
 import './style.scss'
-import Rate from 'components/Rate';
+import Rate from 'components/Rate'
+import MovieInfos from 'containers/MovieInfos'
+import Panel from 'components/Panel'
 
 interface iProps {
   className: string,
@@ -68,23 +70,29 @@ class Search extends React.Component<iProps, iState> {
                 }
 
                 return (
-                  <li key={index} className='SearchResult-item'>
-                    <Image
-                      className='Item-image'
-                      src={API_IMAGE_LINK + movie.poster_path}
-                    />
-                    <div className='u-mgl--m'>
-                      <div>{movie.title}</div>
-                      <div>{movie.release_date}</div>
-                      <Rate 
-                        rate={movie.vote_average}
-                      />
-                    </div>
-                  </li>
+                  <Panel
+                    key={index}
+                    targetComponent={
+                      <li className='SearchResult-item'>
+                        <Image
+                          className='Item-image'
+                          src={API_IMAGE_LINK + movie.poster_path}
+                        />
+                        <div className='u-mgl--m'>
+                          <div>{movie.title}</div>
+                          <div>{movie.release_date}</div>
+                          <Rate
+                            rate={movie.vote_average}
+                          />
+                        </div>
+                      </li>
+                    }
+                    panelComponent={
+                      <MovieInfos movie={movie} />
+                    }
+                  />
                 )
-              })
-
-              }
+              })}
             </ul>
           </div>
         }

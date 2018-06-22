@@ -23,7 +23,7 @@ export default class Panel extends React.Component<iProps, iState> {
   }
 
   onClickWrapper (): void {
-    this.props.onClickOutside()
+    this.props.onClickOutside && this.props.onClickOutside()
     this.setState({ isOpen: false })
   }
 
