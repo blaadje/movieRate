@@ -59,6 +59,4 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-export default flow(
-  connect(mapStateToProps)
-)(ErrorManager)
+export default flow(connect(mapStateToProps))(ErrorManager)

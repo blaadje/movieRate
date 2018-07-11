@@ -1,8 +1,14 @@
 import * as React from 'react'
+import ImageLoader from 'react-load-image'
+
+import Image from './image'
+import Loader from 'components/Loader'
 
 import './style.scss'
 
 interface iProps extends React.HTMLAttributes<any> {
+  wrapperclass?: string,
+  loader?: boolean,
   className?: string,
   filter?: boolean,
   filterClass?: string,
@@ -10,20 +16,28 @@ interface iProps extends React.HTMLAttributes<any> {
   children?: React.ReactNode,
 }
 
-const Image: React.SFC<iProps> = (props: iProps) => {
-  const { src, children, className, filter, filterClass, ...htmlProps } = props
+const ImageWrapper: React.SFC<iProps> = (props: iProps) => {
+  const { src, wrapperclass, className, loader } = props
 
   return (
-    <div {...htmlProps} className={`Image-wrapper ${className}`} style={{ background: `url(${props.src})` }}>
-      <div className={`${filter ? 'isShowed' : ''} ${filterClass || ''} Image-filter`}>
-        {props.children}
+    <ImageLoader
+      src={src}
+      className={wrapperclass}
+    >
+      <Image {...props} />
+      <div className={className}>Error</div>
+      <div className={`u-pos--r ${className}`}>
+        {loader &&
+          <Loader />
+        }
       </div>
-    </div>
+    </ImageLoader>
   )
 }
 
-Image.defaultProps = {
+ImageWrapper.defaultProps = {
+  loader: true,
   filter: false
 }
 
-export default Image
+export default ImageWrapper

@@ -13,6 +13,7 @@ import * as vector from 'images/Vector.svg'
 import './index.scss'
 import { Movie } from 'core/model'
 import { appplicationCall } from 'core/sagas/applicationSaga/actions'
+import Loader from 'components/Loader'
 
 interface iProps {
   dispatch: (Object: any) => void,
@@ -53,7 +54,10 @@ class Trends extends React.Component<iProps, iState> {
     return (
       <div className='Trends-wrapper'>
         <header className='Trends-header'>
-          <Search inputClassName='Input-bold'/>
+          <Search
+            className='TrendsHeader-search'
+            inputClassName='Input-bold'
+          />
           <Popper
             popperPlacement='bottom'
             wrapperClass='TrendsHeader-Category'
@@ -82,7 +86,7 @@ class Trends extends React.Component<iProps, iState> {
           />
         </header>
         {isLoading &&
-          <div>isLoading</div>
+          <Loader />
         }
         {!isLoading &&
           <div className='Movie-wrapper'>

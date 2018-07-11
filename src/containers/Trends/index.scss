@@ -10,6 +10,10 @@
   padding: 4em;
   font-size: .6em;
   
+  .TrendsHeader-search {
+    flex-grow: 2;
+  }
+
   .TrendsHeader-Category {
     font-weight: 600;
     color: $grey;

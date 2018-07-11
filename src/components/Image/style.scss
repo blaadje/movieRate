@@ -1,7 +1,14 @@
 .Image-wrapper {
   position: relative;
+  height: 100%;
+  width: 100%;
   background-repeat: no-repeat !important;
   background-size: cover !important;
+}
+.ImageLoader-wrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 .Image-filter {

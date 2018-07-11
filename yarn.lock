@@ -8595,6 +8595,10 @@ react-is@^16.3.1:
   version "16.3.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.3.1.tgz#ee66e6d8283224a83b3030e110056798488359ba"
 
+react-load-image@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/react-load-image/-/react-load-image-0.1.6.tgz#abafacb18813983a8af43d9f2fe9ed7bf89ca29a"
+
 react-onclickoutside@^6.7.1:
   version "6.7.1"
   resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.7.1.tgz#6a5b5b8b4eae6b776259712c89c8a2b36b17be93"

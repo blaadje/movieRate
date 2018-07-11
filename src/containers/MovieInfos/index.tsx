@@ -46,6 +46,7 @@ class MovieInfos extends React.Component<iProps, iState> {
     return (
       <div className='MovieInfos-wrapper'>
         <Image
+          loader={false}
           filter
           className='MovieInfos-header'
           src={API_POSTER_LINK + movie.backdrop_path}
@@ -64,9 +65,7 @@ class MovieInfos extends React.Component<iProps, iState> {
               />
               <div className='Overview-text u-mgl--xl'>
                 <span>Overview</span>
-                <p>
-                  {movie.overview}
-                </p>
+                <p>{movie.overview}</p>
               </div>
             </div>
           </div>
@@ -91,8 +90,7 @@ class MovieInfos extends React.Component<iProps, iState> {
                   </div>
                 </li>
               )
-            })
-            }
+            })}
           </ul>
         </div>
       </div>
@@ -100,6 +98,4 @@ class MovieInfos extends React.Component<iProps, iState> {
   }
 }
 
-export default flow(
-  connect()
-)(MovieInfos)
+export default flow(connect())(MovieInfos)

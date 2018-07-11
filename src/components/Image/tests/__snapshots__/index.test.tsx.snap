@@ -2,15 +2,18 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="Image-wrapper bar"
-  style={
-    Object {
-      "background": "url(foo)",
-    }
-  }
+  className="imageloader imageloader-loading"
 >
   <div
-    className="  Image-filter"
-  />
+    className="u-pos--r bar"
+  >
+    <div
+      className="Loader-wrapper"
+    >
+      <div
+        className="Loader"
+      />
+    </div>
+  </div>
 </div>
 `;
