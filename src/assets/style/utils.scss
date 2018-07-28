@@ -23,6 +23,10 @@
   display: flex;
 }
 
+.u-d--if {
+  display: inline-flex;
+}
+
 // text align
 .u-tac {
   text-align: center;
@@ -254,6 +258,48 @@
 
 .u-mgb--l {
   margin-bottom: 30px;
+}
+
+// margin horinzontal
+.u-mgh--0 {
+  margin: 0 0px;
+}
+
+.u-mgh--xs {
+  margin: 0 5px;
+}
+
+.u-mgh--s {
+  margin: 0 10px;
+}
+
+.u-mgh--m {
+  margin: 0 20px;
+}
+
+.u-mgh--l {
+  margin: 0 30px;
+}
+
+// margin vertical
+.u-mgv--0 {
+  margin: 0 0px;
+}
+
+.u-mgv--xs {
+  margin: 5px 0;
+}
+
+.u-mgv--s {
+  margin: 10px 0;
+}
+
+.u-mgv--m {
+  margin: 20px 0;
+}
+
+.u-mgv--l {
+  margin: 30px 0;
 }
 
 //max max-width

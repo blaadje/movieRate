@@ -2,7 +2,7 @@ import {
   APPLICATION_CALL,
   RESOURCE_SET,
   RESOURCE_ERROR
-} from './constants'
+} from 'core/sagas/applicationSaga/constants'
 
 import { Movie } from 'core/model'
 import { Action } from 'redux'

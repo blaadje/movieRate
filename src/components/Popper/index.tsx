@@ -8,7 +8,7 @@ import {
   Popper
 } from 'react-popper'
 
-import PopperContent from './PopperContent'
+import PopperContent from 'components/Popper/PopperContent'
 
 import uuid from 'core/uuid'
 
@@ -104,7 +104,10 @@ export default class BasePopper extends React.Component<iProps, iState> {
             <div
               id={this.state.popperLinkId}
               className={wrapperClass}
-              onClick={() => !hasHidePopper ? this.setState({ hideBasePopper: !hideBasePopper }) : null}
+              onClick={(event) => {
+                event.stopPropagation()
+                !hasHidePopper ? this.setState({ hideBasePopper: !hideBasePopper }) : null
+              }}
             >
               {<div ref={ref}>{targetComponent}</div>}
             </div>

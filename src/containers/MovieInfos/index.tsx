@@ -53,9 +53,9 @@ class MovieInfos extends React.Component<iProps, iState> {
         >
           <div className='MovieInfos-gradient'>
             <header className='u-mgb--l'>
-              <div>
+              <h1>
                 {movie.original_title || movie.name}
-              </div>
+              </h1>
               <Rate rate={movie.vote_average}/>
             </header>
             <div className='MovieInfos-overview'>
@@ -64,7 +64,7 @@ class MovieInfos extends React.Component<iProps, iState> {
                 src={API_IMAGE_LINK + movie.poster_path}
               />
               <div className='Overview-text u-mgl--xl'>
-                <span>Overview</span>
+                <h2>Overview</h2>
                 <p>{movie.overview}</p>
               </div>
             </div>

@@ -1,12 +1,24 @@
-.Gradient {
+.Application-wrapper {
+  background: $black;
+}
+
+.ContentGradientWrapper {
+  @include box-shadow($highlight);
   height: 100vh;
   width: 80%;
   display: inline-block;
   vertical-align: top;
-  
-  .MainWrapper {
-    box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.48);
-    height: 100%; width: 100%;
-    padding: 0 .3em;
-  }
+  background: linear-gradient(
+    to left,   
+    rgba($dark, 0.7) 0%,
+    rgba($dark, 0.75) 5%, 
+    rgba($dark, 0.8) 15%, 
+    rgba($dark, 0.85) 35%, 
+    rgba($dark, 1) 87%
+  );
+}
+
+.ContentWrapper {
+  height: 100%; width: 100%; 
+  padding: 0 .3em;
 }

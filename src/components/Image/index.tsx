@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ImageLoader from 'react-load-image'
 
-import Image from './image'
+import Image from 'components/Image/image'
 import Loader from 'components/Loader'
 
 import './style.scss'

@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import PanelContainer from './container'
+import PanelContainer from 'components/Panel/container'
 
 import './style.scss'
 

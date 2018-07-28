@@ -19,11 +19,11 @@
 
 .Item-description {
   position: absolute;
-  bottom: -3px;
+  bottom: 0;
   left: 0;
   width: 100%;
   padding: 1em;
-  font-size: .5em;
+  font-size: 17px;
   background: rgba(#000, 0.6);
 
   span {
@@ -32,12 +32,10 @@
 }
 
 .ItemMenu-wrapper {
+  @include center();
   position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   top: 0;
-  bottom: -3px;
+  bottom: 0;
   width: 100%;
   background: rgba(#1E2E3D, 0.8);
 
@@ -49,21 +47,27 @@
     align-items: center;
     z-index: 1;
   }
+}
 
-  .ItemMenu-options {
-    height: 50px;
-    width: 50px;
-    position: relative;
-    background: rgba(#000000, 0.3);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.ItemMenu-options {
+  @include center();
+  height: 50px;
+  width: 50px;
+  position: relative;
+  background: rgba(#000000, 0.3);
+  border-radius: 50%;
+  transition: all .3s ease;
 
-  .Option-image > svg {
-    height: 18px;
-    width: 18px;
+  &:hover {
+    transform: scale(1.2);
+    background: transparent;
+    cursor: pointer;
   }
+}
+
+.Option-image > svg {
+  @include center();
+  height: 18px;
+  width: 18px;
 }
 

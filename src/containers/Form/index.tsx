@@ -27,6 +27,7 @@ export default class Form extends React.Component<iProps, iState> {
     return (
       <form className='Form-wrapper'>
         <Rate
+          wrapperClass='u-mgv--m'
           readonly={false}
           rate={rate}
           onChange={(rate: any) => this.setState({ rate })}

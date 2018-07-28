@@ -3,6 +3,7 @@
   display: inline-block;
   vertical-align: top;
   z-index: 4;
+  border-right: 1px solid $border;
   background: $dark;
   height: 100vh;
   width: 20%;
@@ -26,7 +27,7 @@
       margin-left: 2em;
       
       a {
-        font-size: 1em !important;
+        font-size: 20px !important;
         position: relative;
         height: 100%;
         width: 100%;

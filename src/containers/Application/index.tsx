@@ -10,23 +10,23 @@ import Playlist from 'containers/Playlist'
 
 import store from 'core/store'
 
-import { Gradient } from './Gradient'
+import { ContentWrapper } from 'containers/Application/ContentWrapper'
 import './index.scss'
 
 const App: React.SFC = () => {
   return (
     <Provider store={store}>
-      <React.Fragment>
+      <div className='Application-wrapper'>
         <ErrorManager />
         <Sidebar />
-        <Gradient>
+        <ContentWrapper>
           <Switch>
             <Route path='/' exact={!window.location.pathname.includes('index.html')} component={Trends} />
             <Route path='/seen' component={Seen} />
             <Route path='/playlist' component={Playlist} />
           </Switch>
-        </Gradient>
-      </React.Fragment>
+        </ContentWrapper>
+      </div>
     </Provider>
   )
 }

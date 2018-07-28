@@ -1,4 +1,4 @@
-import Image from '../'
+import Image from 'components/Image'
 
 import * as React from 'react'
 const renderer = require('react-test-renderer')
