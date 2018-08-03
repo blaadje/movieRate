@@ -20,6 +20,7 @@ import Panel from 'components/Panel'
 import Popper from 'components/Popper'
 import Form from 'containers/Form'
 import List from 'containers/List'
+import Input from 'components/Input'
 
 interface iProps {
   className: string,
@@ -73,10 +74,12 @@ class Search extends React.Component<iProps, iState> {
       <div className={`Search-wrapper ${this.props.className || ''}`}>
         <div className='Search-input'>
           <Svg className='Search-icon' src={search} />
-          <input
-            className={`${this.props.inputClassName} Input`}
+          <Input
+            className={this.props.inputClassName}
+            value={this.state.inputValue}
             placeholder='Search movie'
             onChange={(event) => this.getMovie(event)}
+            onReset={() => this.setState({ inputValue: '', movies: [] })}
           />
         </div>
         {movies &&

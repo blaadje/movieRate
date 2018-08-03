@@ -7,14 +7,7 @@ interface iProps {
   onClickOutside: (event: any) => void
 }
 
-interface iState {
-}
-
-class PopperContent extends React.Component<iProps, iState> {
-  constructor (props: iProps, state: iState) {
-    super(props)
-  }
-
+class PopperContent extends React.Component<iProps, {}> {
   handleClickOutside = (event: any) => {
     this.props.onClickOutside && this.props.onClickOutside(event)
   }

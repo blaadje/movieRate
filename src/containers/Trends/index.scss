@@ -28,7 +28,7 @@
   .HeaderCategory-item {
     padding: .4em .6em;
     position: relative;
-    transition: .3s ease-in-out;
+    transition: all $delay ease-in-out;
     cursor: pointer;
 
     &.isSelected::before {

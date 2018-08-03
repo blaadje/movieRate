@@ -4,6 +4,7 @@
 
 .Search-input {
   display: inline-flex;
+  width: 100%;
   align-items: center;
 
   .Search-icon > svg {
@@ -11,6 +12,7 @@
   }
   
   .Input {
+    width: 100%;
     background: transparent;
     border: none;
     outline: none;
@@ -46,6 +48,8 @@
 .SearchResultItem-options {
   display: flex;
   margin-left: auto;
+  transition: all $delay ease;
+  opacity: 0;
 
   .ItemMenu-options {
     margin-left: .5em;
@@ -56,13 +60,16 @@
 }
 
 .SearchResult-item {
-  transition: background .3s ease;
+  transition: background $delay ease;
   display: flex;
   align-items: center;
   padding: 1em;
   border-radius: $radius;
 
   &:hover {
+    .SearchResultItem-options {
+      opacity: 1;
+    }
     background: rgba(white, .1);
   }
 }
