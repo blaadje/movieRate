@@ -1,10 +1,10 @@
 import { put, call, takeLatest, CallEffect, ForkEffect, PutEffect } from 'redux-saga/effects'
 
-import { resourceError } from 'core/sagas/applicationSaga/actions'
-import { APPLICATION_CALL } from 'core/sagas/applicationSaga/constants'
+import { apiCallError, } from 'core/sagas/apiCallSaga/actions'
+import { API_FETCH } from 'core/sagas/apiCallSaga/constants'
 
 import { Action } from 'redux'
-import request from 'core/sagas/applicationSaga/request'
+import request from 'core/sagas/apiCallSaga/request'
 
 export default function * applicationSaga (): Iterator<ForkEffect[]> {
   function* makeCall ({ url, options, body }: any): Iterator<CallEffect | PutEffect<Action>> {
@@ -15,12 +15,12 @@ export default function * applicationSaga (): Iterator<ForkEffect[]> {
     }
 
     catch (error) {
-      yield put(resourceError(error))
+      yield put(apiCallError(error))
       console.error(error)
     }
   }
 
   yield [
-    takeLatest(APPLICATION_CALL, makeCall)
+    takeLatest(API_FETCH, makeCall)
   ]
 }

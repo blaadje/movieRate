@@ -6,9 +6,12 @@ import Textarea from 'components/Textarea'
 
 import './style.scss'
 
-interface iProps {}
+interface iProps {
+  movieId: number
+}
 
 interface iState {
+  movieId: number,
   rate: number,
   description: string
 }
@@ -17,26 +20,40 @@ export default class Form extends React.Component<iProps, iState> {
   constructor (props: iProps, state: iState) {
     super(props)
     this.state = {
+      movieId: this.props.movieId,
       rate: 4,
       description: ''
     }
   }
+
+  submitForm () {
+
+  }
+
+  handleDescription (event: any) {
+    this.setState({ description: event.target.value })
+  }
+
   render () {
-    const { rate } = this.state
+    const { rate, description } = this.state
 
     return (
-      <form className='Form-wrapper'>
+      <form className='Form-wrapper' onSubmit={() => this.submitForm()}>
         <Rate
           wrapperClass='u-mgv--m'
           readonly={false}
           rate={rate}
           onChange={(rate: any) => this.setState({ rate })}
         />
-
         <hr/>
         <div>
           <h2 className='Form-title'>Description</h2>
-          <Textarea className='Form-textarea' placeholder='Put what you think about the movie here...'/>
+          <Textarea
+            className='Form-textarea'
+            value={description}
+            onChange={(value) => this.handleDescription(value)}
+            placeholder='Put what you think about the movie here...'
+          />
           <Button type='submit'/>
         </div>
       </form>

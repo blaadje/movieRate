@@ -1,8 +1,8 @@
-import { RESOURCE_ERROR } from "core/sagas/applicationSaga/constants"
+import { API_CALL_ERROR } from "core/sagas/apiCallSaga/constants"
 
 export default function applicationReducers (state = {}, action: any) {
   switch (action.type) {
-    case RESOURCE_ERROR:
+    case API_CALL_ERROR:
       return {
         ...state, error: action.result
       }

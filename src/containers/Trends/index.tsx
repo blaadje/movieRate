@@ -12,7 +12,7 @@ import Popper from 'components/Popper'
 import * as vector from 'images/Vector.svg'
 import './index.scss'
 import { Movie } from 'core/model'
-import { appplicationCall } from 'core/sagas/applicationSaga/actions'
+import { apiCall } from 'core/sagas/apiCallSaga/actions'
 import Loader from 'components/Loader'
 
 interface iProps {
@@ -40,7 +40,7 @@ class Trends extends React.Component<iProps, iState> {
   }
 
   fetch (category: string): void {
-    this.props.dispatch(appplicationCall(category, {
+    this.props.dispatch(apiCall(category, {
       callback: (movies: Array<Movie>) => {
         this.setState({ movies, isLoading: false })
       }

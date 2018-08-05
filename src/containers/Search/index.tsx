@@ -10,7 +10,7 @@ import * as infos from 'images/information.svg'
 
 import * as search from 'images/search.svg'
 
-import { appplicationCall } from 'core/sagas/applicationSaga/actions'
+import { apiCall } from 'core/sagas/apiCallSaga/actions'
 import { Movie } from 'core/model'
 import { API_IMAGE_LINK } from 'settings'
 import './style.scss'
@@ -38,7 +38,7 @@ class Search extends React.Component<iProps, iState> {
     super(props)
     this.state = {
       movies: [],
-      inputValue: null
+      inputValue: ''
     }
   }
   getMovie (event: React.ChangeEvent<any>): void {
@@ -48,7 +48,7 @@ class Search extends React.Component<iProps, iState> {
       return
     }
 
-    this.props.dispatch(appplicationCall('search/multi',
+    this.props.dispatch(apiCall('search/multi',
       {
         args: `query=${event.target.value}`,
         callback: (response: Array<Movie>) => {
@@ -125,7 +125,7 @@ class Search extends React.Component<iProps, iState> {
                               <Svg className='Option-image' src={checked} />
                             </div>
                           }
-                          popperComponent={<Form />}
+                          popperComponent={<Form movieId={movie.id}/>}
                         />
                         <Popper
                           popperPlacement='right'

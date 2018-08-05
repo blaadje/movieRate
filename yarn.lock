@@ -240,9 +240,15 @@
   dependencies:
     csstype "^2.2.0"
 
-"@types/react@^16.0.40", "@types/react@^16.3.12":
+"@types/react@^16.0.40":
   version "16.3.12"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.3.12.tgz#68d9146f3e9797e38ffbf22f7ed1dde91a2cfd2e"
+  dependencies:
+    csstype "^2.2.0"
+
+"@types/react@^16.4.7":
+  version "16.4.7"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.7.tgz#f33f6d759a7e1833befa15224d68942d178a5a3f"
   dependencies:
     csstype "^2.2.0"
 
@@ -8614,9 +8620,9 @@ rcedit@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/rcedit/-/rcedit-1.0.0.tgz#43309ecbc8814f3582fca6b751748cfad66a16a2"
 
-react-dom@^16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.2.0.tgz#69003178601c0ca19b709b33a83369fe6124c044"
+react-dom@^16.4.2:
+  version "16.4.2"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.4.2.tgz#4afed569689f2c561d2b8da0b819669c38a0bda4"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -8718,9 +8724,9 @@ react-test-renderer@^16.3.1:
     prop-types "^15.6.0"
     react-is "^16.3.1"
 
-react@^16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
+react@^16.4.2:
+  version "16.4.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.4.2.tgz#2cd90154e3a9d9dd8da2991149fdca3c260e129f"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"

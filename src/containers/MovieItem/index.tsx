@@ -73,7 +73,7 @@ export default class MovieItem extends React.Component<iProps, iState> {
                     <Svg className='Option-image' src={checked} />
                   </div>
                 }
-                popperComponent={ <Form /> }
+                popperComponent={ <Form movieId={movie.id} /> }
               />
               <Popper
                 popperPlacement='right'
