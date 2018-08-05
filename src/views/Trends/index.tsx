@@ -11,17 +11,16 @@ import Popper from 'components/Popper'
 
 import * as vector from 'images/Vector.svg'
 import './index.scss'
-import { Movie } from 'core/model'
-import { apiCall } from 'core/sagas/apiCallSaga/actions'
+import { apiFetch } from 'core/sagas/apiCallSaga/actions'
 import Loader from 'components/Loader'
 
 interface iProps {
   dispatch: (Object: any) => void,
+  movies: any
 }
 
 interface iState {
   isLoading: boolean,
-  movies: Array<Movie>,
   category: string
 }
 
@@ -30,7 +29,6 @@ class Trends extends React.Component<iProps, iState> {
     super(props)
     this.state = {
       isLoading: true,
-      movies: [],
       category: 'discover/movie'
     }
   }
@@ -39,17 +37,25 @@ class Trends extends React.Component<iProps, iState> {
     this.fetch(this.state.category)
   }
 
+  componentWillReceiveProps (props: iProps): any {
+    return props
+  }
+
   fetch (category: string): void {
-    this.props.dispatch(apiCall(category, {
-      callback: (movies: Array<Movie>) => {
-        this.setState({ movies, isLoading: false })
+    this.setState({ category })
+    this.props.dispatch(apiFetch(category, {
+      callback: (error: Error) => {
+        if (error) {
+          return
+        }
+        this.setState({ isLoading: false })
       }
     }))
-    this.setState({ category })
   }
 
   render (): React.ReactNode {
-    const { isLoading, category, movies } = this.state
+    const { isLoading, category } = this.state
+    const movies = this.props.movies[category]
 
     return (
       <div className='Trends-wrapper'>
@@ -103,6 +109,12 @@ class Trends extends React.Component<iProps, iState> {
   }
 }
 
+const mapStateToProps = (state: any) => {
+  return {
+    movies: state.movies
+  }
+}
+
 export default flow(
-  connect()
+  connect(mapStateToProps)
 )(Trends)

@@ -7,7 +7,7 @@ import Image from 'components/Image'
 import Rate from 'components/Rate'
 
 import { Movie, TV } from 'core/model'
-import { apiCall } from 'core/sagas/apiCallSaga/actions'
+import { apiFetch } from 'core/sagas/apiCallSaga/actions'
 
 import { API_IMAGE_LINK, API_POSTER_LINK } from 'settings'
 
@@ -30,7 +30,7 @@ class MovieInfos extends React.Component<iProps, iState> {
     }
   }
   componentWillMount () {
-    this.props.dispatch(apiCall(
+    this.props.dispatch(apiFetch(
       `movie/${this.props.movie.id}/credits`,
       {
         callback: ({cast}: any) => {

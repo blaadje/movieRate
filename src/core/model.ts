@@ -34,3 +34,9 @@ export type TV = {
 };
 
 export type IState = TV[];
+
+export type Rate = {
+  movieId: number,
+  rate: number,
+  description: string
+}

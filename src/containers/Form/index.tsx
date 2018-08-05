@@ -1,12 +1,18 @@
 import * as React from 'react'
 
+import { connect } from 'react-redux'
+
+import { flow } from 'lodash'
+
 import Rate from 'components/Rate'
 import Button from 'components/Button'
 import Textarea from 'components/Textarea'
 
 import './style.scss'
+import { resourceCreate } from 'core/sagas/resourcesSaga/actions'
 
 interface iProps {
+  dispatch: (Object: any) => void,
   movieId: number
 }
 
@@ -16,7 +22,7 @@ interface iState {
   description: string
 }
 
-export default class Form extends React.Component<iProps, iState> {
+class Form extends React.Component<iProps, iState> {
   constructor (props: iProps, state: iState) {
     super(props)
     this.state = {
@@ -28,6 +34,12 @@ export default class Form extends React.Component<iProps, iState> {
 
   submitForm (event: any) {
     event.preventDefault()
+    const rate = {
+      movieId: this.state.movieId,
+      rate: this.state.rate,
+      description: this.state.description
+    }
+    this.props.dispatch(resourceCreate(rate))
   }
 
   handleDescription (event: any) {
@@ -61,3 +73,7 @@ export default class Form extends React.Component<iProps, iState> {
     )
   }
 }
+
+export default flow(
+  connect()
+)(Form)
