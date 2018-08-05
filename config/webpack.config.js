@@ -9,6 +9,7 @@ module.exports = {
       images: path.resolve(__dirname, '../src/assets/images/'),
       components: path.resolve(__dirname, '../src/components'),
       containers: path.resolve(__dirname, '../src/containers'),
+      views: path.resolve(__dirname, '../src/views'),
       core: path.resolve(__dirname, '../src/core'),
       settings: path.resolve(__dirname, '../src/settings')
     }

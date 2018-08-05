@@ -12,6 +12,7 @@
       "images/*": ["src/assets/images/*"],
       "components/*": ["src/components/*"],
       "containers/*": ["src/containers/*"],
+      "views/*": ["src/views/*"],
       "core/*": ["src/core/*"],
       "settings": ["src/settings"],
     }

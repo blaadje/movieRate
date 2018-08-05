@@ -26,8 +26,8 @@ export default class Form extends React.Component<iProps, iState> {
     }
   }
 
-  submitForm () {
-
+  submitForm (event: any) {
+    event.preventDefault()
   }
 
   handleDescription (event: any) {
@@ -38,7 +38,7 @@ export default class Form extends React.Component<iProps, iState> {
     const { rate, description } = this.state
 
     return (
-      <form className='Form-wrapper' onSubmit={() => this.submitForm()}>
+      <form className='Form-wrapper' onSubmit={(event) => this.submitForm(event)}>
         <Rate
           wrapperClass='u-mgv--m'
           readonly={false}
@@ -54,6 +54,7 @@ export default class Form extends React.Component<iProps, iState> {
             onChange={(value) => this.handleDescription(value)}
             placeholder='Put what you think about the movie here...'
           />
+
           <Button type='submit'/>
         </div>
       </form>

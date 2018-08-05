@@ -4,9 +4,9 @@ import { Provider } from 'react-redux'
 
 import ErrorManager from 'containers/ErrorManager'
 import Sidebar from 'containers/Sidebar'
-import Trends from 'containers/Trends'
-import Seen from 'containers/Seen'
-import Playlist from 'containers/Playlist'
+import Trends from 'views/Trends'
+import Seen from 'views/Seen'
+import Playlist from 'views/Playlist'
 
 import store from 'core/store'
 
