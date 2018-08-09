@@ -66,6 +66,7 @@ module.exports = {
     publicPath,
     filename: 'index.js'
   },
+  devtool: 'cheap-module-eval-source-map',
   devServer: {
     port,
     publicPath,

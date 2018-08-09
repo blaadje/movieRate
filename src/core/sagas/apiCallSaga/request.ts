@@ -4,7 +4,8 @@ import { Movie } from 'core/model'
 import { API_BASE, API_KEY } from 'settings'
 
 export default function request (args: string, options: any): Promise<Movie> {
-  return axios.get(`${API_BASE}/${args}?api_key=${API_KEY}${ options.args ? `&${options.args}` : ''}`).then((response) => {
+  const { category } = options
+  return axios.get(`${API_BASE}/${category}${args ? `/${args}` : ''}?api_key=${API_KEY}${ options.args ? `&${options.args}` : ''}`).then((response) => {
     return response.data.results || response.data
   }).catch((error) => {
     throw error
