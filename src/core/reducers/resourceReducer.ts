@@ -15,7 +15,6 @@ export default function resourceReducer (state: any = [], action: any) {
       }
 
     case RESOURCE_SET:
-      console.log(action)
       return [
         ...state, 
         {

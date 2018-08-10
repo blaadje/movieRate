@@ -34,7 +34,7 @@ class Trends extends React.Component<iProps, iState> {
   }
 
   componentWillMount () {
-    this.fetchCategory('modvie', this.state.category)
+    this.fetchCategory('movie', this.state.category)
   }
 
   componentWillReceiveProps (props: iProps): any {

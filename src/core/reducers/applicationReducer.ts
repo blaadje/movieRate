@@ -3,12 +3,8 @@ import { API_FETCH_ERROR, API_FETCH_SUCCESS } from "core/sagas/apiCallSaga/const
 export default function applicationReducers (state: any = [], action: any) {
   switch (action.type) {
     case API_FETCH_SUCCESS:
-      return [
-        ...state,
-        {
-          movie: action.result
-        }
-      ]
+      const newState = state.concat(action.result.map((item: any) => item))
+      return newState
     case API_FETCH_ERROR:
       return {
         ...state, error: action.result
