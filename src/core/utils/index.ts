@@ -1,4 +1,6 @@
-export default function uuid (): string {
+import { isEqual } from "lodash"
+
+export function uuid (): string {
   let d = new Date().getTime()
 
   if (typeof window.performance !== 'undefined' && typeof window.performance.now === 'function') {
@@ -11,4 +13,18 @@ export default function uuid (): string {
 
     return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16)
   })
+}
+
+export const memoize = (fn: (...args: any[]) => any) => {
+  let cache: any[] = [];
+  return (...args: any[]) => {
+    for (let i = 0; i < cache.length; i++) {
+      if (isEqual(cache[i], args)) {
+        return
+      }
+    }
+    let result = fn(...args)
+    cache.push(args)
+    return result
+  }
 }

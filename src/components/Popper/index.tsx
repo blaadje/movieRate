@@ -10,7 +10,7 @@ import {
 
 import PopperContent from 'components/Popper/PopperContent'
 
-import uuid from 'core/uuid'
+import { uuid } from 'core/utils'
 
 import './style.scss'
 

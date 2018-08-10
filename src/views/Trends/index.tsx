@@ -6,7 +6,6 @@ import { flow } from 'lodash'
 import Svg from 'react-inlinesvg'
 
 // import MovieItem from 'containers/MovieItem'
-import { memoize } from 'lodash'
 import Search from 'containers/Search'
 import Popper from 'components/Popper'
 
@@ -14,6 +13,7 @@ import * as vector from 'images/Vector.svg'
 import './index.scss'
 import { apiFetch } from 'core/sagas/apiCallSaga/actions'
 import Loader from 'components/Loader'
+import { memoize } from 'core/utils'
 
 interface iProps {
   dispatch: (Object: any) => Promise<any>,
@@ -22,7 +22,7 @@ interface iProps {
 
 interface iState {
   isLoading: boolean,
-  category: string
+  type: string
 }
 
 class Trends extends React.Component<iProps, iState> {
@@ -30,25 +30,25 @@ class Trends extends React.Component<iProps, iState> {
     super(props)
     this.state = {
       isLoading: true,
-      category: 'discover'
+      type: 'movie'
     }
   }
   
-  private cachedFetchCategory = memoize((resourceType: string, category: string) => () => this.fetchCategory(resourceType, category))
-    
+  private memoizeFetchCategory = memoize((resourceType: any, category: any) => this.fetchCategory(resourceType, category))
+  
   componentWillMount () {
-    this.fetchCategory('movie', this.state.category)
+    this.memoizeFetchCategory(this.state.type, 'discover')
   }
 
-  fetchCategory (resourceType: string, category: string): void {
-    this.setState({ category })
+
+  fetchCategory (resourceType: string, category: string): any {
     this.props.dispatch(apiFetch(resourceType, {
       category
     }))
   }
 
   render (): React.ReactNode {
-    const { isLoading, category } = this.state
+    const { isLoading, type } = this.state
 
     return (
       <div className='Trends-wrapper'>
@@ -62,21 +62,29 @@ class Trends extends React.Component<iProps, iState> {
             wrapperClass='TrendsHeader-Category'
             targetComponent={
               <div>
-                <span>{category}</span>
+                <span>{type}</span>
                 <Svg className='u-mgl--s' src={vector} />
               </div>
             }
             popperComponent={
               <ul className='HeaderCategory-wrapper'>
                 <li
-                  className={`${category === 'discover' ? 'isSelected' : ''} HeaderCategory-item u-mgb--m`}
-                  onClick={this.cachedFetchCategory('movie', 'discover')}
+                  className={`${type === 'movie' ? 'isSelected' : ''} HeaderCategory-item u-mgb--m`}
+                  onClick={() => {
+                    const type = 'movie'
+                    this.setState({ type })
+                    this.memoizeFetchCategory(type, 'discover')}
+                  }
                 >
                   Popular movies
                 </li>
                 <li
-                  className={`${category === 'movie' ? 'isSelected' : ''} HeaderCategory-item`}
-                  onClick={this.cachedFetchCategory('tv', 'discover')}
+                  className={`${type === 'tv' ? 'isSelected' : ''} HeaderCategory-item`}
+                  onClick={() => {
+                    const type = 'tv'
+                    this.setState({ type })
+                    this.memoizeFetchCategory(type, 'discover')}
+                  }
                 >
                   Now playing
                 </li>
