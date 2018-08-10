@@ -1,11 +1,25 @@
 import axios from 'axios'
 
-import { Movie } from 'core/model'
-import { API_BASE, API_KEY } from 'settings'
+import { API_BASE_URL, API_KEY } from 'settings'
 
-export default function request (args: string, options: any): Promise<Movie> {
-  const { category } = options
-  return axios.get(`${API_BASE}/${category}${args ? `/${args}` : ''}?api_key=${API_KEY}${ options.args ? `&${options.args}` : ''}`).then((response) => {
+interface RequestOptions {
+  category: string,
+  query: object
+}
+
+export default function request (args: string, options: any): Promise<any>{
+  const { category, query }: RequestOptions = options
+  const url = API_BASE_URL
+    .clone()
+    .segment(category)
+    .segment(args)
+    .query({
+      ...{ api_key: API_KEY },
+      ...query 
+    })
+    .toString()
+
+  return axios.get(url).then((response) => {
     return response.data.results || response.data
   }).catch((error) => {
     throw error

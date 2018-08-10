@@ -6,6 +6,7 @@ import { flow } from 'lodash'
 import Svg from 'react-inlinesvg'
 
 // import MovieItem from 'containers/MovieItem'
+import { memoize } from 'lodash'
 import Search from 'containers/Search'
 import Popper from 'components/Popper'
 
@@ -25,20 +26,18 @@ interface iState {
 }
 
 class Trends extends React.Component<iProps, iState> {
-  constructor (props: iProps, state: iState) {
+  constructor(props: iProps, state: iState) {
     super(props)
     this.state = {
       isLoading: true,
       category: 'discover'
     }
   }
-
+  
+  private cachedFetchCategory = memoize((resourceType: string, category: string) => () => this.fetchCategory(resourceType, category))
+    
   componentWillMount () {
     this.fetchCategory('movie', this.state.category)
-  }
-
-  componentWillReceiveProps (props: iProps): any {
-    return props
   }
 
   fetchCategory (resourceType: string, category: string): void {
@@ -50,7 +49,6 @@ class Trends extends React.Component<iProps, iState> {
 
   render (): React.ReactNode {
     const { isLoading, category } = this.state
-    // const movies = this.props.movies[category]
 
     return (
       <div className='Trends-wrapper'>
@@ -72,13 +70,13 @@ class Trends extends React.Component<iProps, iState> {
               <ul className='HeaderCategory-wrapper'>
                 <li
                   className={`${category === 'discover' ? 'isSelected' : ''} HeaderCategory-item u-mgb--m`}
-                  onClick={() => this.fetchCategory('movie', 'discover')}
+                  onClick={this.cachedFetchCategory('movie', 'discover')}
                 >
                   Popular movies
                 </li>
                 <li
                   className={`${category === 'movie' ? 'isSelected' : ''} HeaderCategory-item`}
-                  onClick={() => this.fetchCategory('tv', 'discover')}
+                  onClick={this.cachedFetchCategory('tv', 'discover')}
                 >
                   Now playing
                 </li>
