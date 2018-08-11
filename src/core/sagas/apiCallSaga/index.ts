@@ -4,7 +4,6 @@ import { API_FETCH, API_FETCH_SUCCESS, API_FETCH_ERROR } from 'core/sagas/apiCal
 
 import { Action } from 'redux'
 import request from 'core/sagas/apiCallSaga/request'
-import { Movie, TV } from 'core/model';
 
 interface apiFetchProps {
   url: string,
@@ -19,7 +18,7 @@ export default function * applicationSaga (): Iterator<ForkEffect[]> {
 
     try {
       const result = yield call(request, url, options)
-      const mappedResult = result.map((movie: Movie | TV) => {
+      const mappedResult = result.map((movie: any) => {
         return {
           ...movie,
           category

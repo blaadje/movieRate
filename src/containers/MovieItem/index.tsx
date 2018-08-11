@@ -16,12 +16,10 @@ import MovieInfos from 'containers/MovieInfos'
 
 import { API_IMAGE_LINK } from 'settings'
 
-import { Movie, TV } from 'core/model'
-
 import './style.scss'
 
 interface iProps {
-  movie: TV & Movie
+  movie: any
 }
 
 interface iState {

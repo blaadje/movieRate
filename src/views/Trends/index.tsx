@@ -5,7 +5,6 @@ import { flow } from 'lodash'
 
 import Svg from 'react-inlinesvg'
 
-// import MovieItem from 'containers/MovieItem'
 import Search from 'containers/Search'
 import Popper from 'components/Popper'
 
@@ -14,6 +13,8 @@ import './index.scss'
 import { apiFetch } from 'core/sagas/apiCallSaga/actions'
 import Loader from 'components/Loader'
 import { memoize } from 'core/utils'
+import movieSelector from 'core/selectors'
+import MovieItem from 'containers/MovieItem'
 
 interface iProps {
   dispatch: (Object: any) => Promise<any>,
@@ -44,11 +45,12 @@ class Trends extends React.Component<iProps, iState> {
   fetchCategory (resourceType: string, category: string): any {
     this.props.dispatch(apiFetch(resourceType, {
       category
-    }))
+    })).then(() => this.setState({ isLoading: false }))
   }
 
   render (): React.ReactNode {
     const { isLoading, type } = this.state
+    const { movies } = this.props
 
     return (
       <div className='Trends-wrapper'>
@@ -95,6 +97,16 @@ class Trends extends React.Component<iProps, iState> {
         {isLoading &&
           <Loader />
         }
+        {!isLoading &&
+          <div className='Movie-wrapper'>
+            {movies.map((item: any, key: number) => {
+              return <MovieItem
+                key={key}
+                movie={item}
+              />
+            })}
+          </div>
+        }
       </div>
     )
   }
@@ -102,7 +114,7 @@ class Trends extends React.Component<iProps, iState> {
 
 const mapStateToProps = (state: any) => {
   return {
-    movies: state.movies
+    movies: movieSelector(state)
   }
 }
 

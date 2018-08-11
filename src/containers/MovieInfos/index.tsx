@@ -6,7 +6,6 @@ import { flow } from 'lodash'
 import Image from 'components/Image'
 import Rate from 'components/Rate'
 
-import { Movie, TV } from 'core/model'
 import { apiFetch } from 'core/sagas/apiCallSaga/actions'
 
 import { API_IMAGE_LINK, API_POSTER_LINK } from 'settings'
@@ -14,7 +13,7 @@ import { API_IMAGE_LINK, API_POSTER_LINK } from 'settings'
 import './style.scss'
 
 interface iProps {
-  movie: Movie & TV,
+  movie: any,
   dispatch: (Object: any) => void,
 }
 

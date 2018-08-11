@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
+import { createReducer } from 'redux-orm'
+import orm from 'core/orm' 
 
-import applicationReducer from 'core/reducers/applicationReducer'
-import resourceReducer from 'core/reducers/resourceReducer'
+const reducer = createReducer(orm)
 
-export default combineReducers({ movies: applicationReducer, resources: resourceReducer })
+export default combineReducers({ Application: reducer })

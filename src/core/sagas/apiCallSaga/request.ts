@@ -19,7 +19,6 @@ export default function request (args: string, options: any): Promise<any>{
     })
     .toString()
 
-  console.log(url)
   return axios.get(url).then((response) => {
     return response.data.results || response.data
   }).catch((error) => {

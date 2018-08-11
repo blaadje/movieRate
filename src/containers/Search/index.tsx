@@ -11,7 +11,6 @@ import * as infos from 'images/information.svg'
 import * as search from 'images/search.svg'
 
 import { apiFetch } from 'core/sagas/apiCallSaga/actions'
-import { Movie } from 'core/model'
 import { API_IMAGE_LINK } from 'settings'
 import './style.scss'
 import Rate from 'components/Rate'
@@ -29,7 +28,7 @@ interface iProps {
 }
 
 interface iState {
-  movies: Array<Movie>,
+  movies: Array<any>,
   inputValue: string
 }
 
@@ -51,7 +50,7 @@ class Search extends React.Component<iProps, iState> {
     this.props.dispatch(apiFetch('search/multi',
       {
         args: `query=${event.target.value}`,
-        callback: (response: Array<Movie>) => {
+        callback: (response: Array<any>) => {
           this.setState({ movies: response })
         }
       }
