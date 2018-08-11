@@ -5,7 +5,7 @@ export default class Movie extends Model<any> {
   static reducer (action: any, Movie: any): any {
     switch (action.type) {
       case API_FETCH_SUCCESS:
-        action.result.map((item: Movie) => Movie.create(item))
+        action.payload.map((item: Movie) => Movie.create(item))
         break
     }
 

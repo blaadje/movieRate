@@ -35,16 +35,16 @@ class Trends extends React.Component<iProps, iState> {
     }
   }
   
-  private memoizeFetchCategory = memoize((resourceType: any, category: any) => this.fetchCategory(resourceType, category))
+  private memoizeFetchCategory = memoize((resourceType: string) => this.fetchCategory(resourceType))
   
   componentWillMount () {
-    this.memoizeFetchCategory(this.state.type, 'discover')
+    this.memoizeFetchCategory(this.state.type)
   }
 
 
-  fetchCategory (resourceType: string, category: string): any {
-    this.props.dispatch(apiFetch(resourceType, {
-      category
+  fetchCategory (resourceType: string): void {
+    this.props.dispatch(apiFetch('discover', {
+      segment: resourceType
     })).then(() => this.setState({ isLoading: false }))
   }
 
@@ -75,7 +75,7 @@ class Trends extends React.Component<iProps, iState> {
                   onClick={() => {
                     const type = 'movie'
                     this.setState({ type })
-                    this.memoizeFetchCategory(type, 'discover')}
+                    this.memoizeFetchCategory(type)}
                   }
                 >
                   Popular movies
@@ -85,7 +85,7 @@ class Trends extends React.Component<iProps, iState> {
                   onClick={() => {
                     const type = 'tv'
                     this.setState({ type })
-                    this.memoizeFetchCategory(type, 'discover')}
+                    this.memoizeFetchCategory(type)}
                   }
                 >
                   Now playing

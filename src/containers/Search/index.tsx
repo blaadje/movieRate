@@ -20,10 +20,11 @@ import Popper from 'components/Popper'
 import Form from 'containers/Form'
 import List from 'containers/List'
 import Input from 'components/Input'
+import { memoize } from 'core/utils';
 
 interface iProps {
   className: string,
-  dispatch: (Object: any) => void,
+  dispatch: (Object: any) => Promise<any>,
   inputClassName?: string
 }
 
@@ -40,21 +41,24 @@ class Search extends React.Component<iProps, iState> {
       inputValue: ''
     }
   }
-  getMovie (event: React.ChangeEvent<any>): void {
-    this.setState({ inputValue: event.target.value })
-    if (!event.target.value) {
-      this.setState({ movies: [] })
+
+  private memoizeFetchMovie = memoize((value: string) => this.fetchMovie(value))
+
+  fetchMovie (value: string): void {
+    if (!value || value.length < 3) {
+    this.setState({ movies: [] })
       return
     }
 
-    this.props.dispatch(apiFetch('search/multi',
-      {
-        args: `query=${event.target.value}`,
-        callback: (response: Array<any>) => {
-          this.setState({ movies: response })
-        }
-      }
-    ))
+    this.props.dispatch(apiFetch('search', {
+      segment: 'movie',
+      query: { query: value }
+    }))
+  }
+
+  onChangeInput(event: React.ChangeEvent<any>) {
+    this.setState({ inputValue: event.target.value })
+    this.memoizeFetchMovie(event.target.value)
   }
 
   render () {
@@ -77,7 +81,7 @@ class Search extends React.Component<iProps, iState> {
             className={this.props.inputClassName}
             value={this.state.inputValue}
             placeholder='Search movie'
-            onChange={(event) => this.getMovie(event)}
+            onChange={(event) => this.onChangeInput(event)}
             onReset={() => this.setState({ inputValue: '', movies: [] })}
           />
         </div>

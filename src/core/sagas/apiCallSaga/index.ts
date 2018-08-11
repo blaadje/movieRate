@@ -14,19 +14,23 @@ interface apiFetchProps {
 
 export default function * applicationSaga (): Iterator<ForkEffect[]> {
   function* makeCall({ url, options, meta }: apiFetchProps): Iterator<CallEffect | PutEffect<Action>> {
-    const { category }: any = options
+    const { segment }: any = options
 
     try {
       const result = yield call(request, url, options)
-      const mappedResult = result.map((movie: any) => {
-        return {
-          ...movie,
-          category
-        }
-      })
+
+      if (segment === 'discover') {
+        result.map((movie: any) => {
+          return {
+            ...movie,
+            category: segment
+          }
+        })
+      }
+
       yield put({
         type: API_FETCH_SUCCESS,
-        result: mappedResult,
+        payload: result,
         meta
       })
     }
