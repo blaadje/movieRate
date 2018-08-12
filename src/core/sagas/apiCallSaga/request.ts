@@ -7,7 +7,7 @@ interface RequestOptions {
   query: object
 }
 
-export default function request (args: string, options: RequestOptions): Promise<any>{
+export default function request (args: string, options: RequestOptions): Promise<any> {
   const { segment, query }: RequestOptions = options
   const url = API_BASE_URL
     .clone()
@@ -15,11 +15,9 @@ export default function request (args: string, options: RequestOptions): Promise
     .segment(segment)
     .query({
       ...{ api_key: API_KEY },
-      ...query 
+      ...query
     })
     .toString()
-
-  console.log(url)
 
   return axios.get(url).then((response) => {
     return response.data.results || response.data

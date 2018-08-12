@@ -4,8 +4,8 @@ import * as PopperJS from 'popper.js'
 
 import {
   Manager,
-  Reference,
-  Popper
+  Popper,
+  Reference
 } from 'react-popper'
 
 import PopperContent from 'components/Popper/PopperContent'

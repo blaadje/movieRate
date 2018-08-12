@@ -1,6 +1,6 @@
-import { put, call, takeLatest, CallEffect, ForkEffect, PutEffect } from 'redux-saga/effects'
+import { CallEffect, ForkEffect, PutEffect, call, put, takeLatest } from 'redux-saga/effects'
 
-import { API_FETCH, API_FETCH_SUCCESS, API_FETCH_ERROR } from 'core/sagas/apiCallSaga/constants'
+import { API_FETCH, API_FETCH_ERROR, API_FETCH_SUCCESS } from 'core/sagas/apiCallSaga/constants'
 
 import { Action } from 'redux'
 import request from 'core/sagas/apiCallSaga/request'
@@ -13,29 +13,26 @@ interface apiFetchProps {
 }
 
 export default function * applicationSaga (): Iterator<ForkEffect[]> {
-  function* makeCall({ url, options, meta }: apiFetchProps): Iterator<CallEffect | PutEffect<Action>> {
+  function * makeCall ({ url, options, meta }: apiFetchProps): Iterator<CallEffect | PutEffect<Action>> {
     const { segment }: any = options
 
     try {
       const result = yield call(request, url, options)
 
-      if (segment === 'discover') {
-        result.map((movie: any) => {
-          return {
-            ...movie,
-            category: segment
-          }
-        })
-      }
+      const payload = result.map((movie: any) => {
+        return {
+          ...movie,
+          category: url,
+          type: segment
+        }
+      })
 
       yield put({
         type: API_FETCH_SUCCESS,
-        payload: result,
+        payload,
         meta
       })
-    }
-
-    catch (error) {
+    } catch (error) {
       yield put({
         type: API_FETCH_ERROR,
         url,

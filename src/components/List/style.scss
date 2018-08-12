@@ -1,0 +1,16 @@
+.List-content {
+  display: flex;
+  height: 100%;
+  &.isRow {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  &.isColumn {
+    flex-direction: column;
+  }
+}
+
+.List-item:not(:last-child) {
+  margin-bottom: 1.5em;
+}

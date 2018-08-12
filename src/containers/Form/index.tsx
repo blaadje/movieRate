@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { flow } from 'lodash'
 
 import Rate from 'components/Rate'
-import Button from 'components/Button'
+import ButtonValidate from 'components/ButtonValidate'
 import Textarea from 'components/Textarea'
 
 import './style.scss'
@@ -67,7 +67,7 @@ class Form extends React.Component<iProps, iState> {
             placeholder='Put what you think about the movie here...'
           />
 
-          <Button type='submit'/>
+          <ButtonValidate type='submit'/>
         </div>
       </form>
     )

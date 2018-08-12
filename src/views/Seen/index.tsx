@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { flow } from 'lodash'
 
-import List from 'containers/List'
+import List from 'components/List'
 
 // import './index.scss'
 

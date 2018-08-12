@@ -9,7 +9,7 @@ export default class Movie extends Model<any> {
         break
     }
 
-    return undefined;
+    return undefined
   }
 }
 
@@ -27,6 +27,8 @@ Movie.fields = {
   release_date: attr(),
   title: attr(),
   vide: attr(),
+  category: attr(),
+  type: attr(),
   vote_average: attr(),
   vote_count: attr()
 }

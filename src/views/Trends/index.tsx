@@ -13,8 +13,8 @@ import './index.scss'
 import { apiFetch } from 'core/sagas/apiCallSaga/actions'
 import Loader from 'components/Loader'
 import { memoize } from 'core/utils'
-import movieSelector from 'core/selectors'
-import MovieItem from 'containers/MovieItem'
+import { moviesSelector } from 'core/selectors'
+import List from 'components/List';
 
 interface iProps {
   dispatch: (Object: any) => Promise<any>,
@@ -94,19 +94,10 @@ class Trends extends React.Component<iProps, iState> {
             }
           />
         </header>
-        {isLoading &&
-          <Loader />
-        }
-        {!isLoading &&
-          <div className='Movie-wrapper'>
-            {movies.map((item: any, key: number) => {
-              return <MovieItem
-                key={key}
-                movie={item}
-              />
-            })}
-          </div>
-        }
+        <List
+          wrapperClass='Movie-wrapper'
+          collection={movies}
+        />
       </div>
     )
   }
@@ -114,7 +105,7 @@ class Trends extends React.Component<iProps, iState> {
 
 const mapStateToProps = (state: any) => {
   return {
-    movies: movieSelector(state)
+    movies: moviesSelector(state)
   }
 }
 

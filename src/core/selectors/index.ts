@@ -3,12 +3,20 @@ import orm from 'core/orm'
 
 const dbStateSelector = (state: any) => state.Application
 
-const movieSelector = createSelector(
+export const moviesSelector = createSelector(
   orm,
   dbStateSelector,
-  session => {
+  (session) => {
     return session.Movie.all().toModelArray()
   }
 )
 
-export default movieSelector
+
+export const searchMovieSelector = (state: any, searchName: any) => {
+  const session = orm.session(dbStateSelector(state))
+
+  return session.Movie.all().toModelArray().filter((movie: any) => {
+    return movie.title.includes(searchName.toLowerCase())
+  })   
+  
+}

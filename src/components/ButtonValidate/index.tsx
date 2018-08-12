@@ -8,7 +8,7 @@ import './style.scss'
 
 const Button: React.SFC<React.AllHTMLAttributes<any>> = (props: React.AllHTMLAttributes<any>) => {
   return (
-    <div className='Button-wrapper'>
+    <div className='ButtonValidate-wrapper'>
       <input
         className='Button'
         value=''

@@ -1,10 +1,10 @@
 import {
-  RESOURCE_ERROR,
-  RESOURCE_CREATE,
-  RESOURCE_EDIT,
-  RESOURCE_DELETE,
-  RESOURCE_FETCH,
   RESOURCES_FETCH,
+  RESOURCE_CREATE,
+  RESOURCE_DELETE,
+  RESOURCE_EDIT,
+  RESOURCE_ERROR,
+  RESOURCE_FETCH,
   RESOURCE_SET
 } from 'core/sagas/resourcesSaga/constants'
 
@@ -35,4 +35,3 @@ export const resourceDelete = (result: Object): any => {
 export const resourceError = (result: Object): any => {
   return { type: RESOURCE_ERROR, result }
 }
-

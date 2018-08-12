@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { BrowserWindow, app } from 'electron'
 import { enableLiveReload } from 'electron-compile'
 
 if (process.env.NODE_ENV === 'development') enableLiveReload({ strategy: 'react-hmr' })

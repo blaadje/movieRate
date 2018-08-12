@@ -1,4 +1,4 @@
-import { isEqual } from "lodash"
+import { isEqual } from 'lodash'
 
 export function uuid (): string {
   let d = new Date().getTime()
@@ -16,7 +16,7 @@ export function uuid (): string {
 }
 
 export const memoize = (fn: (...args: any[]) => any) => {
-  let cache: any[] = [];
+  let cache: any[] = []
   return (...args: any[]) => {
     for (let i = 0; i < cache.length; i++) {
       if (isEqual(cache[i], args)) {
