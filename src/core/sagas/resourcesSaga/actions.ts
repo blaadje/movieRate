@@ -5,8 +5,13 @@ import {
   RESOURCE_EDIT,
   RESOURCE_ERROR,
   RESOURCE_FETCH,
-  RESOURCE_SET
+  RESOURCE_SET,
+  RESOURCE_VISIBILITY_FILTER
 } from 'core/sagas/resourcesSaga/constants'
+
+export const resourceFilter = (result: Object): any => {
+  return { type: RESOURCE_VISIBILITY_FILTER, result }
+}
 
 export const resourceFetch = (result: Object): any => {
   return { type: RESOURCE_FETCH, result }

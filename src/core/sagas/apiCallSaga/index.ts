@@ -1,6 +1,6 @@
-import { CallEffect, ForkEffect, PutEffect, call, put, takeLatest } from 'redux-saga/effects'
+import { CallEffect, ForkEffect, PutEffect, call, put, takeLatest, all } from 'redux-saga/effects'
 
-import { API_FETCH, API_FETCH_ERROR, API_FETCH_SUCCESS } from 'core/sagas/apiCallSaga/constants'
+import { API_IS_FETCHING, API_FETCH_ERROR, API_FETCH_SUCCESS } from 'core/sagas/apiCallSaga/constants'
 
 import { Action } from 'redux'
 import request from 'core/sagas/apiCallSaga/request'
@@ -8,11 +8,10 @@ import request from 'core/sagas/apiCallSaga/request'
 interface apiFetchProps {
   url: string,
   options: object,
-  body: object,
   meta: object
 }
 
-export default function * applicationSaga (): Iterator<ForkEffect[]> {
+export default function * applicationSaga (): Iterator<any> {
   function * makeCall ({ url, options, meta }: apiFetchProps): Iterator<CallEffect | PutEffect<Action>> {
     const { segment }: any = options
 
@@ -43,7 +42,7 @@ export default function * applicationSaga (): Iterator<ForkEffect[]> {
     }
   }
 
-  yield [
-    takeLatest(API_FETCH, makeCall)
-  ]
+  yield all([
+    takeLatest(API_IS_FETCHING, makeCall)
+  ])
 }

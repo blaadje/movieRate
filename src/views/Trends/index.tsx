@@ -15,6 +15,7 @@ import Loader from 'components/Loader'
 import { memoize } from 'core/utils'
 import { moviesSelector } from 'core/selectors'
 import List from 'components/List';
+import { resourceFilter } from 'core/sagas/resourcesSaga/actions';
 
 interface iProps {
   dispatch: (Object: any) => Promise<any>,
@@ -48,8 +49,13 @@ class Trends extends React.Component<iProps, iState> {
     })).then(() => this.setState({ isLoading: false }))
   }
 
+  onClickHandler (type: string): void {
+    this.props.dispatch(resourceFilter(type))
+    this.setState({ type })
+    this.memoizeFetchCategory(type)
+  }
+
   render (): React.ReactNode {
-    const { isLoading, type } = this.state
     const { movies } = this.props
 
     return (
@@ -64,29 +70,21 @@ class Trends extends React.Component<iProps, iState> {
             wrapperClass='TrendsHeader-Category'
             targetComponent={
               <div>
-                <span>{type}</span>
+                {/* <span>{type}</span> */}
                 <Svg className='u-mgl--s' src={vector} />
               </div>
             }
             popperComponent={
               <ul className='HeaderCategory-wrapper'>
                 <li
-                  className={`${type === 'movie' ? 'isSelected' : ''} HeaderCategory-item u-mgb--m`}
-                  onClick={() => {
-                    const type = 'movie'
-                    this.setState({ type })
-                    this.memoizeFetchCategory(type)}
-                  }
+                  // className={`${type === 'movie' ? 'isSelected' : ''} HeaderCategory-item u-mgb--m`}
+                  onClick={() => this.onClickHandler('movie')}
                 >
                   Popular movies
                 </li>
                 <li
-                  className={`${type === 'tv' ? 'isSelected' : ''} HeaderCategory-item`}
-                  onClick={() => {
-                    const type = 'tv'
-                    this.setState({ type })
-                    this.memoizeFetchCategory(type)}
-                  }
+                  // className={`${type === 'tv' ? 'isSelected' : ''} HeaderCategory-item`}
+                  onClick={() => this.onClickHandler('tv')}
                 >
                   Now playing
                 </li>

@@ -15,9 +15,33 @@ function createWindow () {
     transparent: true,
     titleBarStyle: 'hidden-inset'
   })
+
+  const loading = new BrowserWindow({
+    width: 330,
+    height: 400,
+    show: false,
+    transparent: true,
+    frame: false,
+    modal: true,
+    parent: win
+  })
+
+  loading.setIgnoreMouseEvents(true)
+
+  loading.once('show', () => {
+    win.webContents.once('dom-ready', () => {
+      win.show()
+      loading.hide()
+      loading.close()
+    })
+    win.loadURL(`file:///${__dirname}/index.html`)
+    win.setMenu(null)
+  })
+
+  loading.loadURL(`file:///${__dirname}/loader.html`)
+  loading.show()
+
   if (process.env.NODE_ENV === 'development') win.openDevTools({ detach: true })
-  win.setMenu(null)
-  win.loadURL(`file:///${__dirname}/index.html`)
 
   win.on('closed', () => {
     win = null

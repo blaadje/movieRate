@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      background: #1E2E3D;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+
+    .Loader-wrapper {
+      position: absolute;
+      top: 50%; 
+      left: 50%; 
+      transform: translateY(-50%) translateX(-50%);
+      text-align: center;
+    }
+
+    .Loader-text {
+      font-family: 'Catamaran', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      color: white;
+      font-size: 18px;
+      text-align: center;
+      margin-top: 2em;
+    }
+
+    .Loader { 
+      text-align: center;
+      display: inline-block;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid transparent; 
+      border-radius: 50%; 
+      width: 90px; 
+      height: 90px; 
+      animation: spin 2s linear infinite; 
+    }
+    
+    @keyframes spin { 
+      0% { 
+        transform: rotate(0deg); 
+      } 
+      100% { 
+        transform: rotate(360deg); 
+      }
+    }
+  </style>
+  <div class='Loader-wrapper' >
+    <div class='Loader'></div>
+    <p class='Loader-text'>It's loading don't hang up !!</p>
+  </div>
+</body>
+</html>
