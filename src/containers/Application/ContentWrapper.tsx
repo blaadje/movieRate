@@ -1,10 +1,10 @@
 import * as React from 'react'
 
-interface iProps {
+interface Iprops {
   children?: React.ReactNode
 }
 
-export const ContentWrapper: React.SFC<iProps> = (props: iProps) => {
+export const ContentWrapper: React.SFC<Iprops> = (props: Iprops) => {
   return (
     <div className='ContentGradientWrapper'>
       <div className='ContentWrapper'>

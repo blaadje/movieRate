@@ -12,17 +12,17 @@ import { API_IMAGE_LINK, API_POSTER_LINK } from 'settings'
 
 import './style.scss'
 
-interface iProps {
-  movie: any,
-  dispatch: (Object: any) => void,
+interface Iprops {
+  movie: any
+  dispatch: (Object: any) => void
 }
 
-interface iState {
-  cast: Array<any>
+interface Istate {
+  cast: any[]
 }
 
-class MovieInfos extends React.Component<iProps, iState> {
-  constructor (props: iProps, state: iState) {
+class MovieInfos extends React.Component<Iprops, Istate> {
+  constructor (props: Iprops, state: Istate) {
     super(props)
     this.state = {
       cast: []
@@ -32,7 +32,7 @@ class MovieInfos extends React.Component<iProps, iState> {
     this.props.dispatch(apiFetch(
       `movie/${this.props.movie.id}/credits`,
       {
-        callback: ({cast}: any) => {
+        callback: ({ cast }: any) => {
           this.setState({ cast })
         }
       }
@@ -46,7 +46,7 @@ class MovieInfos extends React.Component<iProps, iState> {
       <div className='MovieInfos-wrapper'>
         <Image
           loader={false}
-          filter
+          filter={true}
           className='MovieInfos-header'
           src={API_POSTER_LINK + movie.backdrop_path}
         >
@@ -79,7 +79,7 @@ class MovieInfos extends React.Component<iProps, iState> {
               return (
                 <li className='MovieInfosContent-actor' key={index}>
                   <Image
-                    filter
+                    filter={true}
                     className='Actor-image'
                     src={API_IMAGE_LINK + actor.profile_path}
                   />
@@ -97,4 +97,4 @@ class MovieInfos extends React.Component<iProps, iState> {
   }
 }
 
-export default flow(connect())(MovieInfos)
+export default flow(connect() as any)(MovieInfos)

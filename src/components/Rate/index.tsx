@@ -8,14 +8,14 @@ import * as starUnchecked from 'images/starUnchecked.svg'
 
 import './style.scss'
 
-interface iProps {
-  wrapperClass?: string,
-  rate: number,
-  readonly?: boolean,
+interface Iprops {
+  wrapperClass?: string
+  rate: number
+  readonly?: boolean
   onChange?: (rate: number) => void
 }
 
-const Rate: React.SFC<iProps> = (props: iProps) => {
+const Rate: React.SFC<Iprops> = (props: Iprops) => {
   const rate = Math.round(props.rate / 2)
 
   return (
@@ -25,7 +25,7 @@ const Rate: React.SFC<iProps> = (props: iProps) => {
         emptySymbol={<Svg className='Rate-icon' src={starUnchecked} />}
         fullSymbol={<Svg className='Rate-icon' src={star} />}
         initialRating={rate}
-        onChange={rate => props.onChange}
+        onChange={(rate) => props.onChange}
       />
     </div>
   )

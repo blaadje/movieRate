@@ -2,26 +2,26 @@ import * as React from 'react'
 
 import '../style/row.scss'
 
-import Popper from 'components/Popper';
-import Form from 'containers/Form';
-import { API_IMAGE_LINK } from 'settings'
+import ButtonOption from 'components/ButtonOption'
 import Image from 'components/Image'
-import MovieInfos from 'containers/MovieInfos';
-import Rate from 'components/Rate';
-import Panel from 'components/Panel';
-import ButtonOption from 'components/ButtonOption';
+import Panel from 'components/Panel'
+import Popper from 'components/Popper'
+import Rate from 'components/Rate'
+import Form from 'containers/Form'
+import MovieInfos from 'containers/MovieInfos'
+import { API_IMAGE_LINK } from 'settings'
 
-interface iProps {
-  movie: any,
-  onHovered: (value: boolean) => void,
+interface Iprops {
+  movie: any
+  onHovered: (value: boolean) => void
   isHovered: boolean
 }
 
-const RowItem: React.SFC<any> = (props: iProps) => {
+const RowItem: React.SFC<any> = (props: Iprops) => {
   const { movie, onHovered, isHovered } = props
   return (
     <Image
-      filter
+      filter={true}
       className='Item-wrapper isRow'
       src={API_IMAGE_LINK + movie.poster_path}
       onMouseEnter={() => onHovered(true)}
@@ -57,8 +57,7 @@ const RowItem: React.SFC<any> = (props: iProps) => {
                 <ButtonOption type='playlist' />
               }
               panelComponent={
-                <MovieInfos movie={movie} />
-              }
+                <MovieInfos movie={movie} />}
             />
           </div>
         </div>

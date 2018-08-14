@@ -14,26 +14,26 @@ import { uuid } from 'core/utils'
 
 import './style.scss'
 
-interface iProps {
-  style?: any,
-  hidePopper?: boolean,
-  popperComponent: React.ReactNode,
-  targetComponent: React.ReactNode,
-  popperModifiers?: Object,
-  onClickOutside?: () => void,
-  onOpen?: () => void,
-  popperPlacement?: PopperJS.Placement,
-  wrapperClass?: string,
+interface Iprops {
+  style?: any
+  hidePopper?: boolean
+  popperComponent: React.ReactNode
+  targetComponent: React.ReactNode
+  popperModifiers?: Object
+  onClickOutside?: () => void
+  onOpen?: () => void
+  popperPlacement?: PopperJS.Placement
+  wrapperClass?: string
   className?: string
 }
 
-interface iState {
-  hideBasePopper: boolean,
+interface Istate {
+  hideBasePopper: boolean
   popperLinkId: string
 }
 
-export default class BasePopper extends React.Component<iProps, iState> {
-  constructor (props: iProps) {
+export default class BasePopper extends React.Component<Iprops, Istate> {
+  constructor (props: Iprops) {
     super(props)
     this.state = {
       hideBasePopper: true,
@@ -64,9 +64,9 @@ export default class BasePopper extends React.Component<iProps, iState> {
   }
 
   setListeners (manager: any) {
-    for (let prop in manager) {
+    for (const prop in manager) {
       if (prop.startsWith('on') && ['onmousemove', 'onmouseover', 'ontouchmove', 'onmouseenter', 'onmouseout', 'onmouseleave', 'onpointerenter', 'onpointerout', 'onpointerleave', 'onpointermove', 'onpointerover', 'onwheel'].indexOf(prop) === -1) {
-        manager.addEventListener(prop.substring(2), (event:any) => {
+        manager.addEventListener(prop.substring(2), (event: any) => {
           try {
             if ((event.target && typeof event.target.hasAttribute === 'function') &&
               (
@@ -113,7 +113,7 @@ export default class BasePopper extends React.Component<iProps, iState> {
             </div>
           )}
         </Reference>
-        <div ref={container => this.setListeners(container)}>
+        <div ref={(container) => this.setListeners(container)}>
           {!shouldBeHidden &&
             <Popper placement={popperPlacement}>
               {({ ref, style, placement, arrowProps }) => (

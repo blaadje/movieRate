@@ -1,12 +1,10 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
-import { flow } from 'lodash'
 
 import List from 'components/List'
 
 // import './index.scss'
 
-class Seen extends React.Component<{}, {}> {
+export default class Seen extends React.Component<{}, {}> {
   render () {
     const collection = [
       {
@@ -23,7 +21,3 @@ class Seen extends React.Component<{}, {}> {
     )
   }
 }
-
-export default flow(
-  connect()
-)(Seen)

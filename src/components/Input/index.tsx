@@ -6,12 +6,12 @@ import * as close from 'images/close.svg'
 
 import './style.scss'
 
-interface iProps extends React.HTMLAttributes<any>{
-  value: any,
+interface Iprops extends React.HTMLAttributes<any> {
+  value: any
   onReset: () => void
 }
 
-const Input: React.SFC<iProps> = (props: iProps) => {
+const Input: React.SFC<Iprops> = (props: Iprops) => {
   return (
     <div className='Input-wrapper'>
       <input

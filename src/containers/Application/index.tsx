@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { Route, Switch } from 'react-router-dom'
 
 import ErrorManager from 'containers/ErrorManager'
 import Sidebar from 'containers/Sidebar'
-import Trends from 'views/Trends'
-import Seen from 'views/Seen'
 import Playlist from 'views/Playlist'
+import Seen from 'views/Seen'
+import Trends from 'views/Trends'
 
 import store from 'core/store'
 
@@ -22,8 +22,8 @@ const App: React.SFC = () => {
         <ContentWrapper>
           <Switch>
             <Route path='/' exact={!window.location.pathname.includes('index.html')} component={Trends} />
-            <Route path='/seen' component={Seen} />
-            <Route path='/playlist' component={Playlist} />
+            <Route path='/seen' component={Seen as any} />
+            <Route path='/playlist' component={Playlist as any} />
           </Switch>
         </ContentWrapper>
       </div>

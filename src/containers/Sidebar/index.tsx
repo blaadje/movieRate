@@ -3,10 +3,10 @@ import { NavLink } from 'react-router-dom'
 
 import Svg from 'react-inlinesvg'
 
-import * as stars from 'images/Stars.svg'
 import * as clock from 'images/clock.svg'
 import * as playlist from 'images/playlist.svg'
 import * as seen from 'images/seen.svg'
+import * as stars from 'images/Stars.svg'
 
 import './index.scss'
 

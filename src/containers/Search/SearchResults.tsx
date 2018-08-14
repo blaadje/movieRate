@@ -1,40 +1,40 @@
-import { connect } from 'react-redux'
-import { flow } from 'lodash'
 import { searchMovieSelector } from 'core/selectors'
+import { flow } from 'lodash'
+import { connect } from 'react-redux'
 
-import * as React from 'react'
-import * as checked from 'images/checked.svg'
 import * as add from 'images/add.svg'
+import * as checked from 'images/checked.svg'
 import * as infos from 'images/information.svg'
+import * as React from 'react'
 
-import Svg from 'react-inlinesvg'
-import Rate from 'components/Rate'
-import MovieInfos from 'containers/MovieInfos'
+import Image from 'components/Image'
 import Panel from 'components/Panel'
 import Popper from 'components/Popper'
+import Rate from 'components/Rate'
 import Form from 'containers/Form'
-import Image from 'components/Image'
+import MovieInfos from 'containers/MovieInfos'
+import Svg from 'react-inlinesvg'
 
 import './style.scss'
 
 import { API_IMAGE_LINK } from 'settings'
 
-interface iProps {
-  inputValue: string,
+interface Iprops {
+  inputValue: string
   movies: any[]
 }
 
-interface iState {
+interface Istate {
 }
 
-class SearchResult extends React.Component<iProps, iState> {
-  constructor(props: iProps, state: iState) {
+class SearchResult extends React.Component<Iprops, Istate> {
+  constructor (props: Iprops, state: Istate) {
     super(props)
     this.state = {
-      
+
     }
   }
-  render() {
+  render () {
     const { movies } = this.props
 
     return (
@@ -68,8 +68,7 @@ class SearchResult extends React.Component<iProps, iState> {
                           </div>
                         }
                         panelComponent={
-                          <MovieInfos movie={movie} />
-                        }
+                          <MovieInfos movie={movie} />}
                       />
                       <Popper
                         popperPlacement='right'
@@ -94,7 +93,7 @@ class SearchResult extends React.Component<iProps, iState> {
                 </li>
               )
             })
-          }
+            }
           </ul>
         }
       </div>
@@ -102,13 +101,12 @@ class SearchResult extends React.Component<iProps, iState> {
   }
 }
 
-const mapStateToProps = (state: any, { inputValue }: iProps) => {
+const mapStateToProps = (state: any, { inputValue }: Iprops) => {
   return {
     movies: searchMovieSelector(state, inputValue)
   }
 }
 
 export default flow(
-  connect(mapStateToProps)
+  connect(mapStateToProps) as any
 )(SearchResult)
-

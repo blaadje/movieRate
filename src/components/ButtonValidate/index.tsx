@@ -12,7 +12,8 @@ const Button: React.SFC<React.AllHTMLAttributes<any>> = (props: React.AllHTMLAtt
       <input
         className='Button'
         value=''
-        {...props} />
+        {...props}
+      />
       <Svg className='Button-image' src={checked}/>
     </div>
   )

@@ -1,9 +1,9 @@
-import { createStore, applyMiddleware, compose } from 'redux'
-import createSagaMiddleware from 'redux-saga'
-import sagas from 'core/sagas'
 import reducer from 'core/reducers'
-import { middleware as thunkMiddleware } from 'redux-saga-thunk'
+import sagas from 'core/sagas'
+import { applyMiddleware, compose, createStore } from 'redux'
 import logger from 'redux-logger'
+import createSagaMiddleware from 'redux-saga'
+import { middleware as thunkMiddleware } from 'redux-saga-thunk'
 
 const sagaMiddleware = createSagaMiddleware()
 

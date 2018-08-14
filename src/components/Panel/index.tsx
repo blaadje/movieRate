@@ -4,18 +4,18 @@ import PanelContainer from 'components/Panel/container'
 
 import './style.scss'
 
-interface iProps {
-  targetComponent: React.ReactNode,
-  panelComponent: React.ReactNode,
+interface Iprops {
+  targetComponent: React.ReactNode
+  panelComponent: React.ReactNode
   onClickOutside?: () => void
 }
 
-interface iState {
+interface Istate {
   isOpen: boolean
 }
 
-export default class Panel extends React.Component<iProps, iState> {
-  constructor (props: iProps, state: iState) {
+export default class Panel extends React.Component<Iprops, Istate> {
+  constructor (props: Iprops, state: Istate) {
     super(props)
     this.state = {
       isOpen: false

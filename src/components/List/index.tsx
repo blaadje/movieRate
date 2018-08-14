@@ -1,23 +1,22 @@
 import * as React from 'react'
 
-
-import './style.scss'
-import MovieItem from 'containers/MovieItem'
 import Loader from 'components/Loader'
+import MovieItem from 'containers/MovieItem'
+import './style.scss'
 
-interface collectionDatas {
+interface CollectionDatas {
   [title: string]: string
 }
 
-interface iProps {
-  collection: collectionDatas[],
-  direction?: string,
+interface Iprops {
+  collection: CollectionDatas[]
+  direction?: string
   wrapperClass?: string
 }
 
-const setDirection = (direction: iProps['direction']) => direction === 'row' ? 'isRow' : 'isColumn'
+const setDirection = (direction: Iprops['direction']) => direction === 'row' ? 'isRow' : 'isColumn'
 
-const List: React.SFC<iProps> = (props: iProps) => {
+const List: React.SFC<Iprops> = (props: Iprops) => {
   const { collection, wrapperClass, direction } = props
 
   return (
@@ -42,7 +41,6 @@ const List: React.SFC<iProps> = (props: iProps) => {
     </div>
   )
 }
-
 
 List.defaultProps = {
   direction: 'row'

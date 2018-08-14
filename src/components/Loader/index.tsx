@@ -5,7 +5,7 @@ import './style.scss'
 const Loader: React.SFC = () => {
   return (
     <div className='Loader-wrapper'>
-      <div className='Loader'></div>
+      <div className='Loader' />
     </div>
   )
 }

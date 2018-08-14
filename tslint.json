@@ -1,0 +1,31 @@
+{
+  "extends": [
+    "tslint-eslint-rules",
+    "tslint-react",
+    "tslint-config-standard"
+  ],
+  "linterOptions": {
+    "exclude": ["build", "node_modules"]
+  },
+  "rulesDirectory": ["./src/"],
+  "rules": {
+    "jsx-no-lambda": false,
+    "jsx-no-multiline-js": false,
+    "quotemark": [true, "single", "jsx-single"],
+    "semicolon": [true, "never"],
+    "no-console": {
+      "severity": "warning",
+      "options": [
+        "debug",
+        "info",
+        "log",
+        "time",
+        "timeEnd",
+        "trace"
+      ]
+    }
+  },
+  "jsRules": {
+    "jsx-wrap-multiline-js": false
+  }
+}

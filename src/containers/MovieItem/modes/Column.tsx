@@ -1,24 +1,24 @@
 import * as React from 'react'
 
-import '../style/column.scss'
-import Popper from 'components/Popper';
-import Form from 'containers/Form';
-import { API_IMAGE_LINK } from 'settings'
+import ButtonOption from 'components/ButtonOption'
 import Image from 'components/Image'
-import MovieInfos from 'containers/MovieInfos';
-import Rate from 'components/Rate';
-import Panel from 'components/Panel';
-import ButtonOption from 'components/ButtonOption';
+import Panel from 'components/Panel'
+import Popper from 'components/Popper'
+import Rate from 'components/Rate'
+import Form from 'containers/Form'
+import MovieInfos from 'containers/MovieInfos'
+import { API_IMAGE_LINK } from 'settings'
+import '../style/column.scss'
 
-interface iProps {
+interface Iprops {
   movie: any
 }
 
-const ColumnItem: React.SFC<any> = (props: iProps) => {
+const ColumnItem: React.SFC<any> = (props: Iprops) => {
   const { movie } = props
   return (
     <div
-      className='Item-wrapper isColumn' 
+      className='Item-wrapper isColumn'
     >
       <Image
         className='Item-image'
@@ -38,8 +38,7 @@ const ColumnItem: React.SFC<any> = (props: iProps) => {
               <ButtonOption type='infos' />
             }
             panelComponent={
-              <MovieInfos movie={movie} />
-            }
+              <MovieInfos movie={movie} />}
           />
           <Popper
             popperPlacement='right'

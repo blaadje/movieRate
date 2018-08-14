@@ -5,43 +5,41 @@ import { flow } from 'lodash'
 
 import Svg from 'react-inlinesvg'
 
-import Search from 'containers/Search'
 import Popper from 'components/Popper'
+import Search from 'containers/Search'
 
+import List from 'components/List'
+import { apiFetch } from 'core/sagas/apiCallSaga/actions'
+import { resourceFilter } from 'core/sagas/resourcesSaga/actions'
+import { moviesSelector } from 'core/selectors'
+import { memoize } from 'core/utils'
 import * as vector from 'images/Vector.svg'
 import './index.scss'
-import { apiFetch } from 'core/sagas/apiCallSaga/actions'
-import Loader from 'components/Loader'
-import { memoize } from 'core/utils'
-import { moviesSelector } from 'core/selectors'
-import List from 'components/List';
-import { resourceFilter } from 'core/sagas/resourcesSaga/actions';
 
-interface iProps {
-  dispatch: (Object: any) => Promise<any>,
+interface Iprops {
+  dispatch: (Object: any) => Promise<any>
   movies: any
 }
 
-interface iState {
-  isLoading: boolean,
+interface Istate {
+  isLoading: boolean
   type: string
 }
 
-class Trends extends React.Component<iProps, iState> {
-  constructor(props: iProps, state: iState) {
+class Trends extends React.Component<Iprops, Istate> {
+  constructor (props: Iprops, state: Istate) {
     super(props)
     this.state = {
       isLoading: true,
       type: 'movie'
     }
   }
-  
+
   private memoizeFetchCategory = memoize((resourceType: string) => this.fetchCategory(resourceType))
-  
+
   componentWillMount () {
     this.memoizeFetchCategory(this.state.type)
   }
-
 
   fetchCategory (resourceType: string): void {
     this.props.dispatch(apiFetch('discover', {
@@ -108,5 +106,5 @@ const mapStateToProps = (state: any) => {
 }
 
 export default flow(
-  connect(mapStateToProps)
+  connect(mapStateToProps) as any
 )(Trends)

@@ -6,22 +6,22 @@ import './style.scss'
 
 export type OptionTypes = 'infos' | 'rate' | 'playlist'
 
-interface iProps extends React.AllHTMLAttributes<any> {
+interface Iprops extends React.AllHTMLAttributes<any> {
   type: OptionTypes
 }
 
-const getSrc = (value: iProps['type']) => {
+const getSrc = (value: Iprops['type']) => {
   switch (value) {
-    case 'infos': 
+    case 'infos':
       return 'information'
     case 'rate':
       return 'checked'
     case 'playlist':
       return 'add'
   }
-} 
+}
 
-const ButtonOption: React.SFC<React.AllHTMLAttributes<any>> = (props: iProps) => {
+const ButtonOption: React.SFC<React.AllHTMLAttributes<any>> = (props: Iprops) => {
   const { type } = props
 
   return (

@@ -33,7 +33,7 @@
 //   vote_count: number
 // };
 
-// export type IState = TV[];
+// export type Istate = TV[];
 
 // export type Rate = {
 //   movieId: number,

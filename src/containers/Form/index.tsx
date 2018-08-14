@@ -4,26 +4,26 @@ import { connect } from 'react-redux'
 
 import { flow } from 'lodash'
 
-import Rate from 'components/Rate'
 import ButtonValidate from 'components/ButtonValidate'
+import Rate from 'components/Rate'
 import Textarea from 'components/Textarea'
 
-import './style.scss'
 import { resourceCreate } from 'core/sagas/resourcesSaga/actions'
+import './style.scss'
 
-interface iProps {
-  dispatch: (Object: any) => void,
+interface Iprops {
+  dispatch: (Object: any) => void
   movieId: number
 }
 
-interface iState {
-  movieId: number,
-  rate: number,
+interface Istate {
+  movieId: number
+  rate: number
   description: string
 }
 
-class Form extends React.Component<iProps, iState> {
-  constructor (props: iProps, state: iState) {
+class Form extends React.Component<Iprops, Istate> {
+  constructor (props: Iprops, state: Istate) {
     super(props)
     this.state = {
       movieId: this.props.movieId,
@@ -75,5 +75,5 @@ class Form extends React.Component<iProps, iState> {
 }
 
 export default flow(
-  connect()
+  connect() as any
 )(Form)

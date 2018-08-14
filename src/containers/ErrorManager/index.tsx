@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { connect } from 'react-redux'
 import { flow } from 'lodash'
+import { connect } from 'react-redux'
 
 import Svg from 'react-inlinesvg'
 
@@ -9,17 +9,17 @@ import * as close from 'images/close.svg'
 
 import './style.scss'
 
-interface iProps {
-  error: any,
+interface Iprops {
+  error: any
   onClick: () => void
 }
 
-interface iState {
+interface Istate {
   error: any
 }
 
-class ErrorManager extends React.Component<iProps, iState> {
-  constructor (props: iProps, state: iState) {
+class ErrorManager extends React.Component<Iprops, Istate> {
+  constructor (props: Iprops, state: Istate) {
     super(props)
     this.state = {
       error: null
@@ -59,4 +59,4 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-export default flow(connect(mapStateToProps))(ErrorManager)
+export default flow(connect(mapStateToProps) as any)(ErrorManager)

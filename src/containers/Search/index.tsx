@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { connect } from 'react-redux'
 import { flow } from 'lodash'
+import * as React from 'react'
 import Svg from 'react-inlinesvg'
+import { connect } from 'react-redux'
 
 import * as search from 'images/search.svg'
 
@@ -13,19 +13,19 @@ import Input from 'components/Input'
 import List from 'components/List'
 import { memoize } from 'core/utils'
 
-interface iProps {
-  className: string,
-  dispatch: (Object: any) => Promise<any>,
+interface Iprops {
+  className: string
+  dispatch: (Object: any) => Promise<any>
   inputClassName?: string
 }
 
-interface iState {
-  movies: Array<any>,
+interface Istate {
+  movies: any[]
   inputValue: string
 }
 
-class Search extends React.Component<iProps, iState> {
-  constructor (props: iProps, state: iState) {
+class Search extends React.Component<Iprops, Istate> {
+  constructor (props: Iprops, state: Istate) {
     super(props)
     this.state = {
       movies: [],
@@ -37,17 +37,17 @@ class Search extends React.Component<iProps, iState> {
 
   fetchMovie (value: string): void {
     if (!value || value.length < 3) {
-    this.setState({ movies: [] })
+      this.setState({ movies: [] })
       return
     }
 
     this.props.dispatch(apiFetch('search', {
       segment: 'movie',
       query: { query: value }
-    })).then((movies: any[]) => this.setState({movies}))
+    })).then((movies: any[]) => this.setState({ movies }))
   }
 
-  onChangeInput(event: React.ChangeEvent<any>) {
+  onChangeInput (event: React.ChangeEvent<any>) {
     this.setState({ inputValue: event.target.value })
     this.memoizeFetchMovie(event.target.value)
   }
@@ -67,7 +67,7 @@ class Search extends React.Component<iProps, iState> {
             onReset={() => this.setState({ inputValue: '', movies: [] })}
           />
         </div>
-        <List 
+        <List
           direction='column'
           wrapperClass='Search-result'
           collection={movies}
@@ -78,5 +78,5 @@ class Search extends React.Component<iProps, iState> {
 }
 
 export default flow(
-  connect()
+  connect() as any
 )(Search)

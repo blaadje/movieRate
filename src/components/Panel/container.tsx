@@ -1,15 +1,17 @@
 import * as React from 'react'
 
-import onClickOutside, { HandleClickOutside } from 'react-onclickoutside'
+import onClickOutside, { HandleClickOutside, InjectedOnClickOutProps } from 'react-onclickoutside'
 
 import './style.scss'
 
-interface iProps {
+type Props = Iprops & InjectedOnClickOutProps & HandleClickOutside<any>
+
+interface Iprops {
   content: React.ReactNode,
   onClickOutside: () => any
 }
 
-class PanelContainer extends React.Component<iProps, {}> {
+class PanelContainer extends React.Component<Props, {}> {
   handleClickOutside = (event: HandleClickOutside<any>) => {
     this.props.onClickOutside()
   }
@@ -23,4 +25,4 @@ class PanelContainer extends React.Component<iProps, {}> {
     )
   }
 }
-export default onClickOutside(PanelContainer)
+export default onClickOutside(PanelContainer as any) as any

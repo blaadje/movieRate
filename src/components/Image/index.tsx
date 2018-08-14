@@ -6,17 +6,17 @@ import Loader from 'components/Loader'
 
 import './style.scss'
 
-interface iProps extends React.HTMLAttributes<any> {
-  wrapperclass?: string,
-  loader?: boolean,
-  className?: string,
-  filter?: boolean,
-  filterClass?: string,
-  src: string,
-  children?: React.ReactNode,
+interface Iprops extends React.HTMLAttributes<any> {
+  wrapperclass?: string
+  loader?: boolean
+  className?: string
+  filter?: boolean
+  filterClass?: string
+  src: string
+  children?: React.ReactNode
 }
 
-const ImageWrapper: React.SFC<iProps> = (props: iProps) => {
+const ImageWrapper: React.SFC<Iprops> = (props: Iprops) => {
   const { src, wrapperclass, className, loader } = props
 
   return (
