@@ -1,23 +1,19 @@
-import { CallEffect, ForkEffect, PutEffect, call, put, takeEvery, all } from 'redux-saga/effects'
+import { CallEffect, PutEffect, put, takeEvery, all } from 'redux-saga/effects'
 
 import { resourceError, resourceSet } from 'core/sagas/resourcesSaga/actions'
 
 import { Action } from 'redux'
 import {
-  RESOURCES_FETCH,
-  RESOURCE_CREATE,
-  RESOURCE_DELETE,
-  RESOURCE_EDIT,
-  RESOURCE_FETCH
+  RESOURCE_CREATE
 } from 'core/sagas/resourcesSaga/constants'
 
-interface resourceCreateProps {
+interface ResourceCreateProps {
   url: string,
   resource: any
 }
 
 export default function * ResourceSaga (): Iterator<any> {
-  function * handleResourceCreate ({ url, resource }: resourceCreateProps): Iterator<CallEffect | PutEffect<Action>> {
+  function* handleResourceCreate ({ url, resource }: ResourceCreateProps): Iterator<CallEffect | PutEffect<Action>> {
     try {
       yield put(resourceSet(resource))
     } catch (error) {

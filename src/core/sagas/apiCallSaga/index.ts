@@ -1,18 +1,18 @@
-import { CallEffect, ForkEffect, PutEffect, call, put, takeLatest, all } from 'redux-saga/effects'
+import { CallEffect, PutEffect, call, put, takeLatest, all } from 'redux-saga/effects'
 
 import { API_IS_FETCHING, API_FETCH_ERROR, API_FETCH_SUCCESS } from 'core/sagas/apiCallSaga/constants'
 
 import { Action } from 'redux'
 import request from 'core/sagas/apiCallSaga/request'
 
-interface apiFetchProps {
+interface ApiFetchProps {
   url: string,
   options: object,
   meta: object
 }
 
 export default function * applicationSaga (): Iterator<any> {
-  function * makeCall ({ url, options, meta }: apiFetchProps): Iterator<CallEffect | PutEffect<Action>> {
+  function* makeCall ({ url, options, meta }: ApiFetchProps): Iterator<CallEffect | PutEffect<Action>> {
     const { segment }: any = options
 
     try {

@@ -7,9 +7,10 @@
   "linterOptions": {
     "exclude": ["build", "node_modules"]
   },
-  "rulesDirectory": ["./src/"],
+  "rulesDirectory": ["src"],
   "rules": {
     "jsx-no-lambda": false,
+    "no-unused-expression": false,
     "jsx-no-multiline-js": false,
     "quotemark": [true, "single", "jsx-single"],
     "semicolon": [true, "never"],
@@ -26,6 +27,6 @@
     }
   },
   "jsRules": {
-    "jsx-wrap-multiline-js": false
+    "no-empty": true
   }
 }

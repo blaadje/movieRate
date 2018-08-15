@@ -1,6 +1,4 @@
 const path = require('path')
-const port = process.env.PORT || 8080
-const publicPath = `http://localhost:${port}/dist`
 
 module.exports = {
   resolve: {
@@ -15,22 +13,21 @@ module.exports = {
     }
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.(png|jpg|jpeg|gif|svg|ttf|eot|svg|woff)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {}
-          }
-        ]
+        use: [{
+          loader: 'file-loader',
+          options: {}
+        }]
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          query: { compact: true }
+          query: {
+            compact: true
+          }
         }
       },
       {
@@ -40,9 +37,12 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
+        use: [{
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
           {
             loader: 'sass-loader',
             options: {
@@ -55,32 +55,5 @@ module.exports = {
         ]
       }
     ]
-  },
-  output: {
-    publicPath,
-    filename: 'index.js'
-  },
-  devtool: 'cheap-module-eval-source-map',
-  devServer: {
-    port,
-    publicPath,
-    compress: false,
-    noInfo: false,
-    overlay: true,
-    stats: 'errors-only',
-    inline: true,
-    lazy: false,
-    hot: true,
-    headers: { 'Access-Control-Allow-Origin': '*' },
-    contentBase: path.join(__dirname, 'dist'),
-    watchOptions: {
-      aggregateTimeout: 300,
-      ignored: /node_modules/,
-      poll: 100
-    },
-    historyApiFallback: {
-      verbose: true,
-      disableDotRule: false
-    }
   }
 }

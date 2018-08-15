@@ -44,7 +44,9 @@ class Search extends React.Component<Iprops, Istate> {
     this.props.dispatch(apiFetch('search', {
       segment: 'movie',
       query: { query: value }
-    })).then((movies: any[]) => this.setState({ movies }))
+    }))
+      .then((movies: any[]) => this.setState({ movies }))
+      .catch(err => console.error(err))
   }
 
   onChangeInput (event: React.ChangeEvent<any>) {

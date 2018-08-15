@@ -18,7 +18,7 @@ const Input: React.SFC<Iprops> = (props: Iprops) => {
         value={props.value}
         className={`${props.className} Input`}
         placeholder='Search movie'
-        onChange={(event) => props.onChange(event)}
+        onChange={(event) => props.onChange && props.onChange(event)}
 
       />
       {props.value &&

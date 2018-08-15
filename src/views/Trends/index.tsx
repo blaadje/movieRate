@@ -45,10 +45,11 @@ class Trends extends React.Component<Iprops, Istate> {
     this.props.dispatch(apiFetch('discover', {
       segment: resourceType
     })).then(() => this.setState({ isLoading: false }))
+       .catch(err => console.error(err))
   }
 
   onClickHandler (type: string): void {
-    this.props.dispatch(resourceFilter(type))
+    this.props.dispatch(resourceFilter(type)).catch(err => console.error(err))
     this.setState({ type })
     this.memoizeFetchCategory(type)
   }

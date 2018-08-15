@@ -1,4 +1,4 @@
-import { Model, attr, fk } from 'redux-orm'
+import { Model, fk } from 'redux-orm'
 
 export default class Playlist extends Model<any> {}
 
