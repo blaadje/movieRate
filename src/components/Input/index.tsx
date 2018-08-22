@@ -2,8 +2,6 @@ import * as React from 'react'
 
 import Svg from 'react-inlinesvg'
 
-import * as close from 'images/close.svg'
-
 import './style.scss'
 
 interface Iprops extends React.HTMLAttributes<any> {

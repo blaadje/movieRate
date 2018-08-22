@@ -1,10 +1,7 @@
 import * as React from 'react'
 
-import Svg from 'react-inlinesvg'
-
-import * as checked from 'images/checked.svg'
-
 import './style.scss'
+import Icon from 'components/Icon'
 
 const Button: React.SFC<React.AllHTMLAttributes<any>> = (props: React.AllHTMLAttributes<any>) => {
   return (
@@ -14,7 +11,7 @@ const Button: React.SFC<React.AllHTMLAttributes<any>> = (props: React.AllHTMLAtt
         value=''
         {...props}
       />
-      <Svg className='Button-image' src={checked}/>
+      <Icon className='Button-image' glyph='checked' />
     </div>
   )
 }

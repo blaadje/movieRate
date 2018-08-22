@@ -14,46 +14,45 @@ module.exports = {
   },
   module: {
     rules: [{
-        test: /\.(png|jpg|jpeg|gif|svg|ttf|eot|svg|woff)$/,
-        use: [{
-          loader: 'file-loader',
-          options: {}
-        }]
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          query: {
-            compact: true
+      test: /\.(png|jpg|jpeg|gif|svg|ttf|eot|svg|woff)$/,
+      use: [{
+        loader: 'file-loader',
+        options: {}
+      }]
+    },
+    {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        query: {
+          compact: true
+        }
+      }
+    },
+    {
+      test: /\.tsx?$/,
+      loader: 'ts-loader',
+      exclude: /node_modules/
+    }, 
+    {
+      test: /\.scss$/,
+      use: [{
+        loader: 'style-loader'
+        },
+        {
+          loader: 'css-loader'
+        },
+        {
+          loader: 'sass-loader',
+          options: {
+            data: '@import "loader";',
+            includePaths: [
+              path.resolve(__dirname, '../src/assets/style')
+            ]
           }
         }
-      },
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.scss$/,
-        use: [{
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader'
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              data: '@import "loader";',
-              includePaths: [
-                path.resolve(__dirname, '../src/assets/style')
-              ]
-            }
-          }
-        ]
-      }
+      ]}
     ]
   }
 }

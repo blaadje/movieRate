@@ -1,12 +1,9 @@
 import * as React from 'react'
 
-import Svg from 'react-inlinesvg'
 import Rating from 'react-rating'
 
-import * as star from 'images/star.svg'
-import * as starUnchecked from 'images/starUnchecked.svg'
-
 import './style.scss'
+import Icon from 'components/Icon'
 
 interface Iprops {
   wrapperClass?: string
@@ -22,8 +19,8 @@ const Rate: React.SFC<Iprops> = (props: Iprops) => {
     <div className={`Rate-wrapper ${props.wrapperClass || ''}`}>
       <Rating
         readonly={props.readonly}
-        emptySymbol={<Svg className='Rate-icon' src={starUnchecked} />}
-        fullSymbol={<Svg className='Rate-icon' src={star} />}
+        emptySymbol={<Icon className='Rate-icon' glyph='starUnchecked' />}
+        fullSymbol={<Icon className='Rate-icon' glyph='star' />}
         initialRating={rate}
         onChange={(rate) => props.onChange}
       />

@@ -1,14 +1,8 @@
 import * as React from 'react'
 
-import Svg from 'react-inlinesvg'
-
-import * as clock from 'images/clock.svg'
-import * as playlist from 'images/playlist.svg'
-import * as seen from 'images/seen.svg'
-import * as stars from 'images/Stars.svg'
-
 import './index.scss'
 import Link from 'components/Link'
+import Icon from 'components/Icon'
 
 export default class Sidebar extends React.Component {
   render () {
@@ -16,25 +10,25 @@ export default class Sidebar extends React.Component {
       <div className='Sidebar-wrapper'>
         <header className='Sidebar-header'>
           <strong>Movie Rate</strong>
-          <img src={stars} />
+          <Icon glyph='stars' />
         </header>
         <nav className='Sidebar-nav'>
           <ul>
             <li>
               <Link exact={!window.location.pathname.includes('index.html')} to='/'>
-                <Svg className='navIcon' src={clock} />
+                <Icon className='navIcon' glyph='clock' />
                 <span>Trends</span>
               </Link>
             </li>
             <li>
               <Link to='/seen'>
-                <Svg className='navIcon' src={seen} />
+                <Icon className='navIcon' glyph='seen' />
                 <span>Movie seen</span>
               </Link>
             </li>
             <li>
               <Link to='/playlist'>
-                <Svg className='navIcon' src={playlist} />
+                <Icon className='navIcon' glyph='playlist' />
                 <span>Playlist</span>
               </Link>
             </li>

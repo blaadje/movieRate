@@ -3,19 +3,17 @@ import { connect } from 'react-redux'
 
 import { flow } from 'lodash'
 
-import Svg from 'react-inlinesvg'
-
 import Popper from 'components/Popper'
 import Search from 'containers/Search'
 
 import List from 'components/List'
 import { apiFetch } from 'core/sagas/apiCallSaga/actions'
 import { memoize } from 'core/utils'
-import * as vector from 'images/Vector.svg'
 import './index.scss'
 import FilterButton from 'containers/FilterButton'
 import { SHOW_MOVIES, SHOW_TV } from 'core/sagas/resourcesSaga/constants'
 import { filteredMovies } from 'core/selectors'
+import Icon from 'components/Icon'
 
 interface Iprops {
   dispatch: (Object: any) => Promise<any>
@@ -64,7 +62,7 @@ class Trends extends React.Component<Iprops, Istate> {
             targetComponent={
               <div>
                 <span>{SHOW_MOVIES}</span>
-                <Svg className='u-mgl--s' src={vector} />
+                <Icon className='u-mgl--s' glyph='vector' />
               </div>
             }
             popperComponent={

@@ -1,9 +1,6 @@
 import { flow } from 'lodash'
 import * as React from 'react'
-import Svg from 'react-inlinesvg'
 import { connect } from 'react-redux'
-
-import * as search from 'images/search.svg'
 
 import { apiFetch } from 'core/sagas/apiCallSaga/actions'
 
@@ -12,6 +9,7 @@ import './style.scss'
 import Input from 'components/Input'
 import List from 'components/List'
 import { memoize } from 'core/utils'
+import Icon from 'components/Icon'
 
 interface Iprops {
   className: string
@@ -60,7 +58,7 @@ class Search extends React.Component<Iprops, Istate> {
     return (
       <div className={`Search-wrapper ${this.props.className || ''}`}>
         <div className='Search-input'>
-          <Svg className='Search-icon' src={search} />
+          <Icon className='Search-icon' size='xl' glyph='search' />
           <Input
             className={this.props.inputClassName}
             value={inputValue}

@@ -25,7 +25,6 @@ export default class MovieItem extends React.Component<Iprops, Istate> {
     const { isHovered } = this.state
     const { movie, isRow } = this.props
 
-    //
     if (!isRow) {
       return <ColumnItem movie={movie} />
     }

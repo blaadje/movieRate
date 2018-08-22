@@ -2,9 +2,6 @@ import { searchMovieSelector } from 'core/selectors'
 import { flow } from 'lodash'
 import { connect } from 'react-redux'
 
-import * as add from 'images/add.svg'
-import * as checked from 'images/checked.svg'
-import * as infos from 'images/information.svg'
 import * as React from 'react'
 
 import Image from 'components/Image'
@@ -13,11 +10,11 @@ import Popper from 'components/Popper'
 import Rate from 'components/Rate'
 import Form from 'containers/Form'
 import MovieInfos from 'containers/MovieInfos'
-import Svg from 'react-inlinesvg'
 
 import './style.scss'
 
 import { API_IMAGE_LINK } from 'settings'
+import Icon from 'components/Icon'
 
 interface Iprops {
   inputValue: string
@@ -64,7 +61,7 @@ class SearchResult extends React.Component<Iprops, Istate> {
                       <Panel
                         targetComponent={
                           <div className='ItemMenu-options'>
-                            <Svg className='Option-image' src={infos} />
+                            <Icon className='Option-image' glyph='infos' />
                           </div>
                         }
                         panelComponent={
@@ -74,7 +71,7 @@ class SearchResult extends React.Component<Iprops, Istate> {
                         popperPlacement='right'
                         targetComponent={
                           <div className='ItemMenu-options'>
-                            <Svg className='Option-image' src={checked} />
+                            <Icon className='Option-image' glyph='checked' />
                           </div>
                         }
                         popperComponent={<Form movieId={movie.id} />}
@@ -83,7 +80,7 @@ class SearchResult extends React.Component<Iprops, Istate> {
                         popperPlacement='right'
                         targetComponent={
                           <div className='ItemMenu-options'>
-                            <Svg className='Option-image' src={add} />
+                            <Icon className='Option-image' glyph='add' />
                           </div>
                         }
                         popperComponent={<p>test</p>}
