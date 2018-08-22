@@ -4,6 +4,7 @@ import { API_IS_FETCHING, API_FETCH_ERROR, API_FETCH_SUCCESS } from 'core/sagas/
 
 import { Action } from 'redux'
 import request from 'core/sagas/apiCallSaga/request'
+import { SHOW_MOVIES, SHOW_TV } from 'core/sagas/resourcesSaga/constants'
 
 interface ApiFetchProps {
   url: string,
@@ -22,7 +23,7 @@ export default function * applicationSaga (): Iterator<any> {
         return {
           ...movie,
           category: url,
-          type: segment
+          type: segment === 'movie' ? SHOW_MOVIES : SHOW_TV
         }
       })
 

@@ -10,11 +10,12 @@ import Search from 'containers/Search'
 
 import List from 'components/List'
 import { apiFetch } from 'core/sagas/apiCallSaga/actions'
-import { resourceFilter } from 'core/sagas/resourcesSaga/actions'
-import { moviesSelector } from 'core/selectors'
 import { memoize } from 'core/utils'
 import * as vector from 'images/Vector.svg'
 import './index.scss'
+import FilterButton from 'containers/FilterButton'
+import { SHOW_MOVIES, SHOW_TV } from 'core/sagas/resourcesSaga/constants'
+import { filteredMovies } from 'core/selectors'
 
 interface Iprops {
   dispatch: (Object: any) => Promise<any>
@@ -44,14 +45,7 @@ class Trends extends React.Component<Iprops, Istate> {
   fetchCategory (resourceType: string): void {
     this.props.dispatch(apiFetch('discover', {
       segment: resourceType
-    })).then(() => this.setState({ isLoading: false }))
-       .catch(err => console.error(err))
-  }
-
-  onClickHandler (type: string): void {
-    this.props.dispatch(resourceFilter(type)).catch(err => console.error(err))
-    this.setState({ type })
-    this.memoizeFetchCategory(type)
+    })).then(() => this.setState({ isLoading: false })).catch(err => console.error(err))
   }
 
   render (): React.ReactNode {
@@ -69,25 +63,19 @@ class Trends extends React.Component<Iprops, Istate> {
             wrapperClass='TrendsHeader-Category'
             targetComponent={
               <div>
-                {/* <span>{type}</span> */}
+                <span>{SHOW_MOVIES}</span>
                 <Svg className='u-mgl--s' src={vector} />
               </div>
             }
             popperComponent={
-              <ul className='HeaderCategory-wrapper'>
-                <li
-                  // className={`${type === 'movie' ? 'isSelected' : ''} HeaderCategory-item u-mgb--m`}
-                  onClick={() => this.onClickHandler('movie')}
-                >
+              <div className='HeaderCategory-wrapper'>
+                <FilterButton filter={SHOW_MOVIES}>
                   Popular movies
-                </li>
-                <li
-                  // className={`${type === 'tv' ? 'isSelected' : ''} HeaderCategory-item`}
-                  onClick={() => this.onClickHandler('tv')}
-                >
-                  Now playing
-                </li>
-              </ul>
+                </FilterButton>
+                <FilterButton filter={SHOW_TV}>
+                  Popular TV's
+                </FilterButton>
+              </div>
             }
           />
         </header>
@@ -102,7 +90,7 @@ class Trends extends React.Component<Iprops, Istate> {
 
 const mapStateToProps = (state: any) => {
   return {
-    movies: moviesSelector(state)
+    movies: filteredMovies(state)
   }
 }
 

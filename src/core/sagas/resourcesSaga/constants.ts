@@ -6,3 +6,6 @@ export const RESOURCE_EDIT: any = 'globalSagas/RESOURCE_EDIT'
 export const RESOURCE_DELETE: any = 'globalSagas/RESOURCE_DELETE'
 export const RESOURCE_SET: any = 'globalSagas/RESOURCE_SET'
 export const RESOURCE_VISIBILITY_FILTER: any = 'globalSagas/RESOURCE_VISIBILITY_FILTER'
+
+export const SHOW_MOVIES: any = 'visibilityFilters/SHOW_MOVIES'
+export const SHOW_TV: any = 'visibilityFilters/SHOW_TV'

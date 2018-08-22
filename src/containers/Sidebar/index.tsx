@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { NavLink } from 'react-router-dom'
 
 import Svg from 'react-inlinesvg'
 
@@ -9,6 +8,7 @@ import * as seen from 'images/seen.svg'
 import * as stars from 'images/Stars.svg'
 
 import './index.scss'
+import Link from 'components/Link'
 
 export default class Sidebar extends React.Component {
   render () {
@@ -21,22 +21,22 @@ export default class Sidebar extends React.Component {
         <nav className='Sidebar-nav'>
           <ul>
             <li>
-              <NavLink exact={!window.location.pathname.includes('index.html')} to='/' activeClassName='isActive'>
+              <Link exact={!window.location.pathname.includes('index.html')} to='/'>
                 <Svg className='navIcon' src={clock} />
                 <span>Trends</span>
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink to='/seen' activeClassName='isActive'>
+              <Link to='/seen'>
                 <Svg className='navIcon' src={seen} />
                 <span>Movie seen</span>
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink to='/playlist' activeClassName='isActive'>
+              <Link to='/playlist'>
                 <Svg className='navIcon' src={playlist} />
                 <span>Playlist</span>
-              </NavLink>
+              </Link>
             </li>
           </ul>
         </nav>
