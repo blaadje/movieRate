@@ -6,7 +6,6 @@ const { say } = require('cfonts')
 const chalk = require('chalk')
 const del = require('del')
 const webpack = require('webpack')
-const { spawn } = require('child_process')
 
 const main = require('./webpack.main.config')
 const renderer = require('./webpack.renderer.config')

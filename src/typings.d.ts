@@ -22,3 +22,9 @@ declare module "react-load-image" {
   const value: any;
   export default value;
 }
+
+declare namespace NodeJS {
+  export interface Global {
+    session: any
+  }
+}
