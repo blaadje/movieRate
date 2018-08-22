@@ -6,15 +6,6 @@ export default class Filter extends Model<any> {
     super(args)
   }
 
-  static CreateFilter = () => {
-    Filter.create({ category: 'movie', id: 0 })
-  }
-
-  static generate () {
-    this.create({ category: 'movie', id: 0 })
-    console.log('test')
-  }
-
   static reducer (action: any, Filter: any): any {
     switch (action.type) {
       case RESOURCE_VISIBILITY_FILTER:

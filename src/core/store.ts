@@ -17,7 +17,9 @@ const store = createStore(
   )
 )
 
-store.subscribe(() => global.session = orm.session(store.getState().Application))
+const session = orm.session(store.getState().Application)
+
+store.subscribe(() => global.session = session)
 
 sagaMiddleware.run(sagas)
 
