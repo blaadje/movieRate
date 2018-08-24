@@ -18,6 +18,8 @@ function createReducer (orm: ORM<ORMCommonState>, updater = defaultUpdater) {
     // if there's no db yet we generate our default models
     if (!state) {
       session.Filter.create({ category: SHOW_MOVIES, id: 0 })
+      session.Category.create({ type: 'tv', page: 1 })
+      session.Category.create({ type: 'movies', page: 1 })
     }
     updater(session, action)
     return session.state

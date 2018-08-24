@@ -13,11 +13,11 @@ import { API_IMAGE_LINK } from 'settings'
 
 interface Iprops {
   movie: any
-  onHovered: (value: boolean) => void
-  isHovered: boolean
+  onHovered: (value: Boolean) => void
+  isHovered: Boolean
 }
 
-const RowItem: React.SFC<any> = (props: Iprops) => {
+const RowItem: React.SFC<Iprops> = (props: Iprops) => {
   const { movie, onHovered, isHovered } = props
   return (
     <Image
@@ -40,21 +40,21 @@ const RowItem: React.SFC<any> = (props: Iprops) => {
             <Popper
               popperPlacement='right'
               targetComponent={
-                <ButtonOption type='infos' />
+                <ButtonOption type='rate' />
               }
               popperComponent={<Form movieId={movie.id} />}
             />
             <Popper
               popperPlacement='right'
               targetComponent={
-                <ButtonOption type='rate' />
+                <ButtonOption type='playlist' />
               }
               popperComponent={<p>test</p>}
             />
             <Panel
-              onClickOutside={() => this.setState({ isHovered: false })}
+              onClickOutside={() => onHovered(false)}
               targetComponent={
-                <ButtonOption type='playlist' />
+                <ButtonOption type='infos' />
               }
               panelComponent={
                 <MovieInfos movie={movie} />}

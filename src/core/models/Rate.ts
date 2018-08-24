@@ -1,7 +1,8 @@
-import { Model, attr, fk } from 'redux-orm'
+import { Model, attr, fk, ORMId, TableState } from 'redux-orm'
 import { RESOURCE_CREATE, RESOURCE_DELETE, RESOURCE_EDIT } from 'core/sagas/resourcesSaga/constants'
+import Movie from 'core/models/Movie'
 
-export default class Rate extends Model<any> {
+export default class Rate extends Model<RateItems> {
   static reducer (action: any, Movie: any): any {
     switch (action.type) {
       case RESOURCE_CREATE:
@@ -15,6 +16,15 @@ export default class Rate extends Model<any> {
     return undefined
   }
 }
+
+interface RateItems {
+  movieId: number,
+  rate: number,
+  description: string,
+  movie: Movie
+}
+
+export type RateState = TableState<RateItems & ORMId>
 
 Rate.modelName = 'Rate'
 Rate.fields = {

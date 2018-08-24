@@ -14,7 +14,7 @@ interface Iprops {
   movie: any
 }
 
-const ColumnItem: React.SFC<any> = (props: Iprops) => {
+const ColumnItem: React.SFC<Iprops> = (props: Iprops) => {
   const { movie } = props
   return (
     <div

@@ -1,42 +1,28 @@
-// export type Movie = {
-//   adult: boolean
-//   backdrop_path: string
-//   genre_ids: Array<number>
-//   id?: number
-//   original_language: string
-//   original_title: string
-//   overview: string
-//   popularity: number
-//   poster_path: string
-//   release_date: Date
-//   title: string
-//   vide: boolean
-//   vote_average: number
-//   vote_count: number
-// };
+import { Category, Filter, Movie, Rate, Playlist } from 'core/models'
+import { MovieState } from 'core/models/Movie'
+import { ORMCommonState } from 'redux-orm'
+import { CategoryState } from 'core/models/Category'
+import { FilterState } from 'core/models/Filter'
+import { RateState } from 'core/models/Rate'
+import { PlaylistState } from 'core/models/Playlist'
 
-// export type State = Movie[];
+export interface Action<P> {
+  type: string
+  payload: P
+}
 
-// export type TV = {
-//   adult: boolean
-//   backdrop_path: string
-//   genre_ids: Array<number>
-//   id?: number
-//   original_language: string
-//   overview: string
-//   popularity: number
-//   poster_path: string
-//   first_air_date: Date
-//   name: string
-//   vide: boolean
-//   vote_average: number
-//   vote_count: number
-// };
+export interface ORMModels {
+  Category: typeof Category,
+  Filter: typeof Filter,
+  Movie: typeof Movie,
+  Rate: typeof Rate,
+  Playlist: typeof Playlist
+}
 
-// export type Istate = TV[];
-
-// export type Rate = {
-//   movieId: number,
-//   rate: number,
-//   description: string
-// }
+export interface ORMState extends ORMCommonState {
+  Category: CategoryState,
+  Filter: FilterState
+  Movie: MovieState,
+  Rate: RateState,
+  Playlist: PlaylistState
+}

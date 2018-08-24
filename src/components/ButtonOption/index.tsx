@@ -20,7 +20,7 @@ const getSrc = (value: Iprops['type']) => {
   }
 }
 
-const ButtonOption: React.SFC<React.AllHTMLAttributes<any>> = (props: Iprops) => {
+const ButtonOption: React.SFC<Iprops> = (props: Iprops) => {
   const { type } = props
 
   return (

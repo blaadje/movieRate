@@ -1,17 +1,27 @@
-import { Model, attr } from 'redux-orm'
-import { API_FETCH_SUCCESS } from 'core/sagas/apiCallSaga/constants'
+import { Model, attr, TableState, ORMId } from 'redux-orm'
 
-export default class Movie extends Model<any> {
-  static reducer (action: any, Movie: any): any {
-    switch (action.type) {
-      case API_FETCH_SUCCESS:
-        action.payload.map((item: Movie) => Movie.create(item))
-        break
-    }
+export default class Movie extends Model<MovieItems> {}
 
-    return undefined
-  }
+interface MovieItems {
+  id: number,
+  adult: boolean,
+  backdrop_path: string,
+  genre_ids: number[],
+  original_language: string,
+  original_title: string,
+  overview: string,
+  popularity: number,
+  poster_path: string,
+  release_date: Date,
+  title: string,
+  video: boolean,
+  category: string,
+  type: string,
+  vote_average: number,
+  vote_count: number
 }
+
+export type MovieState = TableState<MovieItems & ORMId>
 
 Movie.modelName = 'Movie'
 Movie.fields = {
@@ -26,7 +36,7 @@ Movie.fields = {
   poster_path: attr(),
   release_date: attr(),
   title: attr(),
-  vide: attr(),
+  video: attr(),
   category: attr(),
   type: attr(),
   vote_average: attr(),

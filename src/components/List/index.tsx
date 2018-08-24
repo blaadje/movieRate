@@ -14,14 +14,12 @@ interface Iprops {
   wrapperClass?: string
 }
 
-const setDirection = (direction: Iprops['direction']) => direction === 'row' ? 'isRow' : 'isColumn'
-
 const List: React.SFC<Iprops> = (props: Iprops) => {
   const { collection, wrapperClass, direction } = props
 
   return (
     <div className={`List-wrapper ${wrapperClass ? wrapperClass : ''}`}>
-      <div className={`List-content ${setDirection(direction)}`}>
+      <div className={`List-content ${direction === 'row' ? 'isRow' : 'isColumn'}`}>
         {!collection &&
           <Loader />
         }

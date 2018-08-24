@@ -1,12 +1,13 @@
-import { createSelector } from 'redux-orm'
+import { createSelector, SessionWithModels } from 'redux-orm'
 import orm from 'core/orm'
+import { ORMState } from 'core/model'
 
 const dbStateSelector = (state: any) => state.Application
 
-export const filteredMovies = createSelector(
+export const filteredMovies = createSelector<ORMState>(
   orm,
   dbStateSelector,
-  (session) => {
+  (session: SessionWithModels<ORMState>) => {
     return session.Movie.all().toModelArray().filter((item: any) => item.type === session.Filter.withId('0').category)
   }
 )
