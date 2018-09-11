@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import orm from 'core/orm'
 import { ORM, ORMCommonState } from 'redux-orm'
-import { SHOW_MOVIES } from 'core/sagas/resourcesSaga/constants'
+import { SHOW_MOVIES, SHOW_TV } from 'core/sagas/resourcesSaga/constants'
 
 function defaultUpdater (session: any, action: object) {
   session.sessionBoundModels.forEach((modelClass: any) => {
@@ -18,8 +18,8 @@ function createReducer (orm: ORM<ORMCommonState>, updater = defaultUpdater) {
     // if there's no db yet we generate our default models
     if (!state) {
       session.Filter.create({ category: SHOW_MOVIES, id: 0 })
-      session.Category.create({ type: 'tv', page: 1 })
-      session.Category.create({ type: 'movies', page: 1 })
+      session.Category.create({ type: SHOW_TV, page: 1 })
+      session.Category.create({ type: SHOW_MOVIES, page: 1 })
     }
     updater(session, action)
     return session.state

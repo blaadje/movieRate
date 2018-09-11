@@ -1,4 +1,4 @@
-import reducer from 'core/reducers'
+import reducer from 'core/reducer'
 import sagas from 'core/sagas'
 import { applyMiddleware, compose, createStore } from 'redux'
 import logger from 'redux-logger'

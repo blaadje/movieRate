@@ -1,11 +1,7 @@
-import { Model, attr, TableState, ORMId } from 'redux-orm'
+import { Model, attr, TableState, ORMId, ModelWithFields } from 'redux-orm'
 import { RESOURCE_VISIBILITY_FILTER } from 'core/sagas/resourcesSaga/constants'
 
-export default class Filter extends Model<FilterItems> {
-  constructor (args: any) {
-    super(args)
-  }
-
+export default class Filter extends Model<ModelWithFields<any>> {
   static reducer (action: any, Filter: any): any {
     switch (action.type) {
       case RESOURCE_VISIBILITY_FILTER:
