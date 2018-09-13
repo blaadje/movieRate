@@ -1,10 +1,10 @@
-import { CallEffect, PutEffect, call, put, takeLatest, all } from 'redux-saga/effects'
+import { CallEffect, PutEffect, call, put, takeLatest, all, select } from 'redux-saga/effects'
 
 import { API_IS_FETCHING, API_FETCH_ERROR, API_FETCH_SUCCESS } from 'core/sagas/apiCallSaga/constants'
 
 import { Action } from 'redux'
 import request from 'core/sagas/apiCallSaga/request'
-// import { SHOW_MOVIES, SHOW_TV } from 'core/sagas/resourcesSaga/constants'
+import { categorySelector, subCategorySelector } from 'core/selectors'
 
 interface ApiFetchProps {
   url: string,
@@ -19,13 +19,14 @@ export default function * applicationSaga (): Iterator<any> {
     try {
       const result = yield call(request, url, options)
 
-      const payload = result.map((movie: any) => {
-        return {
-          ...movie,
-          category: url,
-          categoryId: segment === 'movie' ? 1 : 0
-        }
-      })
+      const categoryId = yield select(categorySelector, url) as any
+      const subCategoryId = yield select(subCategorySelector, segment) as any
+
+      const payload = result.map((movie: any) => ({
+        ...movie,
+        categoryId,
+        subCategoryId
+      }))
 
       yield put({
         type: API_FETCH_SUCCESS,

@@ -11,7 +11,7 @@ import { apiFetch } from 'core/sagas/apiCallSaga/actions'
 import { memoize } from 'core/utils'
 import './index.scss'
 import FilterButton from 'containers/FilterButton'
-import { SHOW_MOVIES, SHOW_TV } from 'core/sagas/resourcesSaga/constants'
+import { SHOW_MOVIES } from 'core/sagas/resourcesSaga/constants'
 import { filteredMovies } from 'core/selectors'
 import Icon from 'components/Icon'
 
@@ -65,10 +65,10 @@ class Trends extends React.Component<Iprops, Istate> {
             }
             popperComponent={
               <div className='HeaderCategory-wrapper'>
-                <FilterButton filter={SHOW_MOVIES}>
+                <FilterButton filter='movie'>
                   Popular movies
                 </FilterButton>
-                <FilterButton filter={SHOW_TV} onClick={() => this.memoizeFetchCategory('tv')}>
+                <FilterButton filter='tv' onClick={() => this.memoizeFetchCategory('tv')}>
                   Popular TV's
                 </FilterButton>
               </div>

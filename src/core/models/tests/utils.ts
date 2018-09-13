@@ -1,11 +1,11 @@
 import { ORM } from 'redux-orm'
 import { MOVIES_INITIAL, CATEGORIES_INITIAL } from 'core/models/tests/mocks'
-import { Movie, Category } from 'core/models'
+import { Movie, Category, Subcategory } from 'core/models'
 import { ORMState, ORMModels } from 'core/model'
 
 export function createTestORM () {
   const orm = new ORM<ORMState>()
-  orm.register<ORMModels>(Movie, Category)
+  orm.register<ORMModels>(Movie, Category, Subcategory)
   return orm
 }
 

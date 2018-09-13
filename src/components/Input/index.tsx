@@ -1,8 +1,7 @@
 import * as React from 'react'
 
-import Svg from 'react-inlinesvg'
-
 import './style.scss'
+import Icon from 'components/Icon'
 
 interface Iprops extends React.HTMLAttributes<any> {
   value: any
@@ -21,10 +20,7 @@ const Input: React.SFC<Iprops> = (props: Iprops) => {
       />
       {props.value &&
         <div onClick={() => props.onReset()}>
-          <Svg
-            className='Input-image'
-            src={close}
-          />
+          <Icon className='Input-image' glyph='close'/>
         </div>
       }
     </div>

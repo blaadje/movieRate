@@ -56,5 +56,10 @@ Movie.fields = {
     to: 'Category',
     as: 'category',
     relatedName: 'movies'
+  } as any),
+  subCategoryId: fk({
+    to: 'Subcategory',
+    as: 'subcategory',
+    relatedName: 'movies'
   } as any)
 }
