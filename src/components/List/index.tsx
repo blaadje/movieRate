@@ -25,9 +25,6 @@ const List: React.SFC<Iprops> = (props: Iprops) => {
         }
         {collection &&
           collection.map((movie: any, index: number) => {
-            if (!movie.title) {
-              return
-            }
             return <MovieItem
               key={index}
               isRow={direction === 'row'}

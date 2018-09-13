@@ -26,8 +26,8 @@ const ColumnItem: React.SFC<Iprops> = (props: Iprops) => {
       />
       <div className='ItemContent-wrapper'>
         <div className='Item-description'>
-          <div>{movie.title}</div>
-          <div>{movie.release_date}</div>
+          <div>{movie.title || movie.name}</div>
+          <div>{movie.release_date || movie.first_air_date}</div>
           <Rate
             rate={movie.vote_average}
           />

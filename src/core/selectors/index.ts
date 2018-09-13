@@ -8,7 +8,13 @@ export const filteredMovies = createSelector<ORMState>(
   orm,
   dbStateSelector,
   (session: SessionWithModels<ORMState>) => {
-    // return console.log(session.Filter.all().first())
+    let movies = null
+    session.Category.all().toModelArray().map((item: any) => {
+      if (item.type === session.Filter.all().first().category) {
+        movies = item.movies.all().toRefArray()
+      }
+    })
+    return movies
   }
 )
 

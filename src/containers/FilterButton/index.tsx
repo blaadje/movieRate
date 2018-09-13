@@ -4,6 +4,7 @@ import Button from 'components/Button'
 import { activeFilterSelector } from 'core/selectors'
 
 interface Iprops {
+  onClick?: () => void,
   filter: string
 }
 
@@ -12,7 +13,10 @@ const mapStateToProps = (state: any, { filter }: any) => ({
 })
 
 const mapDispatchToProps = (dispatch: any, ownProps: Iprops) => ({
-  onClick: () => dispatch(resourceFilter(ownProps.filter))
+  onClick: () => {
+    ownProps.onClick && ownProps.onClick()
+    dispatch(resourceFilter(ownProps.filter))
+  }
 })
 
 export default connect(

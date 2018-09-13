@@ -22,22 +22,20 @@ interface Iprops {
 
 interface Istate {
   isLoading: boolean
-  type: string
 }
 
 class Trends extends React.Component<Iprops, Istate> {
   constructor (props: Iprops, state: Istate) {
     super(props)
     this.state = {
-      isLoading: true,
-      type: 'movie'
+      isLoading: true
     }
   }
 
   private memoizeFetchCategory = memoize((resourceType: string) => this.fetchCategory(resourceType))
 
   componentWillMount () {
-    this.memoizeFetchCategory(this.state.type)
+    this.memoizeFetchCategory('movie')
   }
 
   fetchCategory (resourceType: string): void {
@@ -70,7 +68,7 @@ class Trends extends React.Component<Iprops, Istate> {
                 <FilterButton filter={SHOW_MOVIES}>
                   Popular movies
                 </FilterButton>
-                <FilterButton filter={SHOW_TV}>
+                <FilterButton filter={SHOW_TV} onClick={() => this.memoizeFetchCategory('tv')}>
                   Popular TV's
                 </FilterButton>
               </div>
