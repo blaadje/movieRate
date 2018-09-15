@@ -8,7 +8,6 @@ import Search from 'containers/Search'
 
 import List from 'components/List'
 import { apiFetch } from 'core/sagas/apiCallSaga/actions'
-import { memoize } from 'core/utils'
 import './index.scss'
 import FilterButton from 'containers/FilterButton'
 import { SHOW_MOVIES } from 'core/sagas/resourcesSaga/constants'
@@ -32,10 +31,8 @@ class Trends extends React.Component<Iprops, Istate> {
     }
   }
 
-  private memoizeFetchCategory = memoize((resourceType: string) => this.fetchCategory(resourceType))
-
   componentWillMount () {
-    this.memoizeFetchCategory('movie')
+    this.fetchCategory('movie')
   }
 
   fetchCategory (resourceType: string): void {
@@ -68,7 +65,7 @@ class Trends extends React.Component<Iprops, Istate> {
                 <FilterButton filter='movie'>
                   Popular movies
                 </FilterButton>
-                <FilterButton filter='tv' onClick={() => this.memoizeFetchCategory('tv')}>
+                <FilterButton filter='tv' onClick={() => this.fetchCategory('tv')}>
                   Popular TV's
                 </FilterButton>
               </div>

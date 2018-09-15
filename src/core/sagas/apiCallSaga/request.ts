@@ -2,24 +2,29 @@ import axios from 'axios'
 
 import { API_BASE_URL, API_KEY } from 'settings'
 
-interface RequestOptions {
-  segment: string,
-  query: object
+interface QueryProps {
+  query: string
 }
 
-export default function request (args: string, options: RequestOptions): Promise<any> {
-  const { segment, query }: RequestOptions = options
-  const url = API_BASE_URL
+export interface RequestOptionsProps {
+  segment?: string,
+  query?: QueryProps,
+  url: string
+}
+
+export default function request (url: string, options: RequestOptionsProps): Promise<any> {
+  const { segment, query }: RequestOptionsProps = options
+  const makeUrl = API_BASE_URL
     .clone()
-    .segment(args)
-    .segment(segment)
+    .segment(url)
+    .segment(segment as string)
     .query({
       ...{ api_key: API_KEY },
-      ...query
+      ...(query && { ...query })
     })
     .toString()
 
-  return axios.get(url).then((response) => {
+  return axios.get(makeUrl).then((response) => {
     return response.data.results || response.data
   }).catch((error) => {
     throw error

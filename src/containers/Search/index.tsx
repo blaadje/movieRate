@@ -8,7 +8,6 @@ import './style.scss'
 
 import Input from 'components/Input'
 import List from 'components/List'
-import { memoize } from 'core/utils'
 import Icon from 'components/Icon'
 
 interface Iprops {
@@ -31,8 +30,6 @@ class Search extends React.Component<Iprops, Istate> {
     }
   }
 
-  private memoizeFetchMovie = memoize((value: string) => this.fetchMovie(value))
-
   fetchMovie (value: string): void {
     if (!value || value.length < 3) {
       this.setState({ movies: [] })
@@ -40,7 +37,7 @@ class Search extends React.Component<Iprops, Istate> {
     }
 
     this.props.dispatch(apiFetch('search', {
-      segment: 'movie',
+      segment: 'tv',
       query: { query: value }
     }))
       .then((movies: any[]) => this.setState({ movies }))
@@ -49,7 +46,7 @@ class Search extends React.Component<Iprops, Istate> {
 
   onChangeInput (event: React.ChangeEvent<any>) {
     this.setState({ inputValue: event.target.value })
-    this.memoizeFetchMovie(event.target.value)
+    this.fetchMovie(event.target.value)
   }
 
   render () {

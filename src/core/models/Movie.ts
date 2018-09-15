@@ -6,7 +6,13 @@ export default class Movie extends Model<MovieItems> {
   static reducer (action: any, Movie: any): ORMState | undefined {
     switch (action.type) {
       case API_FETCH_SUCCESS:
-        action.payload.map((item: MovieItems) => Movie.create(item))
+        action.payload.map((item: MovieItems) => {
+          if (Movie.withId(item.id)) {
+            return
+          }
+
+          Movie.create(item)
+        })
         break
     }
 
