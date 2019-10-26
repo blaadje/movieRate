@@ -6,85 +6,81 @@ import { flow } from 'lodash'
 import Image from 'components/Image'
 import Rate from 'components/Rate'
 
-import { Movie, TV } from 'core/model'
-import { appplicationCall } from 'core/sagas/applicationSaga/actions'
+// import { apiFetch } from 'core/store/actions'
 
 import { API_IMAGE_LINK, API_POSTER_LINK } from 'settings'
 
 import './style.scss'
 
-interface iProps {
-  movie: Movie & TV,
-  dispatch: (Object: any) => void,
+interface Iprops {
+  movie: any
+  dispatch: (Object: any) => void
 }
 
-interface iState {
-  cast: Array<any>
+interface Istate {
+  cast: any[]
 }
 
-class MovieInfos extends React.Component<iProps, iState> {
-  constructor (props: iProps, state: iState) {
+class MovieInfos extends React.Component<Iprops, Istate> {
+  constructor(props: Iprops, state: Istate) {
     super(props)
     this.state = {
-      cast: []
+      cast: [],
     }
   }
-  componentWillMount () {
-    this.props.dispatch(appplicationCall(
-      `movie/${this.props.movie.id}/credits`,
-      {
-        callback: ({cast}: any) => {
-          this.setState({ cast })
-        }
-      }
-    ))
+  componentWillMount() {
+    // this.props.dispatch(
+    //   apiFetch(`movie/${this.props.movie.id}/credits`, {
+    //     callback: ({ cast }: any) => {
+    //       this.setState({ cast })
+    //     },
+    //   })
+    // )
   }
 
-  render () {
+  render() {
     const { movie } = this.props
 
     return (
-      <div className='MovieInfos-wrapper'>
+      <div className="MovieInfos-wrapper">
         <Image
           loader={false}
-          filter
-          className='MovieInfos-header'
+          filter={true}
+          className="MovieInfos-header"
           src={API_POSTER_LINK + movie.backdrop_path}
         >
-          <div className='MovieInfos-gradient'>
-            <header className='u-mgb--l'>
-              <h1>
-                {movie.original_title || movie.name}
-              </h1>
-              <Rate rate={movie.vote_average}/>
+          <div className="MovieInfos-gradient">
+            <header className="u-mgb--l">
+              <h1>{movie.original_title || movie.name}</h1>
+              <Rate rate={movie.vote_average} />
             </header>
-            <div className='MovieInfos-overview'>
+            <div className="MovieInfos-overview">
               <img
-                className='Overview-image'
+                className="Overview-image"
                 src={API_IMAGE_LINK + movie.poster_path}
               />
-              <div className='Overview-text u-mgl--xl'>
+              <div className="Overview-text u-mgl--xl">
                 <h2>Overview</h2>
                 <p>{movie.overview}</p>
               </div>
             </div>
           </div>
         </Image>
-        <div className='MovieInfos-content'>
-          <ul className='MovieInfosContent-actors'>
+        <div className="MovieInfos-content">
+          <ul className="MovieInfosContent-actors">
             {this.state.cast.map((actor, index) => {
               if (!actor.profile_path || index > 3) {
                 return
               }
 
               return (
-                <li className='MovieInfosContent-actor' key={index}>
+                <li className="MovieInfosContent-actor" key={index}>
                   <Image
-                    filter
-                    className='Actor-image'
+                    filter={true}
+                    className="Actor-image"
                     src={API_IMAGE_LINK + actor.profile_path}
                   />
-                  <div className='Actor-name'>
+                  <div className="Actor-name">
                     <div>{actor.name}</div>
                     <div>{actor.character}</div>
                   </div>
@@ -98,4 +94,4 @@ class MovieInfos extends React.Component<iProps, iState> {
   }
 }
 
-export default flow(connect())(MovieInfos)
+export default flow(connect() as any)(MovieInfos)

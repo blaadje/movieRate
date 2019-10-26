@@ -1,0 +1,36 @@
+$xs: 9px;
+$s: 13px;
+$m: 15px;
+$l: 20px;
+$xl: 25px;
+$xxl: 40px;
+
+.Icon--xs {
+  width: $xs;
+  height: $xs;
+}
+
+.Icon--s {
+  width: $s;
+  height: $s;
+}
+
+.Icon--m {
+  width: $m;
+  height: $m;
+}
+
+.Icon--l {
+  width: $l;
+  height: $l;
+}
+
+.Icon--xl {
+  width: $xl;
+  height: $xl;
+}
+
+.Icon--xxl {
+  width: $xxl;
+  height: $xxl;
+}

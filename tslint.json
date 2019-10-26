@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "tslint-eslint-rules",
+    "tslint-react",
+    "tslint-config-standard",
+    "tslint-config-prettier"
+  ],
+  "linterOptions": {
+    "exclude": ["build", "node_modules"]
+  },
+  "rulesDirectory": ["src"],
+  "rules": {
+    "jsx-no-lambda": false,
+    "no-unused-expression": false,
+    "jsx-no-multiline-js": false,
+    "no-console": {
+      "severity": "warning",
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+    }
+  },
+  "jsRules": {
+    "no-empty": true
+  }
+}

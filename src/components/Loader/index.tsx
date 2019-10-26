@@ -2,13 +2,10 @@ import * as React from 'react'
 
 import './style.scss'
 
-interface iProps {
-}
-
-const Loader: React.SFC<iProps> = (props: iProps) => {
+const Loader: React.SFC = () => {
   return (
-    <div className='Loader-wrapper'>
-      <div className='Loader'></div>
+    <div className="Loader-wrapper">
+      <div className="Loader" />
     </div>
   )
 }

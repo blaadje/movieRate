@@ -1,29 +1,26 @@
 import * as React from 'react'
 
-import Svg from 'react-inlinesvg'
 import Rating from 'react-rating'
 
-import * as star from 'images/star.svg'
-import * as starUnchecked from 'images/starUnchecked.svg'
-
 import './style.scss'
+import Icon from 'components/Icon'
 
-interface iProps {
-  wrapperClass?: string,
-  rate: number,
-  readonly?: boolean,
+interface Iprops {
+  wrapperClass?: string
+  rate: number
+  readonly?: boolean
   onChange?: (rate: number) => void
 }
 
-const Rate: React.SFC<iProps> = (props: iProps) => {
+const Rate: React.SFC<Iprops> = (props: Iprops) => {
   const rate = Math.round(props.rate / 2)
 
   return (
     <div className={`Rate-wrapper ${props.wrapperClass || ''}`}>
       <Rating
         readonly={props.readonly}
-        emptySymbol={<Svg className='Rate-icon' src={starUnchecked} />}
-        fullSymbol={<Svg className='Rate-icon' src={star} />}
+        emptySymbol={<Icon className="Rate-icon" glyph="starUnchecked" />}
+        fullSymbol={<Icon className="Rate-icon" glyph="star" />}
         initialRating={rate}
         onChange={rate => props.onChange}
       />
@@ -32,7 +29,7 @@ const Rate: React.SFC<iProps> = (props: iProps) => {
 }
 
 Rate.defaultProps = {
-  readonly: true
+  readonly: true,
 }
 
 export default Rate

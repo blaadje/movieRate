@@ -1,42 +1,39 @@
 import * as React from 'react'
-import { NavLink } from 'react-router-dom'
-
-import Svg from 'react-inlinesvg'
-
-import * as stars from 'images/Stars.svg'
-import * as clock from 'images/clock.svg'
-import * as playlist from 'images/playlist.svg'
-import * as seen from 'images/seen.svg'
 
 import './index.scss'
+import Link from 'components/Link'
+import Icon from 'components/Icon'
 
 export default class Sidebar extends React.Component {
-  render () {
+  render() {
     return (
-      <div className='Sidebar-wrapper'>
-        <header className='Sidebar-header'>
+      <div className="Sidebar-wrapper">
+        <header className="Sidebar-header">
           <strong>Movie Rate</strong>
-          <img src={stars} />
+          <Icon glyph="stars" />
         </header>
-        <nav className='Sidebar-nav'>
+        <nav className="Sidebar-nav">
           <ul>
             <li>
-              <NavLink exact={!window.location.pathname.includes('index.html')} to='/' activeClassName='isActive'>
-                <Svg className='navIcon' src={clock} />
+              <Link
+                exact={!window.location.pathname.includes('index.html')}
+                to="/"
+              >
+                <Icon className="navIcon" glyph="clock" />
                 <span>Trends</span>
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink to='/seen' activeClassName='isActive'>
-                <Svg className='navIcon' src={seen} />
+              <Link to="/seen">
+                <Icon className="navIcon" glyph="seen" />
                 <span>Movie seen</span>
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink to='/playlist' activeClassName='isActive'>
-                <Svg className='navIcon' src={playlist} />
+              <Link to="/playlist">
+                <Icon className="navIcon" glyph="playlist" />
                 <span>Playlist</span>
-              </NavLink>
+              </Link>
             </li>
           </ul>
         </nav>

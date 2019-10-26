@@ -1,0 +1,6 @@
+export { default as Movie } from './Movie'
+export { default as Rate } from './Rate'
+export { default as Playlist } from './Playlist'
+export { default as Discover } from './Discover'
+export { default as Filter } from './Filter'
+export { default as Tv } from './Tv'

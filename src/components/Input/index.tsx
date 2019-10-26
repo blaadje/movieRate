@@ -1,34 +1,27 @@
 import * as React from 'react'
 
-import Svg from 'react-inlinesvg'
-
-import * as close from 'images/close.svg'
-
 import './style.scss'
+import Icon from 'components/Icon'
 
-interface iProps extends React.HTMLAttributes<any>{
-  value: any,
+interface Iprops extends React.HTMLAttributes<any> {
+  value: any
   onReset: () => void
 }
 
-const Input: React.SFC<iProps> = (props: iProps) => {
+const Input: React.SFC<Iprops> = (props: Iprops) => {
   return (
-    <div className='Input-wrapper'>
+    <div className="Input-wrapper">
       <input
         value={props.value}
         className={`${props.className} Input`}
-        placeholder='Search movie'
-        onChange={(event) => props.onChange(event)}
-
+        placeholder="Search movie"
+        onChange={event => props.onChange && props.onChange(event)}
       />
-      {props.value &&
+      {props.value && (
         <div onClick={() => props.onReset()}>
-          <Svg
-            className='Input-image'
-            src={close}
-          />
+          <Icon className="Input-image" glyph="close" />
         </div>
-      }
+      )}
     </div>
   )
 }

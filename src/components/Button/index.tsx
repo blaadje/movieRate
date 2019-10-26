@@ -1,24 +1,25 @@
 import * as React from 'react'
 
-import Svg from 'react-inlinesvg'
-
-import * as checked from 'images/checked.svg'
-
 import './style.scss'
 
-interface iProps {
-  type: string
+export type Optiondirection = 'left' | 'right'
+
+interface Iprops extends React.AllHTMLAttributes<any> {
+  onClick?: () => void
+  active: boolean
+  direction?: Optiondirection
+  children: React.ReactNode
 }
 
-const Button: React.SFC<iProps> = (props: iProps) => {
+const Button: React.SFC<Iprops> = (props: Iprops) => {
+  const { children, active, onClick } = props
+
   return (
-    <div className='Button-wrapper'>
-      <input
-        className='Button'
-        value=''
-        onClick={(e) => { e.preventDefault() }}
-        {...props} />
-      <Svg className='Button-image' src={checked}/>
+    <div
+      onClick={onClick}
+      className={`Button-wrapper ${active ? 'isActive' : ''}`}
+    >
+      {children}
     </div>
   )
 }

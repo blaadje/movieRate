@@ -4,30 +4,30 @@ import PanelContainer from 'components/Panel/container'
 
 import './style.scss'
 
-interface iProps {
-  targetComponent: React.ReactNode,
-  panelComponent: React.ReactNode,
+interface Iprops {
+  targetComponent: React.ReactNode
+  panelComponent: React.ReactNode
   onClickOutside?: () => void
 }
 
-interface iState {
+interface Istate {
   isOpen: boolean
 }
 
-export default class Panel extends React.Component<iProps, iState> {
-  constructor (props: iProps, state: iState) {
+export default class Panel extends React.Component<Iprops, Istate> {
+  constructor(props: Iprops, state: Istate) {
     super(props)
     this.state = {
-      isOpen: false
+      isOpen: false,
     }
   }
 
-  onClickWrapper (): void {
+  onClickWrapper(): void {
     this.props.onClickOutside && this.props.onClickOutside()
     this.setState({ isOpen: false })
   }
 
-  render () {
+  render() {
     const { targetComponent, panelComponent } = this.props
     const { isOpen } = this.state
 
@@ -36,14 +36,14 @@ export default class Panel extends React.Component<iProps, iState> {
         <div onClick={() => this.setState({ isOpen: !isOpen })}>
           {targetComponent}
         </div>
-        {isOpen &&
-          <div className='Panel-wrapper'>
+        {isOpen && (
+          <div className="Panel-wrapper">
             <PanelContainer
               onClickOutside={() => this.onClickWrapper()}
               content={panelComponent}
             />
           </div>
-        }
+        )}
       </div>
     )
   }

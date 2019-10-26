@@ -25,42 +25,6 @@
     li {
       height: 35px;
       margin-left: 2em;
-      
-      a {
-        font-size: 20px !important;
-        position: relative;
-        height: 100%;
-        width: 100%;
-        display: block;
-        padding-top: 10px;
-
-        .navIcon > svg {
-          width: 15px;
-          fill: $grey;
-          margin-right: 1em;
-        }
-
-        &.isActive {
-          span {
-            color: $highlight;
-          }
-
-          .navIcon > svg {
-            fill: $highlight;
-          }
-
-          &:after {
-            position: absolute;
-            top: 0;
-            right: 0;
-            content: '';
-            background: $highlight;
-            width: 5px;
-            height: 100%;
-            border-radius: .2em;
-          }
-        }
-      }
 
       &:not(:last-child) {
         margin-bottom: 1.2em;

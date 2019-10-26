@@ -7,23 +7,19 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
     "baseUrl": "./",
     "paths": {
       "images/*": ["src/assets/images/*"],
       "components/*": ["src/components/*"],
       "containers/*": ["src/containers/*"],
+      "views/*": ["src/views/*"],
       "core/*": ["src/core/*"],
-      "settings": ["src/settings"],
+      "settings": ["src/settings"]
     }
   },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "./node_modules",
-    "./build"
-  ],
-  "files": [
-    "src/typings.d.ts"
-  ]
+  "include": ["./src/**/*"],
+  "exclude": ["./node_modules", "./build"],
+  "files": ["src/typings.d.ts"]
 }

@@ -1,45 +1,76 @@
 import * as React from 'react'
 
+import { connect } from 'react-redux'
+
+import { flow } from 'lodash'
+
+import ButtonValidate from 'components/ButtonValidate'
 import Rate from 'components/Rate'
-import Button from 'components/Button'
 import Textarea from 'components/Textarea'
 
 import './style.scss'
 
-interface iProps {}
+interface Iprops {
+  dispatch: (Object: any) => void
+  movieId: number
+}
 
-interface iState {
-  rate: number,
+interface Istate {
+  movieId: number
+  rate: number
   description: string
 }
 
-export default class Form extends React.Component<iProps, iState> {
-  constructor (props: iProps, state: iState) {
+class Form extends React.Component<Iprops, Istate> {
+  constructor(props: Iprops, state: Istate) {
     super(props)
     this.state = {
+      movieId: this.props.movieId,
       rate: 4,
-      description: ''
+      description: '',
     }
   }
-  render () {
-    const { rate } = this.state
+
+  submitForm(event: any) {
+    event.preventDefault()
+    // const rate = {
+    //   movieId: this.state.movieId,
+    //   rate: this.state.rate,
+    //   description: this.state.description,
+    // }
+    // this.props.dispatch(resourceCreate(rate))
+  }
+
+  handleDescription(event: any) {
+    this.setState({ description: event.target.value })
+  }
+
+  render() {
+    const { rate, description } = this.state
 
     return (
-      <form className='Form-wrapper'>
+      <form className="Form-wrapper" onSubmit={event => this.submitForm(event)}>
         <Rate
-          wrapperClass='u-mgv--m'
+          wrapperClass="u-mgv--m"
           readonly={false}
           rate={rate}
           onChange={(rate: any) => this.setState({ rate })}
         />
-
-        <hr/>
+        <hr />
         <div>
-          <h2 className='Form-title'>Description</h2>
-          <Textarea className='Form-textarea' placeholder='Put what you think about the movie here...'/>
-          <Button type='submit'/>
+          <h2 className="Form-title">Description</h2>
+          <Textarea
+            className="Form-textarea"
+            value={description}
+            onChange={value => this.handleDescription(value)}
+            placeholder="Put what you think about the movie here..."
+          />
+
+          <ButtonValidate type="submit" />
         </div>
       </form>
     )
   }
 }
+
+export default flow(connect() as any)(Form)
