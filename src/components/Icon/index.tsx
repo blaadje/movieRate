@@ -5,11 +5,23 @@ import './style.scss'
 
 import iconsMap from 'components/Icon/iconsMap'
 
-export type glyphOptions = 'checked' | 'close' | 'star' | 'starUnchecked' | 'search' | 'add' | 'infos' | 'clock' | 'playlist' | 'seen' | 'stars' | 'vector'
+export type glyphOptions =
+  | 'checked'
+  | 'close'
+  | 'star'
+  | 'starUnchecked'
+  | 'search'
+  | 'add'
+  | 'infos'
+  | 'clock'
+  | 'playlist'
+  | 'seen'
+  | 'stars'
+  | 'vector'
 export type sizeOptions = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl'
 
 interface Iprops extends React.HTMLAttributes<any> {
-  size?: sizeOptions,
+  size?: sizeOptions
   glyph: glyphOptions
 }
 
@@ -19,17 +31,12 @@ const Icon: React.SFC<Iprops> = (props: Iprops) => {
   const icon = iconsMap[glyph]
 
   return (
-    <Svg
-      cacheGetRequests={true}
-      className={svgClass}
-      src={icon}
-      {...rest}
-    />
+    <Svg cacheGetRequests={true} className={svgClass} src={icon} {...rest} />
   )
 }
 
 Icon.defaultProps = {
-  size: 'm'
+  size: 'm',
 }
 
 export default Icon

@@ -19,17 +19,17 @@ const Rate: React.SFC<Iprops> = (props: Iprops) => {
     <div className={`Rate-wrapper ${props.wrapperClass || ''}`}>
       <Rating
         readonly={props.readonly}
-        emptySymbol={<Icon className='Rate-icon' glyph='starUnchecked' />}
-        fullSymbol={<Icon className='Rate-icon' glyph='star' />}
+        emptySymbol={<Icon className="Rate-icon" glyph="starUnchecked" />}
+        fullSymbol={<Icon className="Rate-icon" glyph="star" />}
         initialRating={rate}
-        onChange={(rate) => props.onChange}
+        onChange={rate => props.onChange}
       />
     </div>
   )
 }
 
 Rate.defaultProps = {
-  readonly: true
+  readonly: true,
 }
 
 export default Rate

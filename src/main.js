@@ -1,11 +1,12 @@
 import { BrowserWindow, app } from 'electron'
 import { enableLiveReload } from 'electron-compile'
 
-if (process.env.NODE_ENV === 'development') enableLiveReload({ strategy: 'react-hmr' })
+if (process.env.NODE_ENV === 'development')
+  enableLiveReload({ strategy: 'react-hmr' })
 
 let win
 
-function createWindow () {
+function createWindow() {
   /**
    * Initial window options
    */
@@ -13,7 +14,7 @@ function createWindow () {
     width: 1450,
     height: 900,
     transparent: true,
-    titleBarStyle: 'hidden-inset'
+    titleBarStyle: 'hidden-inset',
   })
 
   const loading = new BrowserWindow({
@@ -23,7 +24,7 @@ function createWindow () {
     transparent: true,
     frame: false,
     modal: true,
-    parent: win
+    parent: win,
   })
 
   loading.setIgnoreMouseEvents(true)
@@ -51,14 +52,14 @@ function createWindow () {
     const {
       default: installExtension,
       REACT_DEVELOPER_TOOLS,
-      REDUX_DEVTOOLS
+      REDUX_DEVTOOLS,
     } = require('electron-devtools-installer')
 
-    installExtension(REACT_DEVELOPER_TOOLS).catch((err) => {
+    installExtension(REACT_DEVELOPER_TOOLS).catch(err => {
       console.error('An error occurred: ', err) // eslint-disable-line no-console
     })
 
-    installExtension(REDUX_DEVTOOLS).catch((err) => {
+    installExtension(REDUX_DEVTOOLS).catch(err => {
       console.error('An error occurred: ', err) // eslint-disable-line no-console
     })
   }

@@ -17,18 +17,18 @@ interface Istate {
 }
 
 class ErrorManager extends React.Component<Iprops, Istate> {
-  constructor (props: Iprops, state: Istate) {
+  constructor(props: Iprops, state: Istate) {
     super(props)
     this.state = {
-      error: null
+      error: null,
     }
   }
 
-  componentWillReceiveProps ({ error }: any) {
+  componentWillReceiveProps({ error }: any) {
     this.setState(error)
   }
 
-  render () {
+  render() {
     const { error } = this.state
 
     if (!error) {
@@ -36,15 +36,13 @@ class ErrorManager extends React.Component<Iprops, Istate> {
     }
 
     return (
-      <div className='ErrorManager-wrapper'>
-        <div className='ErrorManager-message'>
-          {error.message}
-        </div>
+      <div className="ErrorManager-wrapper">
+        <div className="ErrorManager-message">{error.message}</div>
         <div
-          className='ErrorManager-close'
+          className="ErrorManager-close"
           onClick={() => this.setState({ error: null })}
         >
-          <Svg src={close}/>
+          <Svg src={close} />
         </div>
       </div>
     )
@@ -53,7 +51,7 @@ class ErrorManager extends React.Component<Iprops, Istate> {
 
 const mapStateToProps = (state: any) => {
   return {
-    error: state.application
+    error: state.application,
   }
 }
 

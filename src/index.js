@@ -8,12 +8,13 @@ const render = () => {
   const Application = require('containers/Application').default
   const BrowserRouter = require('react-router-dom').BrowserRouter
 
-  ReactDOM.render((
+  ReactDOM.render(
     <AppContainer>
       <BrowserRouter>
         <Application />
       </BrowserRouter>
-    </AppContainer>), document.getElementById('root')
+    </AppContainer>,
+    document.getElementById('root')
   )
 }
 

@@ -9,7 +9,7 @@
   align-items: center;
   padding: 4em;
   font-size: 20px;
-  
+
   .TrendsHeader-search {
     flex-grow: 2;
   }
@@ -22,11 +22,11 @@
   }
 
   .HeaderCategory-wrapper {
-    padding: .6em .5em;
+    padding: 0.6em 0.5em;
   }
 
   .HeaderCategory-item {
-    padding: .4em .6em;
+    padding: 0.4em 0.6em;
     position: relative;
     transition: all $delay ease-in-out;
     cursor: pointer;

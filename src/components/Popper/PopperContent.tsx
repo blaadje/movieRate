@@ -12,10 +12,8 @@ class PopperContent extends React.Component<Iprops, {}> {
     this.props.onClickOutside && this.props.onClickOutside(event)
   }
 
-  render () {
-    return (
-      <>{this.props.content}</>
-    )
+  render() {
+    return <>{this.props.content}</>
   }
 }
 

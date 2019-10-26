@@ -4,14 +4,14 @@
     height: 100%;
     background: rgba(#176087, 0.2);
   }
-  
+
   .ItemOptions-wrapper {
     @include center();
     position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
-    background: rgba(#1E2E3D, 0.8);
+    background: rgba(#1e2e3d, 0.8);
     .ItemMenu {
       height: 80%;
       display: flex;
@@ -21,13 +21,13 @@
       z-index: 1;
     }
   }
-  
+
   .Item-description--title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  
+
   .Item-description {
     position: absolute;
     bottom: 0;
@@ -41,4 +41,3 @@
     }
   }
 }
-

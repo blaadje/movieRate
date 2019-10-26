@@ -5,17 +5,17 @@ import List from 'components/List'
 // import './index.scss'
 
 export default class Seen extends React.Component<{}, {}> {
-  render () {
+  render() {
     const collection = [
       {
-        title: 'ma playlist'
+        title: 'ma playlist',
       },
       {
-        title: 'ma playlist2'
-      }
+        title: 'ma playlist2',
+      },
     ]
     return (
-      <div className='Document-wrapper'>
+      <div className="Document-wrapper">
         <List collection={collection} />
       </div>
     )

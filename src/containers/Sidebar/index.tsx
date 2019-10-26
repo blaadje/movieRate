@@ -5,30 +5,33 @@ import Link from 'components/Link'
 import Icon from 'components/Icon'
 
 export default class Sidebar extends React.Component {
-  render () {
+  render() {
     return (
-      <div className='Sidebar-wrapper'>
-        <header className='Sidebar-header'>
+      <div className="Sidebar-wrapper">
+        <header className="Sidebar-header">
           <strong>Movie Rate</strong>
-          <Icon glyph='stars' />
+          <Icon glyph="stars" />
         </header>
-        <nav className='Sidebar-nav'>
+        <nav className="Sidebar-nav">
           <ul>
             <li>
-              <Link exact={!window.location.pathname.includes('index.html')} to='/'>
-                <Icon className='navIcon' glyph='clock' />
+              <Link
+                exact={!window.location.pathname.includes('index.html')}
+                to="/"
+              >
+                <Icon className="navIcon" glyph="clock" />
                 <span>Trends</span>
               </Link>
             </li>
             <li>
-              <Link to='/seen'>
-                <Icon className='navIcon' glyph='seen' />
+              <Link to="/seen">
+                <Icon className="navIcon" glyph="seen" />
                 <span>Movie seen</span>
               </Link>
             </li>
             <li>
-              <Link to='/playlist'>
-                <Icon className='navIcon' glyph='playlist' />
+              <Link to="/playlist">
+                <Icon className="navIcon" glyph="playlist" />
                 <span>Playlist</span>
               </Link>
             </li>

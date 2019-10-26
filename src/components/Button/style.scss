@@ -8,10 +8,10 @@
   transition: all $delay ease;
 
   &:hover {
-    color: rgba($highlight, .8);
+    color: rgba($highlight, 0.8);
     cursor: pointer;
   }
-  
+
   .navIcon > svg {
     width: 15px;
     fill: $grey;
@@ -23,10 +23,10 @@
       color: $highlight;
     }
 
-    .navIcon>svg {
+    .navIcon > svg {
       fill: $highlight;
     }
-    
+
     &:after {
       position: absolute;
       top: 0;
@@ -35,7 +35,7 @@
       background: $highlight;
       width: 5px;
       height: 100%;
-      border-radius: .2em;
+      border-radius: 0.2em;
     }
   }
 }

@@ -9,16 +9,17 @@
   display: inline-block;
   vertical-align: top;
   background: linear-gradient(
-    to left,   
+    to left,
     rgba($dark, 0.7) 0%,
-    rgba($dark, 0.75) 5%, 
-    rgba($dark, 0.8) 15%, 
-    rgba($dark, 0.85) 35%, 
+    rgba($dark, 0.75) 5%,
+    rgba($dark, 0.8) 15%,
+    rgba($dark, 0.85) 35%,
     rgba($dark, 1) 87%
   );
 }
 
 .ContentWrapper {
-  height: 100%; width: 100%; 
-  padding: 0 .3em;
+  height: 100%;
+  width: 100%;
+  padding: 0 0.3em;
 }

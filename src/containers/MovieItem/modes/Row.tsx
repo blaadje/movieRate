@@ -22,47 +22,41 @@ const RowItem: React.SFC<Iprops> = (props: Iprops) => {
   return (
     <Image
       filter={true}
-      className='Item-wrapper isRow'
+      className="Item-wrapper isRow"
       src={API_IMAGE_LINK + movie.poster_path}
       onMouseEnter={() => onHovered(true)}
       onMouseLeave={() => onHovered(false)}
     >
-      <div className='Item-description'>
-        <span className='Item-description--title u-mgb--xs'>{movie.title || movie.name}</span>
-        <span className='Item-description--date u-mgb--xs'>{`(${movie.release_date || movie.first_air_date})`}</span>
-        <Rate
-          rate={movie.vote_average}
-        />
+      <div className="Item-description">
+        <span className="Item-description--title u-mgb--xs">
+          {movie.title || movie.name}
+        </span>
+        <span className="Item-description--date u-mgb--xs">{`(${movie.release_date ||
+          movie.first_air_date})`}</span>
+        <Rate rate={movie.vote_average} />
       </div>
-      {isHovered &&
-        <div className='ItemOptions-wrapper'>
-          <div className='Item-options'>
+      {isHovered && (
+        <div className="ItemOptions-wrapper">
+          <div className="Item-options">
             <Popper
-              popperPlacement='right'
-              targetComponent={
-                <ButtonOption type='rate' />
-              }
+              popperPlacement="right"
+              targetComponent={<ButtonOption type="rate" />}
               popperComponent={<Form movieId={movie.id} />}
             />
             <Popper
-              popperPlacement='right'
-              targetComponent={
-                <ButtonOption type='playlist' />
-              }
+              popperPlacement="right"
+              targetComponent={<ButtonOption type="playlist" />}
               popperComponent={<p>test</p>}
             />
             <Panel
               onClickOutside={() => onHovered(false)}
-              targetComponent={
-                <ButtonOption type='infos' />
-              }
-              panelComponent={
-                <MovieInfos movie={movie} />}
+              targetComponent={<ButtonOption type="infos" />}
+              panelComponent={<MovieInfos movie={movie} />}
             />
           </div>
         </div>
-      }
-    </Image >
+      )}
+    </Image>
   )
 }
 

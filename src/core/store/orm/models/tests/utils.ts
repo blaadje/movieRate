@@ -1,15 +1,17 @@
 import { ORM } from 'redux-orm'
-import { MOVIES_INITIAL, CATEGORIES_INITIAL } from 'core/models/tests/mocks'
-import { Movie, Category, Subcategory } from 'core/models'
-import { ORMState, ORMModels } from 'core/model'
+import {
+  MOVIES_INITIAL,
+  CATEGORIES_INITIAL,
+} from 'core/store/orm/models/tests/mocks'
+import { Movie } from 'core/store/orm/models'
 
-export function createTestORM () {
-  const orm = new ORM<ORMState>()
-  orm.register<ORMModels>(Movie, Category, Subcategory)
+export function createTestORM() {
+  const orm = new ORM()
+  orm.register(Movie)
   return orm
 }
 
-export function createTestSessionWithData (customORM?: any) {
+export function createTestSessionWithData(customORM?: any) {
   const orm = customORM || createTestORM()
   const state = orm.getEmptyState()
   const { Movie, Category } = orm.mutableSession(state)

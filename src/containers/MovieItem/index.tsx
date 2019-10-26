@@ -14,14 +14,14 @@ interface Istate {
 }
 
 export default class MovieItem extends React.Component<Iprops, Istate> {
-  constructor (props: Iprops, state: Istate) {
+  constructor(props: Iprops, state: Istate) {
     super(props)
     this.state = {
-      isHovered: false
+      isHovered: false,
     }
   }
 
-  render (): any {
+  render(): any {
     const { isHovered } = this.state
     const { movie, isRow } = this.props
 

@@ -2,7 +2,8 @@
   "extends": [
     "tslint-eslint-rules",
     "tslint-react",
-    "tslint-config-standard"
+    "tslint-config-standard",
+    "tslint-config-prettier"
   ],
   "linterOptions": {
     "exclude": ["build", "node_modules"]
@@ -12,18 +13,9 @@
     "jsx-no-lambda": false,
     "no-unused-expression": false,
     "jsx-no-multiline-js": false,
-    "quotemark": [true, "single", "jsx-single"],
-    "semicolon": [true, "never"],
     "no-console": {
       "severity": "warning",
-      "options": [
-        "debug",
-        "info",
-        "log",
-        "time",
-        "timeEnd",
-        "trace"
-      ]
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
     }
   },
   "jsRules": {

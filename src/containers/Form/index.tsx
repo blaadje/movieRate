@@ -8,7 +8,6 @@ import ButtonValidate from 'components/ButtonValidate'
 import Rate from 'components/Rate'
 import Textarea from 'components/Textarea'
 
-import { resourceCreate } from 'core/sagas/resourcesSaga/actions'
 import './style.scss'
 
 interface Iprops {
@@ -23,57 +22,55 @@ interface Istate {
 }
 
 class Form extends React.Component<Iprops, Istate> {
-  constructor (props: Iprops, state: Istate) {
+  constructor(props: Iprops, state: Istate) {
     super(props)
     this.state = {
       movieId: this.props.movieId,
       rate: 4,
-      description: ''
+      description: '',
     }
   }
 
-  submitForm (event: any) {
+  submitForm(event: any) {
     event.preventDefault()
-    const rate = {
-      movieId: this.state.movieId,
-      rate: this.state.rate,
-      description: this.state.description
-    }
-    this.props.dispatch(resourceCreate(rate))
+    // const rate = {
+    //   movieId: this.state.movieId,
+    //   rate: this.state.rate,
+    //   description: this.state.description,
+    // }
+    // this.props.dispatch(resourceCreate(rate))
   }
 
-  handleDescription (event: any) {
+  handleDescription(event: any) {
     this.setState({ description: event.target.value })
   }
 
-  render () {
+  render() {
     const { rate, description } = this.state
 
     return (
-      <form className='Form-wrapper' onSubmit={(event) => this.submitForm(event)}>
+      <form className="Form-wrapper" onSubmit={event => this.submitForm(event)}>
         <Rate
-          wrapperClass='u-mgv--m'
+          wrapperClass="u-mgv--m"
           readonly={false}
           rate={rate}
           onChange={(rate: any) => this.setState({ rate })}
         />
-        <hr/>
+        <hr />
         <div>
-          <h2 className='Form-title'>Description</h2>
+          <h2 className="Form-title">Description</h2>
           <Textarea
-            className='Form-textarea'
+            className="Form-textarea"
             value={description}
-            onChange={(value) => this.handleDescription(value)}
-            placeholder='Put what you think about the movie here...'
+            onChange={value => this.handleDescription(value)}
+            placeholder="Put what you think about the movie here..."
           />
 
-          <ButtonValidate type='submit'/>
+          <ButtonValidate type="submit" />
         </div>
       </form>
     )
   }
 }
 
-export default flow(
-  connect() as any
-)(Form)
+export default flow(connect() as any)(Form)

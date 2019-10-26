@@ -7,15 +7,21 @@ import Popper from 'components/Popper'
 import Search from 'containers/Search'
 
 import List from 'components/List'
-import { apiFetch } from 'core/sagas/apiCallSaga/actions'
+import { resourceFetch } from 'core/store/actions'
 import './index.scss'
 import FilterButton from 'containers/FilterButton'
-import { SHOW_MOVIES } from 'core/sagas/resourcesSaga/constants'
-import { filteredMovies } from 'core/selectors'
+import { activeFilter, discoverMovies } from 'core/store/selectors'
 import Icon from 'components/Icon'
+import {
+  DISCOVER_TVS,
+  DISCOVER_MOVIES,
+  DISCOVER,
+  filterProps,
+} from 'core/store/constants'
 
 interface Iprops {
   dispatch: (Object: any) => Promise<any>
+  activeFilter: filterProps
   movies: any
 }
 
@@ -24,58 +30,66 @@ interface Istate {
 }
 
 class Trends extends React.Component<Iprops, Istate> {
-  constructor (props: Iprops, state: Istate) {
+  constructor(props: Iprops, state: Istate) {
     super(props)
     this.state = {
-      isLoading: true
+      isLoading: true,
     }
   }
 
-  componentWillMount () {
-    this.fetchCategory('movie')
+  async componentDidMount() {
+    await this.props.dispatch(
+      resourceFetch({
+        resourceType: DISCOVER,
+        relationShip: this.props.activeFilter.field,
+      })
+    )
+
+    this.setState({ isLoading: false })
   }
 
-  fetchCategory (resourceType: string): void {
-    this.props.dispatch(apiFetch('discover', {
-      segment: resourceType
-    })).then(() => this.setState({ isLoading: false })).catch(err => console.error(err))
+  async componentDidUpdate({ activeFilter }: any) {
+    if (activeFilter === this.props.activeFilter) {
+      return
+    }
+
+    await this.props.dispatch(
+      resourceFetch({
+        resourceType: DISCOVER,
+        relationShip: this.props.activeFilter.field,
+      })
+    )
+
+    this.setState({ isLoading: false })
   }
 
-  render (): React.ReactNode {
-    const { movies } = this.props
+  render(): React.ReactNode {
+    const { movies, activeFilter } = this.props
 
     return (
-      <div className='Trends-wrapper'>
-        <header className='Trends-header'>
-          <Search
-            className='TrendsHeader-search'
-            inputClassName='Input-bold'
-          />
+      <div className="Trends-wrapper">
+        <header className="Trends-header">
+          <Search className="TrendsHeader-search" inputClassName="Input-bold" />
           <Popper
-            popperPlacement='bottom'
-            wrapperClass='TrendsHeader-Category'
+            popperPlacement="bottom"
+            wrapperClass="TrendsHeader-Category"
             targetComponent={
               <div>
-                <span>{SHOW_MOVIES}</span>
-                <Icon className='u-mgl--s' glyph='vector' />
+                <span>{activeFilter.field}</span>
+                <Icon className="u-mgl--s" glyph="vector" />
               </div>
             }
             popperComponent={
-              <div className='HeaderCategory-wrapper'>
-                <FilterButton filter='movie'>
+              <div className="HeaderCategory-wrapper">
+                <FilterButton filter={DISCOVER_MOVIES}>
                   Popular movies
                 </FilterButton>
-                <FilterButton filter='tv' onClick={() => this.fetchCategory('tv')}>
-                  Popular TV's
-                </FilterButton>
+                <FilterButton filter={DISCOVER_TVS}>Popular TV's</FilterButton>
               </div>
             }
           />
         </header>
-        <List
-          wrapperClass='Movie-wrapper'
-          collection={movies}
-        />
+        <List wrapperClass="Movie-wrapper" collection={movies} />
       </div>
     )
   }
@@ -83,10 +97,9 @@ class Trends extends React.Component<Iprops, Istate> {
 
 const mapStateToProps = (state: any) => {
   return {
-    movies: filteredMovies(state)
+    movies: discoverMovies(state),
+    activeFilter: activeFilter(state, 0).value,
   }
 }
 
-export default flow(
-  connect(mapStateToProps) as any
-)(Trends)
+export default flow(connect(mapStateToProps) as any)(Trends)

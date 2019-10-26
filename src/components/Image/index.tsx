@@ -20,24 +20,17 @@ const ImageWrapper: React.SFC<Iprops> = (props: Iprops) => {
   const { src, wrapperclass, className, loader } = props
 
   return (
-    <ImageLoader
-      src={src}
-      className={wrapperclass}
-    >
+    <ImageLoader src={src} className={wrapperclass}>
       <Image {...props} />
       <div className={className}>Error</div>
-      <div className={`u-pos--r ${className}`}>
-        {loader &&
-          <Loader />
-        }
-      </div>
+      <div className={`u-pos--r ${className}`}>{loader && <Loader />}</div>
     </ImageLoader>
   )
 }
 
 ImageWrapper.defaultProps = {
   loader: true,
-  filter: false
+  filter: false,
 }
 
 export default ImageWrapper

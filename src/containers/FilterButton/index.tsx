@@ -1,22 +1,24 @@
 import { connect } from 'react-redux'
-import { resourceFilter } from 'core/sagas/resourcesSaga/actions'
+import { resourceFilter } from 'core/store/actions'
 import Button from 'components/Button'
-import { activeFilterSelector } from 'core/selectors'
+import { activeFilter } from 'core/store/selectors'
 
 interface Iprops {
-  onClick?: () => void,
-  filter: string
+  onClick?: () => void
+  filter: number
 }
 
-const mapStateToProps = (state: any, { filter }: any) => ({
-  active: activeFilterSelector(state, filter)
-})
-
-const mapDispatchToProps = (dispatch: any, ownProps: Iprops) => ({
-  onClick: () => {
-    ownProps.onClick && ownProps.onClick()
-    dispatch(resourceFilter(ownProps.filter))
+const mapStateToProps = (state: any, { filter }: any) => {
+  return {
+    active: activeFilter(state, 0).value.key === filter.key,
   }
+}
+
+const mapDispatchToProps = (dispatch: any, { filter, onClick }: Iprops) => ({
+  onClick: () => {
+    onClick && onClick()
+    dispatch(resourceFilter(filter))
+  },
 })
 
 export default connect(

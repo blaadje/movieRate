@@ -19,26 +19,27 @@ const List: React.SFC<Iprops> = (props: Iprops) => {
 
   return (
     <div className={`List-wrapper ${wrapperClass ? wrapperClass : ''}`}>
-      <div className={`List-content ${direction === 'row' ? 'isRow' : 'isColumn'}`}>
-        {!collection &&
-          <Loader />
-        }
+      <div
+        className={`List-content ${direction === 'row' ? 'isRow' : 'isColumn'}`}
+      >
+        {!collection && <Loader />}
         {collection &&
           collection.map((movie: any, index: number) => {
-            return <MovieItem
-              key={index}
-              isRow={direction === 'row'}
-              movie={movie}
-            />
-          })
-        }
+            return (
+              <MovieItem
+                key={index}
+                isRow={direction === 'row'}
+                movie={movie}
+              />
+            )
+          })}
       </div>
     </div>
   )
 }
 
 List.defaultProps = {
-  direction: 'row'
+  direction: 'row',
 }
 
 export default List

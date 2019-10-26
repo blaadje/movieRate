@@ -10,22 +10,27 @@ import Trends from 'views/Trends'
 
 import store from 'core/store'
 
-import { ContentWrapper } from 'containers/Application/ContentWrapper'
 import './index.scss'
 
 const App: React.SFC = () => {
   return (
     <Provider store={store}>
-      <div className='Application-wrapper'>
+      <div className="Application-wrapper">
         <ErrorManager />
         <Sidebar />
-        <ContentWrapper>
-          <Switch>
-            <Route path='/' exact={!window.location.pathname.includes('index.html')} component={Trends} />
-            <Route path='/seen' component={Seen as any} />
-            <Route path='/playlist' component={Playlist as any} />
-          </Switch>
-        </ContentWrapper>
+        <div className="ContentGradientWrapper">
+          <div className="ContentWrapper">
+            <Switch>
+              <Route
+                path="/"
+                exact={!window.location.pathname.includes('index.html')}
+                component={Trends}
+              />
+              <Route path="/seen" component={Seen as any} />
+              <Route path="/playlist" component={Playlist as any} />
+            </Switch>
+          </div>
+        </div>
       </div>
     </Provider>
   )

@@ -24,8 +24,8 @@ const ButtonOption: React.SFC<Iprops> = (props: Iprops) => {
   const { type } = props
 
   return (
-    <div className='ButtonOption-wrapper'>
-      <Icon className='Option-image' glyph={getSrc(type) as any} />
+    <div className="ButtonOption-wrapper">
+      <Icon className="Option-image" glyph={getSrc(type) as any} />
     </div>
   )
 }

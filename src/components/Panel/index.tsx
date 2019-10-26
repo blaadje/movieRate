@@ -15,19 +15,19 @@ interface Istate {
 }
 
 export default class Panel extends React.Component<Iprops, Istate> {
-  constructor (props: Iprops, state: Istate) {
+  constructor(props: Iprops, state: Istate) {
     super(props)
     this.state = {
-      isOpen: false
+      isOpen: false,
     }
   }
 
-  onClickWrapper (): void {
+  onClickWrapper(): void {
     this.props.onClickOutside && this.props.onClickOutside()
     this.setState({ isOpen: false })
   }
 
-  render () {
+  render() {
     const { targetComponent, panelComponent } = this.props
     const { isOpen } = this.state
 
@@ -36,14 +36,14 @@ export default class Panel extends React.Component<Iprops, Istate> {
         <div onClick={() => this.setState({ isOpen: !isOpen })}>
           {targetComponent}
         </div>
-        {isOpen &&
-          <div className='Panel-wrapper'>
+        {isOpen && (
+          <div className="Panel-wrapper">
             <PanelContainer
               onClickOutside={() => this.onClickWrapper()}
               content={panelComponent}
             />
           </div>
-        }
+        )}
       </div>
     )
   }

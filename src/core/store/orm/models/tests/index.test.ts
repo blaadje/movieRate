@@ -1,18 +1,17 @@
-import { createTestSessionWithData } from 'core/models/tests/utils'
+import { createTestSessionWithData } from 'core/store/orm/models/tests/utils'
 
 describe('General', () => {
-  let orm
   let state: any
   let session: any
 
   describe('Models', () => {
-    beforeEach(() => ({ session, orm, state } = createTestSessionWithData()))
+    beforeEach(() => ({ session, state } = createTestSessionWithData()))
 
     it('Initial data bootstrapping results in a correct state', () => {
       expect(state).toEqual(
         expect.objectContaining({
           Movie: expect.anything(),
-          Category: expect.anything()
+          Category: expect.anything(),
         })
       )
 

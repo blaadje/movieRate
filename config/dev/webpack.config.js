@@ -7,7 +7,7 @@ module.exports = {
   ...config,
   output: {
     publicPath,
-    filename: 'index.js'
+    filename: 'index.js',
   },
   devtool: 'cheap-module-eval-source-map',
   devServer: {
@@ -25,11 +25,11 @@ module.exports = {
     watchOptions: {
       aggregateTimeout: 300,
       ignored: /node_modules/,
-      poll: 100
+      poll: 100,
     },
     historyApiFallback: {
       verbose: true,
-      disableDotRule: false
-    }
-  }
+      disableDotRule: false,
+    },
+  },
 }

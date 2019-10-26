@@ -2,7 +2,7 @@ import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 
-import { apiFetch } from 'core/sagas/apiCallSaga/actions'
+// import { apiFetch } from 'core/store/actions'
 
 import './style.scss'
 
@@ -22,51 +22,53 @@ interface Istate {
 }
 
 class Search extends React.Component<Iprops, Istate> {
-  constructor (props: Iprops, state: Istate) {
+  constructor(props: Iprops, state: Istate) {
     super(props)
     this.state = {
       movies: [],
-      inputValue: ''
+      inputValue: '',
     }
   }
 
-  fetchMovie (value: string): void {
-    if (!value || value.length < 3) {
-      this.setState({ movies: [] })
-      return
-    }
-
-    this.props.dispatch(apiFetch('search', {
-      segment: 'tv',
-      query: { query: value }
-    }))
-      .then((movies: any[]) => this.setState({ movies }))
-      .catch(err => console.error(err))
+  fetchMovie(value: string): void {
+    // if (!value || value.length < 3) {
+    //   this.setState({ movies: [] })
+    //   return
+    // }
+    // this.props
+    //   .dispatch(
+    //     apiFetch('search', {
+    //       segment: 'tv',
+    //       query: { query: value },
+    //     })
+    //   )
+    //   .then((movies: any[]) => this.setState({ movies }))
+    //   .catch(err => console.error(err))
   }
 
-  onChangeInput (event: React.ChangeEvent<any>) {
+  onChangeInput(event: React.ChangeEvent<any>) {
     this.setState({ inputValue: event.target.value })
     this.fetchMovie(event.target.value)
   }
 
-  render () {
+  render() {
     const { inputValue, movies } = this.state
 
     return (
       <div className={`Search-wrapper ${this.props.className || ''}`}>
-        <div className='Search-input'>
-          <Icon className='Search-icon' size='xl' glyph='search' />
+        <div className="Search-input">
+          <Icon className="Search-icon" size="xl" glyph="search" />
           <Input
             className={this.props.inputClassName}
             value={inputValue}
-            placeholder='Search movie'
-            onChange={(event) => this.onChangeInput(event)}
+            placeholder="Search movie"
+            onChange={event => this.onChangeInput(event)}
             onReset={() => this.setState({ inputValue: '', movies: [] })}
           />
         </div>
         <List
-          direction='column'
-          wrapperClass='Search-result'
+          direction="column"
+          wrapperClass="Search-result"
           collection={movies}
         />
       </div>
@@ -74,6 +76,4 @@ class Search extends React.Component<Iprops, Istate> {
   }
 }
 
-export default flow(
-  connect() as any
-)(Search)
+export default flow(connect() as any)(Search)
