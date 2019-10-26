@@ -2,8 +2,6 @@ import * as React from 'react'
 
 import { connect } from 'react-redux'
 
-import { flow } from 'lodash'
-
 import ButtonValidate from 'components/ButtonValidate'
 import Rate from 'components/Rate'
 import Textarea from 'components/Textarea'
@@ -73,4 +71,4 @@ class Form extends React.Component<Iprops, Istate> {
   }
 }
 
-export default flow(connect() as any)(Form)
+export default connect()(Form)

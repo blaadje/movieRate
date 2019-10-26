@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 
-import { flow } from 'lodash'
-
 import Image from 'components/Image'
 import Rate from 'components/Rate'
 
@@ -94,4 +92,4 @@ class MovieInfos extends React.Component<Iprops, Istate> {
   }
 }
 
-export default flow(connect() as any)(MovieInfos)
+export default connect()(MovieInfos)

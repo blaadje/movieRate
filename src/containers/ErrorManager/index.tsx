@@ -1,6 +1,5 @@
 import * as React from 'react'
 
-import { flow } from 'lodash'
 import { connect } from 'react-redux'
 
 import Svg from 'react-inlinesvg'
@@ -9,7 +8,6 @@ import './style.scss'
 
 interface Iprops {
   error: any
-  onClick: () => void
 }
 
 interface Istate {
@@ -55,4 +53,4 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-export default flow(connect(mapStateToProps) as any)(ErrorManager)
+export default connect(mapStateToProps)(ErrorManager)
