@@ -1,7 +1,8 @@
 const path = require('path')
 const config = require('../webpack.base')
+const fs = require('fs')
 const port = process.env.PORT || 8080
-const publicPath = `http://localhost:${port}/dist`
+const publicPath = `https://localhost:${port}/dist`
 
 module.exports = {
   ...config,
@@ -17,6 +18,11 @@ module.exports = {
     noInfo: false,
     overlay: true,
     stats: 'errors-only',
+    http2: true,
+    https: {
+      cert: fs.readFileSync(path.resolve(__dirname, '../ssl/cert.pem')),
+      key: fs.readFileSync(path.resolve(__dirname, '../ssl/key.pem')),
+    },
     inline: true,
     lazy: false,
     hot: true,
