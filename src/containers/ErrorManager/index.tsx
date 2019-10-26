@@ -24,7 +24,7 @@ class ErrorManager extends React.Component<Iprops, Istate> {
     }
   }
 
-  componentWillReceiveProps({ error }: any) {
+  componentDidUpdate({ error }: any) {
     this.setState(error)
   }
 

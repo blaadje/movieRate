@@ -17,11 +17,28 @@ interface Iprops extends React.HTMLAttributes<any> {
 }
 
 const ImageWrapper: React.SFC<Iprops> = (props: Iprops) => {
-  const { src, wrapperclass, className, loader } = props
+  const {
+    src,
+    wrapperclass,
+    className,
+    loader,
+    filter,
+    filterClass,
+    children,
+  } = props
 
   return (
     <ImageLoader src={src} className={wrapperclass}>
-      <Image {...props} />
+      <Image
+        {...{
+          className,
+          wrapperclass,
+          filter,
+          filterClass,
+          src,
+          children,
+        }}
+      />
       <div className={className}>Error</div>
       <div className={`u-pos--r ${className}`}>{loader && <Loader />}</div>
     </ImageLoader>

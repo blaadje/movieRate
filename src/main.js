@@ -1,6 +1,9 @@
 import { BrowserWindow, app } from 'electron'
 import { enableLiveReload } from 'electron-compile'
 
+delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
+
 if (process.env.NODE_ENV === 'development')
   enableLiveReload({ strategy: 'react-hmr' })
 
@@ -13,7 +16,10 @@ function createWindow() {
   win = new BrowserWindow({
     width: 1450,
     height: 900,
-    transparent: true,
+    frame: false,
+    webPreferences: {
+      nodeIntegration: false,
+    },
     titleBarStyle: 'hidden-inset',
   })
 
@@ -21,7 +27,9 @@ function createWindow() {
     width: 330,
     height: 400,
     show: false,
-    transparent: true,
+    webPreferences: {
+      nodeIntegration: false,
+    },
     frame: false,
     modal: true,
     parent: win,

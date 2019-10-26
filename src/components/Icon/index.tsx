@@ -30,9 +30,7 @@ const Icon: React.SFC<Iprops> = (props: Iprops) => {
   const svgClass = `Icon ${size ? `Icon--${size}` : ''} ${className}`
   const icon = iconsMap[glyph]
 
-  return (
-    <Svg cacheGetRequests={true} className={svgClass} src={icon} {...rest} />
-  )
+  return <Svg cacheRequests={true} className={svgClass} src={icon} {...rest} />
 }
 
 Icon.defaultProps = {
