@@ -1,14 +1,15 @@
-import { Model, fk } from 'redux-orm'
-import { MOVIE, createResourceByType } from 'core/store/constants'
+import { fk, Model } from 'redux-orm'
 
-interface actionProps {
+import { createResourceByType, MOVIE } from '@core/store/constants'
+
+interface ActionProps {
   type: string
   result: object[]
   relationShip?: string
 }
 
 export default class Movie extends Model<typeof Movie, MovieItem> {
-  static reducer({ type, result, relationShip }: actionProps, Movie: any) {
+  static reducer({ type, result, relationShip }: ActionProps, Movie: any) {
     switch (type) {
       case createResourceByType(MOVIE):
         const createMovie = (item: object) =>
@@ -17,7 +18,7 @@ export default class Movie extends Model<typeof Movie, MovieItem> {
           )
 
         result.forEach(createMovie)
-        break
+        return
     }
   }
 }

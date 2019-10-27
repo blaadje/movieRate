@@ -1,11 +1,4 @@
-import { BrowserWindow, app } from 'electron'
-import { enableLiveReload } from 'electron-compile'
-
-delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS
-process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
-
-if (process.env.NODE_ENV === 'development')
-  enableLiveReload({ strategy: 'react-hmr' })
+const { BrowserWindow, app } = require('electron')
 
 let win
 
@@ -49,8 +42,6 @@ function createWindow() {
 
   loading.loadURL(`file:///${__dirname}/loader.html`)
   loading.show()
-
-  if (process.env.NODE_ENV === 'development') win.openDevTools({ detach: true })
 
   win.on('closed', () => {
     win = null

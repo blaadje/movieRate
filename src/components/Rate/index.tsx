@@ -1,9 +1,8 @@
 import * as React from 'react'
-
 import Rating from 'react-rating'
+import styled from 'styled-components'
 
-import './style.scss'
-import Icon from 'components/Icon'
+import Icon from '@components/Icon'
 
 interface Iprops {
   wrapperClass?: string
@@ -12,19 +11,28 @@ interface Iprops {
   onChange?: (rate: number) => void
 }
 
-const Rate: React.SFC<Iprops> = (props: Iprops) => {
-  const rate = Math.round(props.rate / 2)
+const StyledRating = styled(Rating)`
+  display: flex;
+  align-items: center;
 
+  .icon:not(:last-child) {
+    margin-right: ${({ theme }) => theme.spacing.XS};
+  }
+`
+
+const Rate: React.FunctionComponent<Iprops> = ({
+  readonly,
+  onChange,
+  rate,
+}: Iprops) => {
   return (
-    <div className={`Rate-wrapper ${props.wrapperClass || ''}`}>
-      <Rating
-        readonly={props.readonly}
-        emptySymbol={<Icon className="Rate-icon" glyph="starUnchecked" />}
-        fullSymbol={<Icon className="Rate-icon" glyph="star" />}
-        initialRating={rate}
-        onChange={rate => props.onChange}
-      />
-    </div>
+    <StyledRating
+      readonly={readonly}
+      emptySymbol={<Icon className="icon" glyph="starUnchecked" />}
+      fullSymbol={<Icon className="icon" glyph="star" />}
+      initialRating={Math.round(rate / 2)}
+      onChange={rate => onChange && onChange(rate)}
+    />
   )
 }
 

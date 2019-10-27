@@ -1,10 +1,11 @@
 // ORM
 export const MOVIE = 'movie'
+export const SEARCH = 'search'
 export const TV = 'tv'
 export const DISCOVER = 'discover'
 export const PLAYLIST = 'playlist'
 
-export type allowedTypes = 'movie' | 'tv' | 'discover' | 'playlist'
+export type allowedTypes = 'movie' | 'tv' | 'discover' | 'playlist' | 'search'
 
 export const RESOURCE_FETCHING: any = 'API/RESOURCE_FETCHING'
 export const RESOURCE_ERROR: any = 'API/RESOURCE_ERROR'
@@ -13,15 +14,15 @@ export const createResourceByType = (resourceType: allowedTypes) =>
 
 // FILTERS
 export type filterProps = {
-  key: number
   field: string
+  label: string
 }
 export const SET_DISCOVER_FILTER: string = 'filter/DISCOVER'
 export const DISCOVER_MOVIES: filterProps = {
-  key: 0,
   field: MOVIE,
+  label: 'Popular movies',
 }
 export const DISCOVER_TVS: filterProps = {
-  key: 1,
   field: TV,
+  label: 'Popular TVs',
 }

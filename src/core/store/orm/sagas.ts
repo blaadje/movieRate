@@ -1,25 +1,24 @@
+import { Action } from 'redux'
 import {
-  CallEffect,
-  PutEffect,
+  all,
   call,
   put,
   takeLatest,
-  all,
+  CallEffect,
+  PutEffect,
 } from 'redux-saga/effects'
 
 import {
-  createResourceByType,
   allowedTypes,
+  createResourceByType,
   RESOURCE_ERROR,
   RESOURCE_FETCHING,
 } from '../constants'
-
-import { Action } from 'redux'
 import request from '../request'
 
 interface OptionsProp {
   parameter?: string
-  query?: object
+  queries?: object
 }
 
 interface ApiFetchProps {
@@ -43,7 +42,7 @@ export default function* applicationSaga(): Iterator<any> {
     params: ApiFetchProps
   ): Iterator<CallEffect | PutEffect<Action>> {
     const { resourceType, relationShip, id, options = {}, meta } = params
-    const { parameter, query } = options
+    const { parameter, queries } = options
 
     if (isCached(params)) {
       return
@@ -52,7 +51,7 @@ export default function* applicationSaga(): Iterator<any> {
     try {
       const result = yield call(request, resourceType, {
         segment: { parameter, relationShip, id },
-        query,
+        queries,
       })
 
       yield put({

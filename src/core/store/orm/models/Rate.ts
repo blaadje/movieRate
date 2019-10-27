@@ -1,9 +1,8 @@
-import { Model, fk } from 'redux-orm'
-import Movie from 'core/store/orm/models/Movie'
+import { fk, Model } from 'redux-orm'
 
-export default class Rate extends Model<typeof Rate, RateItem> {
-  static reducer(action: any, Movie: any): any {}
-}
+import Movie from '@core/store/orm/models/Movie'
+
+export default class Rate extends Model<typeof Rate, RateItem> {}
 
 interface RateItem {
   movieId: number

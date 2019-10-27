@@ -1,12 +1,10 @@
 import * as React from 'react'
-
 import { connect } from 'react-redux'
 
-import ButtonValidate from 'components/ButtonValidate'
-import Rate from 'components/Rate'
-import Textarea from 'components/Textarea'
-
-import './style.scss'
+import Button from '@components/Button'
+import Icon from '@components/Icon'
+import Rate from '@components/Rate'
+import Textarea from '@components/Textarea'
 
 interface Iprops {
   dispatch: (Object: any) => void
@@ -47,24 +45,24 @@ class Form extends React.Component<Iprops, Istate> {
     const { rate, description } = this.state
 
     return (
-      <form className="Form-wrapper" onSubmit={event => this.submitForm(event)}>
+      <form onSubmit={event => this.submitForm(event)}>
         <Rate
-          wrapperClass="u-mgv--m"
           readonly={false}
           rate={rate}
           onChange={(rate: any) => this.setState({ rate })}
         />
         <hr />
         <div>
-          <h2 className="Form-title">Description</h2>
+          <h2>Description</h2>
           <Textarea
-            className="Form-textarea"
             value={description}
             onChange={value => this.handleDescription(value)}
             placeholder="Put what you think about the movie here..."
           />
 
-          <ButtonValidate type="submit" />
+          <Button>
+            <Icon glyph="checked" />
+          </Button>
         </div>
       </form>
     )

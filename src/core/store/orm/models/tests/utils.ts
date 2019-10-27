@@ -1,9 +1,11 @@
+import { useEffect, useRef } from 'react'
 import { ORM } from 'redux-orm'
+
+import { Movie } from '@core/store/orm/models'
 import {
-  MOVIES_INITIAL,
   CATEGORIES_INITIAL,
-} from 'core/store/orm/models/tests/mocks'
-import { Movie } from 'core/store/orm/models'
+  MOVIES_INITIAL,
+} from '@core/store/orm/models/tests/mocks'
 
 export function createTestORM() {
   const orm = new ORM()
@@ -21,4 +23,13 @@ export function createTestSessionWithData(customORM?: any) {
 
   const normalSession = orm.session(state)
   return { session: normalSession, orm, state }
+}
+
+export function useDidUpdateEffect(fn: () => void, inputs: any) {
+  const didMountRef = useRef(false)
+
+  useEffect(() => {
+    if (didMountRef.current) fn()
+    else didMountRef.current = true
+  }, inputs)
 }

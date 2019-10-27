@@ -1,23 +1,47 @@
 import * as React from 'react'
-import { NavLink, NavLinkProps, withRouter } from 'react-router-dom'
-import Button from 'components/Button'
+import { NavLink, NavLinkProps } from 'react-router-dom'
+import styled from 'styled-components'
 
 interface Iprops extends NavLinkProps {
-  children: React.ReactNode
-  staticContext?: string
+  children: React.ReactElement
+  className?: string
+  attrs?: any
+  icon: React.ReactElement
+  activeClassName: string
 }
 
-const Link: React.SFC<Iprops> = (props: Iprops) => {
-  const { children, location, staticContext, ...rest } = props
-  const isActive =
-    (location && location.pathname) === rest.to ||
-    (typeof rest.exact !== 'undefined' && !rest.exact)
+const Icon = styled.span`
+  display: flex;
+  align-items: center;
+  margin-right: ${({ theme }) => theme.spacing.L};
+`
+
+const Link: React.FunctionComponent<Iprops> = (props: Iprops) => {
+  const { children, icon } = props
 
   return (
-    <Button active={isActive} direction="right">
-      <NavLink {...rest}>{children}</NavLink>
-    </Button>
+    <NavLink {...props}>
+      {Icon && <Icon>{icon}</Icon>}
+      {children}
+    </NavLink>
   )
 }
 
-export default withRouter(Link as any) as any
+export default styled(Link).attrs({
+  activeClassName: 'active',
+})`
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  transition: all ${({ theme }) => theme.delay} ease;
+  text-decoration: none;
+  color: ${({ theme }) => theme.colors.greyLight};
+  :hover {
+    color: ${({ theme }) => theme.colors.highlight};
+    cursor: pointer;
+  }
+
+  &.${props => props.activeClassName} {
+    color: ${({ theme }) => theme.colors.highlight};
+  }
+`
