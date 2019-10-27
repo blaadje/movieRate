@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 
-import { flow } from 'lodash'
-
 import Popper from 'components/Popper'
 import Search from 'containers/Search'
 
@@ -102,4 +100,4 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-export default flow(connect(mapStateToProps) as any)(Trends)
+export default connect(mapStateToProps)(Trends)

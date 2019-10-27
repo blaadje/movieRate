@@ -1,4 +1,3 @@
-import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 
@@ -76,4 +75,4 @@ class Search extends React.Component<Iprops, Istate> {
   }
 }
 
-export default flow(connect() as any)(Search)
+export default connect()(Search)
