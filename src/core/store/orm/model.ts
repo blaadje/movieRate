@@ -1,4 +1,4 @@
-import { Discover, Movie, Rate, Playlist, Filter, Tv } from './models'
+import { Discover, Filter, Movie, Playlist, Rate, Search, Tv } from './models'
 
 export interface Action<P> {
   type: string
@@ -9,6 +9,7 @@ export interface ORMModels {
   Discover: typeof Discover
   Filter: typeof Filter
   Movie: typeof Movie
+  Search: typeof Search
   Rate: typeof Rate
   Playlist: typeof Playlist
   Tv: typeof Tv
@@ -19,6 +20,7 @@ export interface ORMState {
   Discover: Discover
   Tv: Tv
   Movie: Movie
+  Search: Search
   Rate: Rate
   Playlist: Playlist
 }

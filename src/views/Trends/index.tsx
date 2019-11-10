@@ -1,21 +1,55 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-import Popper from 'components/Popper'
-import Search from 'containers/Search'
-
-import List from 'components/List'
-import { resourceFetch } from 'core/store/actions'
-import './index.scss'
-import FilterButton from 'containers/FilterButton'
-import { activeFilter, discoverMovies } from 'core/store/selectors'
-import Icon from 'components/Icon'
+import Icon from '@components/Icon'
+import Popper from '@components/Popper'
+import FilterButton from '@containers/FilterButton'
+import MovieItem from '@containers/MovieItem'
+import Search from '@containers/Search'
+import { resourceFetch } from '@core/store/actions'
 import {
-  DISCOVER_TVS,
-  DISCOVER_MOVIES,
-  DISCOVER,
   filterProps,
-} from 'core/store/constants'
+  DISCOVER,
+  DISCOVER_MOVIES,
+  DISCOVER_TVS,
+} from '@core/store/constants'
+import { activeFilter, discoverMovies } from '@core/store/selectors'
+
+const Wrapper = styled.div`
+  padding-bottom: 2em;
+`
+
+const Header = styled.header`
+  display: flex;
+  align-items: center;
+  padding: ${({ theme }) => theme.spacing.XXL};
+  font-size: 20px;
+`
+
+const CategorySelector = styled(Popper)`
+  font-weight: 600;
+  flex-shrink: 0;
+  color: ${({ theme }) => theme.colors.greyLight};
+  margin-left: ${({ theme }) => theme.spacing.XL};
+  cursor: pointer;
+
+  .icon {
+    margin-left: ${({ theme }) => theme.spacing.S};
+  }
+`
+
+const MovieWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`
+
+const StyledFilterButton: any = styled(FilterButton)`
+  display: block;
+  width: 100%;
+  text-align: left;
+`
 
 interface Iprops {
   dispatch: (Object: any) => Promise<any>
@@ -23,74 +57,55 @@ interface Iprops {
   movies: any
 }
 
-interface Istate {
-  isLoading: boolean
-}
-
-class Trends extends React.Component<Iprops, Istate> {
-  constructor(props: Iprops, state: Istate) {
-    super(props)
-    this.state = {
-      isLoading: true,
-    }
-  }
-
-  async componentDidMount() {
-    await this.props.dispatch(
+const Trends: React.FunctionComponent<Iprops> = ({
+  dispatch,
+  activeFilter,
+  movies,
+}: Iprops) => {
+  const fetch = () =>
+    dispatch(
       resourceFetch({
         resourceType: DISCOVER,
-        relationShip: this.props.activeFilter.field,
+        relationShip: activeFilter.field,
       })
     )
 
-    this.setState({ isLoading: false })
-  }
+  React.useEffect((): any => {
+    fetch()
+  }, [activeFilter])
 
-  async componentDidUpdate({ activeFilter }: any) {
-    if (activeFilter === this.props.activeFilter) {
-      return
-    }
-
-    await this.props.dispatch(
-      resourceFetch({
-        resourceType: DISCOVER,
-        relationShip: this.props.activeFilter.field,
-      })
-    )
-
-    this.setState({ isLoading: false })
-  }
-
-  render(): React.ReactNode {
-    const { movies, activeFilter } = this.props
-
-    return (
-      <div className="Trends-wrapper">
-        <header className="Trends-header">
-          <Search className="TrendsHeader-search" inputClassName="Input-bold" />
-          <Popper
-            popperPlacement="bottom"
-            wrapperClass="TrendsHeader-Category"
-            targetComponent={
-              <div>
-                <span>{activeFilter.field}</span>
-                <Icon className="u-mgl--s" glyph="vector" />
-              </div>
-            }
-            popperComponent={
-              <div className="HeaderCategory-wrapper">
-                <FilterButton filter={DISCOVER_MOVIES}>
-                  Popular movies
-                </FilterButton>
-                <FilterButton filter={DISCOVER_TVS}>Popular TV's</FilterButton>
-              </div>
-            }
-          />
-        </header>
-        <List wrapperClass="Movie-wrapper" collection={movies} />
-      </div>
-    )
-  }
+  return (
+    <Wrapper>
+      <Header>
+        <Search />
+        <CategorySelector
+          popperPlacement="bottom"
+          targetComponent={
+            <>
+              {activeFilter.label}
+              <Icon className="icon" glyph="vector" />
+            </>
+          }
+          popperComponent={
+            <>
+              <StyledFilterButton raw={true} filter={DISCOVER_MOVIES}>
+                {DISCOVER_MOVIES.label}
+              </StyledFilterButton>
+              <StyledFilterButton raw={true} filter={DISCOVER_TVS}>
+                {DISCOVER_TVS.label}
+              </StyledFilterButton>
+            </>
+          }
+        />
+      </Header>
+      <MovieWrapper>
+        {movies &&
+          movies.map((movie: any) => (
+            <MovieItem key={movie.id} movie={movie} />
+          ))}
+      </MovieWrapper>
+    </Wrapper>
+  )
 }
 
 const mapStateToProps = (state: any) => {

@@ -1,6 +1,6 @@
-import { SET_DISCOVER_FILTER, RESOURCE_FETCHING } from './constants'
+import { RESOURCE_FETCHING, SET_DISCOVER_FILTER } from './constants'
 
-interface resourceFetchParams {
+interface ResourceFetchParams {
   resourceType: string
   relationShip: string
   options?: object
@@ -10,7 +10,7 @@ export const resourceFetch = ({
   resourceType,
   relationShip,
   options = {},
-}: resourceFetchParams): object => {
+}: ResourceFetchParams): object => {
   return {
     type: RESOURCE_FETCHING,
     resourceType,

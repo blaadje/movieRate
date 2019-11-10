@@ -1,14 +1,32 @@
+import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
+import styled from 'styled-components'
 
-function autoGrow(element: any): void {
-  element.target.style.height = '5px'
-  element.target.style.height = element.target.scrollHeight + 'px'
-}
+const Wrapper: any = styled.textarea`
+  background: transparent;
+  border: none;
+  line-height: 1.5em;
+  font-size: ${rem('15px')};
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  color: ${({ theme }) => theme.colors.white};
+  transition: all ${({ theme }) => theme.delay} ease;
 
-const textarea: React.SFC<React.AllHTMLAttributes<any>> = (
+  &::placeholder {
+    font-style: italic;
+    color: ${({ theme }) => theme.colors.greyLight};
+  }
+`
+
+const Textarea: React.FunctionComponent<React.AllHTMLAttributes<any>> = (
   props: React.AllHTMLAttributes<any>
 ) => {
-  return <textarea {...props} onKeyUp={element => autoGrow(element)} />
+  const autoGrow = (element: any): void => {
+    element.target.style.height = element.target.scrollHeight + 'px'
+  }
+
+  return <Wrapper {...props} onKeyUp={autoGrow} />
 }
 
-export default textarea
+export default Textarea

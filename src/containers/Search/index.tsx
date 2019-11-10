@@ -1,78 +1,70 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-// import { apiFetch } from 'core/store/actions'
-
-import './style.scss'
-
-import Input from 'components/Input'
-import List from 'components/List'
-import Icon from 'components/Icon'
+import Icon from '@components/Icon'
+import Input from '@components/Input'
+import { resourceFetch } from '@core/store/actions'
+import { MOVIE, SEARCH } from '@core/store/constants'
 
 interface Iprops {
-  className: string
   dispatch: (Object: any) => Promise<any>
-  inputClassName?: string
 }
 
-interface Istate {
-  movies: any[]
-  inputValue: string
-}
+const InputWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+`
 
-class Search extends React.Component<Iprops, Istate> {
-  constructor(props: Iprops, state: Istate) {
-    super(props)
-    this.state = {
-      movies: [],
-      inputValue: '',
+const StyledInput = styled(Input)`
+  flex-grow: 2;
+`
+
+const Search: React.FunctionComponent<Iprops> = ({ dispatch }: Iprops) => {
+  const [value, setValue] = React.useState('')
+
+  const fetchMovie = async (value: string) => {
+    if (!value || value.length < 3) {
+      return
     }
-  }
 
-  fetchMovie(value: string): void {
-    // if (!value || value.length < 3) {
-    //   this.setState({ movies: [] })
-    //   return
-    // }
-    // this.props
-    //   .dispatch(
-    //     apiFetch('search', {
-    //       segment: 'tv',
-    //       query: { query: value },
-    //     })
-    //   )
-    //   .then((movies: any[]) => this.setState({ movies }))
-    //   .catch(err => console.error(err))
-  }
-
-  onChangeInput(event: React.ChangeEvent<any>) {
-    this.setState({ inputValue: event.target.value })
-    this.fetchMovie(event.target.value)
-  }
-
-  render() {
-    const { inputValue, movies } = this.state
-
-    return (
-      <div className={`Search-wrapper ${this.props.className || ''}`}>
-        <div className="Search-input">
-          <Icon className="Search-icon" size="xl" glyph="search" />
-          <Input
-            className={this.props.inputClassName}
-            value={inputValue}
-            placeholder="Search movie"
-            onChange={event => this.onChangeInput(event)}
-            onReset={() => this.setState({ inputValue: '', movies: [] })}
-          />
-        </div>
-        <List
-          direction="column"
-          wrapperClass="Search-result"
-          collection={movies}
-        />
-      </div>
+    await dispatch(
+      resourceFetch({
+        resourceType: SEARCH,
+        relationShip: MOVIE,
+        options: {
+          queries: {
+            query: value,
+          },
+        },
+      })
     )
   }
+
+  const onChangeInput = async (event: React.ChangeEvent<any>) => {
+    setValue(event.target.value)
+    await fetchMovie(event.target.value)
+  }
+
+  return (
+    <>
+      <InputWrapper>
+        <Icon size="xl" glyph="search" />
+        <StyledInput
+          value={value}
+          placeholder="Search movie"
+          onChange={onChangeInput}
+        />
+        {value && <Icon size="xl" glyph="close" />}
+      </InputWrapper>
+      {/* <List
+        direction="column"
+        wrapperClass="Search-result"
+        collection={movies}
+      /> */}
+    </>
+  )
 }
 
 export default connect()(Search)

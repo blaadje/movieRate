@@ -1,29 +1,28 @@
+import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
-
-import './style.scss'
-import Icon from 'components/Icon'
+import styled from 'styled-components'
 
 interface Iprops extends React.HTMLAttributes<any> {
-  value: any
-  onReset: () => void
+  value: string
 }
 
-const Input: React.SFC<Iprops> = (props: Iprops) => {
-  return (
-    <div className="Input-wrapper">
-      <input
-        value={props.value}
-        className={`${props.className} Input`}
-        placeholder="Search movie"
-        onChange={event => props.onChange && props.onChange(event)}
-      />
-      {props.value && (
-        <div onClick={() => props.onReset()}>
-          <Icon className="Input-image" glyph="close" />
-        </div>
-      )}
-    </div>
-  )
+const Wrapper = styled.input`
+  background: transparent;
+  border: none;
+  color: ${({ theme }) => theme.colors.white};
+  padding: ${({ theme }) => theme.spacing.L};
+  width: ${rem('250px')};
+  font-size: ${rem('20px')};
+  outline: none;
+
+  &::placeholder {
+    font-style: italic;
+    color: ${({ theme }) => theme.colors.greyLight};
+  }
+`
+
+const Input: React.FunctionComponent<Iprops> = (props: Iprops) => {
+  return <Wrapper {...props} />
 }
 
 export default Input

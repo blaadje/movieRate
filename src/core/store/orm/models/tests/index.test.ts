@@ -1,4 +1,4 @@
-import { createTestSessionWithData } from 'core/store/orm/models/tests/utils'
+import { createTestSessionWithData } from '@core/store/orm/models/tests/utils'
 
 describe('General', () => {
   let state: any

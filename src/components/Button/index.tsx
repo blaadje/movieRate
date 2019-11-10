@@ -1,27 +1,35 @@
+import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
+import styled, { css } from 'styled-components'
 
-import './style.scss'
-
-export type Optiondirection = 'left' | 'right'
-
-interface Iprops extends React.AllHTMLAttributes<any> {
-  onClick?: () => void
-  active: boolean
-  direction?: Optiondirection
+interface Iprops {
+  raw?: string
+  primary?: string
   children: React.ReactNode
 }
 
-const Button: React.SFC<Iprops> = (props: Iprops) => {
-  const { children, active, onClick } = props
+const Wrapper: any = styled.button`
+  height: 50px;
+  font-size: ${rem('18px')};
+  color: ${({ theme }) => theme.colors.white};
+  width: ${rem('250px')};
+  outline: none;
+  background: transparent;
+  border: 1px solid white;
+  border-radius: ${({ theme }) => theme.radius};
+  cursor: pointer;
 
-  return (
-    <div
-      onClick={onClick}
-      className={`Button-wrapper ${active ? 'isActive' : ''}`}
-    >
-      {children}
-    </div>
-  )
+  ${({ raw }: Iprops) =>
+    raw &&
+    css`
+      border: none;
+      border-radius: 0;
+      width: auto;
+    `}
+`
+
+const Button: React.FunctionComponent<Iprops> = ({ children, ...rest }) => {
+  return <Wrapper {...rest}>{children}</Wrapper>
 }
 
 export default Button

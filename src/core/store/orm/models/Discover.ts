@@ -1,18 +1,19 @@
 import Model from 'redux-orm'
-import { DISCOVER, createResourceByType } from 'core/store/constants'
 
-interface actionProps {
+import { createResourceByType, DISCOVER } from '@core/store/constants'
+
+interface ActionProps {
   type: string
   result: object[]
   relationShip?: string
 }
 
 export default class Discover extends Model<typeof Discover, DiscoverItem> {
-  static reducer({ relationShip, type }: actionProps, Discover: any) {
+  static reducer({ relationShip, type }: ActionProps, Discover: any) {
     switch (type) {
       case createResourceByType(DISCOVER):
         Discover.upsert({ type: relationShip })
-        break
+        return
     }
   }
 }

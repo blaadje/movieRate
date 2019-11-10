@@ -11,7 +11,31 @@
   "rulesDirectory": ["src"],
   "rules": {
     "jsx-no-lambda": false,
-    "no-unused-expression": false,
+    "ordered-imports": [
+      true,
+      {
+        "groups": [
+          {
+            "name": "library",
+            "match": ".*[.]/(?:[a-z])",
+            "order": 30
+          },
+          {
+            "name": "aliases",
+            "match": "^@[a-z].+",
+            "order": 20
+          },
+          {
+            "name": "used",
+            "match": "[a-z]",
+            "order": 10
+          }
+        ],
+        "grouped-imports": true,
+        "import-sources-order": "lowercase-last",
+        "named-imports-order": "lowercase-first"
+      }
+    ],
     "jsx-no-multiline-js": false,
     "no-console": {
       "severity": "warning",

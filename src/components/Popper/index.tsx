@@ -1,166 +1,135 @@
+import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
-
-import * as PopperJS from 'popper.js'
-
+import onClickOutside from 'react-onclickoutside'
 import { Manager, Popper, Reference } from 'react-popper'
+import styled, { css } from 'styled-components'
 
-import PopperContent from 'components/Popper/PopperContent'
-
-import { uuid } from 'core/utils'
-
-import './style.scss'
+import { uuid } from '@core/utils'
 
 interface Iprops {
-  style?: any
-  hidePopper?: boolean
   popperComponent: React.ReactNode
   targetComponent: React.ReactNode
-  popperModifiers?: Object
   onClickOutside?: () => void
-  onOpen?: () => void
-  popperPlacement?: PopperJS.Placement
-  wrapperClass?: string
+  popperPlacement?: 'top' | 'bottom' | 'left' | 'right'
   className?: string
 }
 
-interface Istate {
-  hideBasePopper: boolean
-  popperLinkId: string
+const StyledWrapper = styled.div`
+  ${({ theme }) => css`
+    box-shadow: ${theme.boxShadow()};
+    padding: ${theme.spacing.L};
+    z-index: 1;
+    color: ${theme.colors.white};
+    background: ${theme.colors.dark};
+    border-radius: ${theme.radius};
+    margin: ${theme.spacing.L};
+    cursor: initial;
+  `}
+`
+
+const size = rem('15px')
+const Arrow = styled.div`
+  position: absolute;
+  width: ${rem('30px')};
+  height: ${rem('10px')};
+  border-style: solid;
+
+  &[data-placement='bottom'] {
+    top: -${rem('10px')};
+    border-width: 0 ${size} ${size} ${size};
+    border-color: transparent transparent ${({ theme }) => theme.colors.dark}
+      transparent;
+  }
+
+  &[data-placement='top'] {
+    bottom: -${rem('10px')};
+    border-width: ${size} ${size} 0 ${size};
+    border-color: ${({ theme }) => theme.colors.dark} transparent transparent
+      transparent;
+  }
+
+  &[data-placement='right'] {
+    left: -${rem('10px')};
+    border-width: ${size} ${size} ${size} 0;
+    border-color: transparent ${({ theme }) => theme.colors.dark} transparent
+      transparent;
+  }
+
+  &[data-placement='left'] {
+    right: -${rem('10px')};
+    border-width: ${size} 0 ${size} ${size};
+    border-color: transparent transparent transparent
+      ${({ theme }) => theme.colors.dark};
+  }
+`
+
+const clickOutsideConfig = {
+  handleClickOutside: (component: any) => component.props.onClickOutside,
 }
 
-export default class BasePopper extends React.Component<Iprops, Istate> {
-  constructor(props: Iprops) {
-    super(props)
-    this.state = {
-      hideBasePopper: true,
-      popperLinkId: `jsPopperTarget-${uuid()}`,
-    }
-  }
+const PopperContent = onClickOutside(function Container({
+  children,
+  className,
+}: any) {
+  return <div className={className}>{children}</div>
+},
+clickOutsideConfig)
 
-  componentDidUpdate() {
-    const { onOpen, hidePopper } = this.props
+const BasePopper: React.FunctionComponent<Iprops> = ({
+  className,
+  targetComponent,
+  popperComponent,
+  popperPlacement,
+  onClickOutside,
+}: Iprops) => {
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [popperLinkId] = React.useState(`jsPopperTarget-${uuid()}`)
 
-    if (onOpen && !hidePopper) {
-      onOpen()
-    }
-  }
-
-  onClickOutsideWrapper(event: any) {
-    const { onClickOutside } = this.props
-
+  const toggle = () => setIsOpen(!isOpen)
+  const handeClickOutside = (event: any) => {
     const path =
       event.path || (event.composedPath && event.composedPath()) || []
 
     for (let i = 0; i < path.length - 1; i++) {
-      if (path[i].id === this.state.popperLinkId) {
+      if (path[i].id === popperLinkId) {
         return
       }
     }
 
-    onClickOutside ? onClickOutside() : this.setState({ hideBasePopper: true })
+    onClickOutside ? onClickOutside() : setIsOpen(false)
   }
 
-  setListeners(manager: any) {
-    for (const prop in manager) {
-      if (
-        prop.startsWith('on') &&
-        [
-          'onmousemove',
-          'onmouseover',
-          'ontouchmove',
-          'onmouseenter',
-          'onmouseout',
-          'onmouseleave',
-          'onpointerenter',
-          'onpointerout',
-          'onpointerleave',
-          'onpointermove',
-          'onpointerover',
-          'onwheel',
-        ].indexOf(prop) === -1
-      ) {
-        manager.addEventListener(prop.substring(2), (event: any) => {
-          try {
-            if (
-              event.target &&
-              typeof event.target.hasAttribute === 'function' &&
-              ((event.target.hasAttribute('close-popper') &&
-                event.target.getAttribute('close-popper') === event.type) ||
-                (event.target.closest('[close-popper]') &&
-                  event.target
-                    .closest('[close-popper]')
-                    .getAttribute('close-popper') === event.type))
-            ) {
-              setTimeout(() => this.setState({ hideBasePopper: true }), 0)
-            }
-          } catch (e) {
-            return e
-          }
-        })
-      }
-    }
-  }
-
-  render() {
-    const {
-      hidePopper,
-      popperComponent,
-      popperPlacement,
-      targetComponent,
-      wrapperClass,
-    } = this.props
-
-    const { hideBasePopper } = this.state
-    const hasHidePopper = typeof hidePopper !== 'undefined'
-    const shouldBeHidden =
-      (!hasHidePopper && hideBasePopper) || (hasHidePopper && hidePopper)
-
-    return (
-      <Manager>
-        <Reference>
-          {({ ref }) => (
-            <div
-              id={this.state.popperLinkId}
-              className={wrapperClass}
-              onClick={event => {
-                event.stopPropagation()
-                !hasHidePopper
-                  ? this.setState({ hideBasePopper: !hideBasePopper })
-                  : null
-              }}
+  return (
+    <Manager>
+      <Reference>
+        {({ ref }) => (
+          <div id={popperLinkId} className={className} onClick={toggle}>
+            {<div ref={ref}>{targetComponent}</div>}
+          </div>
+        )}
+      </Reference>
+      {isOpen && (
+        <Popper placement={popperPlacement}>
+          {({ ref, style, placement, arrowProps }) => (
+            <StyledWrapper
+              ref={ref}
+              style={style}
+              data-placement={popperPlacement}
             >
-              {<div ref={ref}>{targetComponent}</div>}
-            </div>
+              <PopperContent onClickOutside={handeClickOutside}>
+                {popperComponent}
+              </PopperContent>
+              <Arrow
+                ref={arrowProps.ref}
+                data-placement={placement}
+                style={arrowProps.style}
+              />
+            </StyledWrapper>
           )}
-        </Reference>
-        <div ref={container => this.setListeners(container)}>
-          {!shouldBeHidden && (
-            <Popper placement={popperPlacement}>
-              {({ ref, style, placement, arrowProps }) => (
-                <div
-                  ref={ref}
-                  className="Popper"
-                  style={style}
-                  data-placement={popperPlacement}
-                >
-                  <PopperContent
-                    content={popperComponent}
-                    onClickOutside={(event: any) => {
-                      this.onClickOutsideWrapper(event)
-                    }}
-                  />
-                  <div
-                    className="Arrow"
-                    ref={arrowProps.ref}
-                    data-placement={placement}
-                    style={arrowProps.style}
-                  />
-                </div>
-              )}
-            </Popper>
-          )}
-        </div>
-      </Manager>
-    )
-  }
+        </Popper>
+      )}
+    </Manager>
+  )
 }
+
+export default BasePopper

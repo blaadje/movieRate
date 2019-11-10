@@ -1,4 +1,5 @@
-import orm from 'core/store/orm'
+import orm from '@core/store/orm'
+
 import { DISCOVER_MOVIES } from '../constants'
 
 function defaultUpdater(session: any, action: object) {

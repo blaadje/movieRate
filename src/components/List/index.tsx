@@ -1,45 +1,33 @@
 import * as React from 'react'
 
-import Loader from 'components/Loader'
-import MovieItem from 'containers/MovieItem'
-import './style.scss'
+import { template } from '@babel/core'
 
 interface CollectionDatas {
   [title: string]: string
 }
 
+interface TemplateType {
+  (item: object, index: number): React.ElementType
+}
+
 interface Iprops {
   collection: CollectionDatas[]
-  direction?: string
-  wrapperClass?: string
+  template: TemplateType
 }
 
-const List: React.SFC<Iprops> = (props: Iprops) => {
-  const { collection, wrapperClass, direction } = props
+const List: React.FunctionComponent<Iprops> = (props: Iprops) => {
+  const { collection } = props
 
   return (
-    <div className={`List-wrapper ${wrapperClass ? wrapperClass : ''}`}>
-      <div
-        className={`List-content ${direction === 'row' ? 'isRow' : 'isColumn'}`}
-      >
-        {!collection && <Loader />}
+    <ul>
+      <li>
         {collection &&
-          collection.map((movie: any, index: number) => {
-            return (
-              <MovieItem
-                key={index}
-                isRow={direction === 'row'}
-                movie={movie}
-              />
-            )
+          collection.map((item: any, index: number) => {
+            return template(item, index)
           })}
-      </div>
-    </div>
+      </li>
+    </ul>
   )
-}
-
-List.defaultProps = {
-  direction: 'row',
 }
 
 export default List

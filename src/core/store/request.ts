@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { API_BASE_URL, API_KEY } from 'settings'
+import { API_BASE_URL, API_KEY } from '@settings'
 
 interface SegmentProps {
   parameter?: string
@@ -10,12 +10,12 @@ interface SegmentProps {
 
 export interface RequestOptionsProps {
   segment?: SegmentProps
-  query?: object
+  queries?: object
 }
 
 export default async function request(
   url: string,
-  { segment = {}, query }: RequestOptionsProps
+  { segment = {}, queries }: RequestOptionsProps
 ): Promise<any> {
   const { parameter = '', relationShip = '', id = '' } = segment
   const segments = ['3', url, relationShip || id, parameter]
@@ -24,7 +24,7 @@ export default async function request(
     .segment(segments)
     .query({
       api_key: API_KEY,
-      ...(query && { ...query }),
+      ...(queries && { ...queries }),
     })
     .toString()
 
@@ -33,6 +33,20 @@ export default async function request(
 
     return data.results || data
   } catch (error) {
-    console.error(error)
+    if (error.response) {
+      throw {
+        code: error.response.data.status_code,
+        message: error.response.data.status_message,
+      }
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      throw error.request
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      throw error.message
+    }
+    throw error.config
   }
 }

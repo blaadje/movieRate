@@ -2,17 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 
-import './assets/style/application.scss'
-
 const render = () => {
-  const Application = require('containers/Application').default
-  const BrowserRouter = require('react-router-dom').BrowserRouter
+  const Application = require('@containers/Application').default
+  const HashRouter = require('react-router-dom').HashRouter
 
   ReactDOM.render(
     <AppContainer>
-      <BrowserRouter>
+      <HashRouter>
         <Application />
-      </BrowserRouter>
+      </HashRouter>
     </AppContainer>,
     document.getElementById('root')
   )

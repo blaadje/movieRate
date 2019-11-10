@@ -1,53 +1,60 @@
+import rgba from 'polished/lib/color/rgba'
 import * as React from 'react'
 import ImageLoader from 'react-load-image'
+import styled from 'styled-components'
 
-import Image from 'components/Image/image'
-import Loader from 'components/Loader'
-
-import './style.scss'
+import Loader from '@components/Loader'
 
 interface Iprops extends React.HTMLAttributes<any> {
-  wrapperclass?: string
   loader?: boolean
   className?: string
-  filter?: boolean
-  filterClass?: string
+  filter?: any
   src: string
   children?: React.ReactNode
 }
 
-const ImageWrapper: React.SFC<Iprops> = (props: Iprops) => {
+const LoadedImage = styled.div`
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+`
+
+const Filter: any = styled.div`
+  height: 100%;
+  width: 100%;
+  background: ${({ theme, filter }: any) =>
+    filter ? rgba(theme.colors.blue, 0.2) : ''};
+`
+
+const Fullsize = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  width: 100%;
+`
+
+const Image: React.FunctionComponent<Iprops> = (props: Iprops) => {
   const {
     src,
-    wrapperclass,
     className,
-    loader,
-    filter,
-    filterClass,
+    loader = true,
+    filter = false,
     children,
+    ...rest
   } = props
 
   return (
-    <ImageLoader src={src} className={wrapperclass}>
-      <Image
-        {...{
-          className,
-          wrapperclass,
-          filter,
-          filterClass,
-          src,
-          children,
-        }}
-      />
-      <div className={className}>Error</div>
-      <div className={`u-pos--r ${className}`}>{loader && <Loader />}</div>
+    <ImageLoader src={src} className={className}>
+      <LoadedImage {...rest} style={{ background: `url(${src})` }}>
+        <Filter filter={filter}>{children}</Filter>
+      </LoadedImage>
+      <Fullsize>Error</Fullsize>
+      <Fullsize>{loader && <Loader />}</Fullsize>
     </ImageLoader>
   )
 }
 
-ImageWrapper.defaultProps = {
-  loader: true,
-  filter: false,
-}
-
-export default ImageWrapper
+export default Image
