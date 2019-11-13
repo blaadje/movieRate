@@ -14,29 +14,6 @@
     "lint": "tslint -c tslint.json --project tsconfig.json --fix",
     "test": "jest"
   },
-  "jest": {
-    "modulePaths": [
-      "src"
-    ],
-    "moduleNameMapper": {
-      "^components$": "<rootDir>/src/components/",
-      "^containers$": "<rootDir>/src/container/",
-      "^core$": "<rootDir>/src/core/",
-      ".+\\.(css|styl|svg|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
-    },
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
-  },
   "build": {
     "productName": "Mon application",
     "appId": "org.simulatedgreg.electron-vue",

@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import Image from '@components/Image'
+import Image from '..'
 const renderer = require('react-test-renderer')
 
 it('renders correctly', () => {
