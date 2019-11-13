@@ -2,18 +2,14 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="imageloader imageloader-loading"
+  className="imageloader imageloader-loading bar"
 >
   <div
-    className="u-pos--r bar"
+    className="sc-bxivhb fAfiib"
   >
     <div
-      className="Loader-wrapper"
-    >
-      <div
-        className="Loader"
-      />
-    </div>
+      className="sc-bdVaJa cgZrDb"
+    />
   </div>
 </div>
 `;
