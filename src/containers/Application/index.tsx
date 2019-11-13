@@ -8,9 +8,10 @@ import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import ErrorManager from '@containers/ErrorManager'
 import Sidebar from '@containers/Sidebar'
 import store from '@core/store'
+import Discover from '@views/Discover/Discover'
 import Playlist from '@views/Playlist'
 import Seen from '@views/Seen'
-import Trends from '@views/Trends'
+import Trending from '@views/Trending'
 
 import theme from './theme'
 
@@ -53,6 +54,7 @@ const GradientWrapper = styled.div`
   box-shadow: ${({ theme }) => theme.boxShadow()};
   height: 100vh;
   width: 100%;
+  padding: ${({ theme }) => theme.spacing.XXL};
   overflow: auto;
   display: inline-block;
   vertical-align: top;
@@ -78,8 +80,9 @@ const App: React.FunctionComponent = () => (
         <Sidebar />
         <GradientWrapper>
           <Route path="/seen" component={Seen as any} />
+          <Route path="/discover" component={Discover as any} />
           <Route path="/playlist" component={Playlist as any} />
-          <Route path="/" exact={true} component={Trends} />
+          <Route path="/" exact={true} component={Trending} />
         </GradientWrapper>
       </AppWrapper>
     </Provider>

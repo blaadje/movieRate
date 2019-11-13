@@ -1,4 +1,4 @@
-import { RESOURCE_FETCHING, SET_DISCOVER_FILTER } from './constants'
+import { RESOURCE_FETCHING, SET_FILTER } from './constants'
 
 interface ResourceFetchParams {
   resourceType: string
@@ -22,6 +22,6 @@ export const resourceFetch = ({
   }
 }
 
-export const resourceFilter = (filter: number): any => {
-  return { type: SET_DISCOVER_FILTER, filter }
+export const resourceFilter = (filter: object, filterId: number): any => {
+  return { type: SET_FILTER, filter, filterId }
 }

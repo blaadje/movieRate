@@ -1,12 +1,18 @@
 import Model from 'redux-orm'
 
-import { SET_DISCOVER_FILTER } from '@core/store/constants'
+import { SET_FILTER } from '@core/store/constants'
+
+interface ActionProps {
+  type: string
+  filter: number
+  filterId: number
+}
 
 export default class Filter extends Model<typeof Filter, FilterItem> {
-  static reducer(action: any, Filter: any): any {
-    switch (action.type) {
-      case SET_DISCOVER_FILTER:
-        Filter.withId(0).update({ value: action.filter })
+  static reducer({ type, filter, filterId }: ActionProps, Filter: any): any {
+    switch (type) {
+      case SET_FILTER:
+        Filter.withId(filterId).update({ value: filter })
         return
     }
   }

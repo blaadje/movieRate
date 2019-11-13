@@ -13,7 +13,7 @@ interface Iprops extends NavLinkProps {
 const Icon = styled.span`
   display: flex;
   align-items: center;
-  margin-right: ${({ theme }) => theme.spacing.L};
+  margin-right: ${({ theme }) => theme.spacing.M};
 `
 
 const Link: React.FunctionComponent<Iprops> = (props: Iprops) => {
@@ -33,7 +33,8 @@ export default styled(Link).attrs({
   font-size: 20px;
   display: flex;
   align-items: center;
-  transition: all ${({ theme }) => theme.delay} ease;
+  transition-property: background, color, fill;
+  transition-duration: ${({ theme }) => theme.delay};
   text-decoration: none;
   color: ${({ theme }) => theme.colors.greyLight};
   :hover {

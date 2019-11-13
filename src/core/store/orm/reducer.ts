@@ -1,6 +1,6 @@
 import orm from '@core/store/orm'
 
-import { DISCOVER_MOVIES } from '../constants'
+import { DISCOVER, MOVIES_FILTER, TRENDING } from '../constants'
 
 function defaultUpdater(session: any, action: object) {
   session.sessionBoundModels.forEach((modelClass: any) => {
@@ -16,7 +16,8 @@ function createReducer(orm: any, updater = defaultUpdater) {
 
     // if there's no db yet we generate our default models
     if (!state) {
-      session.Filter.create({ type: 'filter', value: DISCOVER_MOVIES })
+      session.Filter.create({ type: TRENDING, value: MOVIES_FILTER })
+      session.Filter.create({ type: DISCOVER, value: MOVIES_FILTER })
     }
     updater(session, action)
     return session.state

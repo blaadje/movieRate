@@ -13,9 +13,10 @@ interface Iprops extends React.HTMLAttributes<any> {
   children?: React.ReactNode
 }
 
-const LoadedImage = styled.div`
+const LoadedImage: any = styled.div`
   height: 100%;
   width: 100%;
+  background: url(${({ src }: any) => src});
   background-repeat: no-repeat;
   background-size: cover;
 `
@@ -23,8 +24,8 @@ const LoadedImage = styled.div`
 const Filter: any = styled.div`
   height: 100%;
   width: 100%;
-  background: ${({ theme, filter }: any) =>
-    filter ? rgba(theme.colors.blue, 0.2) : ''};
+  background: ${({ theme, hasFilter }: any) =>
+    hasFilter ? rgba(theme.colors.blue, 0.2) : ''};
 `
 
 const Fullsize = styled.div`
@@ -48,8 +49,8 @@ const Image: React.FunctionComponent<Iprops> = (props: Iprops) => {
 
   return (
     <ImageLoader src={src} className={className}>
-      <LoadedImage {...rest} style={{ background: `url(${src})` }}>
-        <Filter filter={filter}>{children}</Filter>
+      <LoadedImage {...rest}>
+        <Filter hasFilter={filter}>{children}</Filter>
       </LoadedImage>
       <Fullsize>Error</Fullsize>
       <Fullsize>{loader && <Loader />}</Fullsize>
