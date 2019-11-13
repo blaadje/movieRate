@@ -7,13 +7,13 @@ import {
   MOVIES_INITIAL,
 } from '@core/store/orm/models/tests/mocks'
 
-export function createTestORM() {
+export const createTestORM = () => {
   const orm = new ORM()
   orm.register(Movie)
   return orm
 }
 
-export function createTestSessionWithData(customORM?: any) {
+export const createTestSessionWithData = (customORM?: any) => {
   const orm = customORM || createTestORM()
   const state = orm.getEmptyState()
   const { Movie, Category } = orm.mutableSession(state)
@@ -25,7 +25,7 @@ export function createTestSessionWithData(customORM?: any) {
   return { session: normalSession, orm, state }
 }
 
-export function useDidUpdateEffect(fn: () => void, inputs: any) {
+export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
   const didMountRef = useRef(false)
 
   useEffect(() => {

@@ -6,30 +6,20 @@ import Button from '@components/Button'
 import { resourceFilter } from '@core/store/actions'
 import { activeFilter } from '@core/store/selectors'
 
+interface FilterBy {
+  label: string
+  field: number
+}
+
 interface FilterButtonProps {
   onClick?: () => void
-  filter: number
+  filterBy: FilterBy
+  filterId: number
 }
 
 interface ButtonProps {
   active: boolean
 }
-
-const mapStateToProps = (state: any, { filter }: any) => {
-  return {
-    active: activeFilter(state, 0).value.field === filter.field,
-  }
-}
-
-const mapDispatchToProps = (
-  dispatch: any,
-  { filter, onClick }: FilterButtonProps
-) => ({
-  onClick: () => {
-    onClick && onClick()
-    dispatch(resourceFilter(filter))
-  },
-})
 
 const StyledButton: any = styled(Button)`
   color: ${({ theme }) => theme.colors.greyLight};
@@ -47,6 +37,25 @@ const FilterButton: React.FunctionComponent<any> = ({
 }: any) => {
   return <StyledButton {...rest}>{children}</StyledButton>
 }
+
+const mapStateToProps = (
+  state: any,
+  { filterId, filterBy }: FilterButtonProps
+) => {
+  return {
+    active: activeFilter(state, filterId).value.field === filterBy.field,
+  }
+}
+
+const mapDispatchToProps = (
+  dispatch: any,
+  { filterId, filterBy, onClick }: FilterButtonProps
+) => ({
+  onClick: () => {
+    onClick && onClick()
+    dispatch(resourceFilter(filterBy, filterId))
+  },
+})
 
 export default connect(
   mapStateToProps,

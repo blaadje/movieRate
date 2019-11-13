@@ -11,20 +11,18 @@ import { resourceFetch } from '@core/store/actions'
 import {
   filterProps,
   DISCOVER,
-  DISCOVER_MOVIES,
-  DISCOVER_TVS,
+  DISCOVER_FILTER_ID,
+  MOVIE,
+  MOVIES_FILTER,
+  TVS_FILTER,
 } from '@core/store/constants'
 import { activeFilter, discoverMovies } from '@core/store/selectors'
-
-const Wrapper = styled.div`
-  padding-bottom: 2em;
-`
 
 const Header = styled.header`
   display: flex;
   align-items: center;
-  padding: ${({ theme }) => theme.spacing.XXL};
   font-size: 20px;
+  margin-bottom: ${({ theme }) => theme.spacing.L};
 `
 
 const CategorySelector = styled(Popper)`
@@ -52,34 +50,44 @@ const StyledFilterButton: any = styled(FilterButton)`
 `
 
 interface Iprops {
-  dispatch: (Object: any) => Promise<any>
   activeFilter: filterProps
   movies: any
+  resourceFetch: any
 }
 
-const Trends: React.FunctionComponent<Iprops> = ({
-  dispatch,
+const Discover: React.FunctionComponent<Iprops> = ({
   activeFilter,
   movies,
+  resourceFetch,
 }: Iprops) => {
-  const fetch = () =>
-    dispatch(
+  const [movieCurrentPage, incrementMoviePage] = React.useState(1)
+  const [tvCurrentPage, incrementTvPage] = React.useState(1)
+  const isMovieFilter = activeFilter.field === MOVIE
+
+  const loadMore = () =>
+    isMovieFilter
+      ? incrementMoviePage(movieCurrentPage + 1)
+      : incrementTvPage(tvCurrentPage + 1)
+
+  React.useEffect(
+    (): any =>
       resourceFetch({
         resourceType: DISCOVER,
         relationShip: activeFilter.field,
-      })
-    )
-
-  React.useEffect((): any => {
-    fetch()
-  }, [activeFilter])
+        options: {
+          queries: {
+            page: isMovieFilter ? movieCurrentPage : tvCurrentPage,
+          },
+        },
+      }),
+    [activeFilter, movieCurrentPage, tvCurrentPage]
+  )
 
   return (
-    <Wrapper>
+    <>
       <Header>
         <Search />
         <CategorySelector
-          popperPlacement="bottom"
           targetComponent={
             <>
               {activeFilter.label}
@@ -88,11 +96,19 @@ const Trends: React.FunctionComponent<Iprops> = ({
           }
           popperComponent={
             <>
-              <StyledFilterButton raw={true} filter={DISCOVER_MOVIES}>
-                {DISCOVER_MOVIES.label}
+              <StyledFilterButton
+                raw={true}
+                filterId={DISCOVER_FILTER_ID}
+                filterBy={MOVIES_FILTER}
+              >
+                {MOVIES_FILTER.label}
               </StyledFilterButton>
-              <StyledFilterButton raw={true} filter={DISCOVER_TVS}>
-                {DISCOVER_TVS.label}
+              <StyledFilterButton
+                raw={true}
+                filterId={DISCOVER_FILTER_ID}
+                filterBy={TVS_FILTER}
+              >
+                {TVS_FILTER.label}
               </StyledFilterButton>
             </>
           }
@@ -104,8 +120,17 @@ const Trends: React.FunctionComponent<Iprops> = ({
             <MovieItem key={movie.id} movie={movie} />
           ))}
       </MovieWrapper>
-    </Wrapper>
+      <button onClick={loadMore}>load more</button>
+    </>
   )
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    resourceFetch: (params: any) => {
+      dispatch(resourceFetch(params))
+    },
+  }
 }
 
 const mapStateToProps = (state: any) => {
@@ -115,4 +140,7 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-export default connect(mapStateToProps)(Trends)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Discover)

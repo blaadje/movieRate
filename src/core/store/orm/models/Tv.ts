@@ -1,8 +1,8 @@
+import { capitalize } from 'lodash'
 import { fk, Model } from 'redux-orm'
+import { MovieItem } from './Movie'
 
 import { createResourceByType, TV } from '@core/store/constants'
-
-import { MovieItem } from './Movie'
 
 interface ActionProps {
   type: string
@@ -11,11 +11,24 @@ interface ActionProps {
 }
 
 export default class Tv extends Model<typeof Tv, TvItem> {
-  static reducer({ type, result, relationShip }: ActionProps, Tv: any) {
+  static reducer(
+    { type, result, relationShip }: ActionProps,
+    Tv: any,
+    session: any
+  ) {
     switch (type) {
       case createResourceByType(TV):
         const createTv = (item: object) =>
-          Tv.create(relationShip ? { ...item, [`${relationShip}Id`]: 1 } : item)
+          Tv.upsert(
+            relationShip
+              ? {
+                  ...item,
+                  [`${relationShip}Id`]: session[
+                    capitalize(relationShip)
+                  ].last().id,
+                }
+              : item
+          )
 
         result.forEach(createTv)
         break
@@ -30,6 +43,11 @@ Tv.fields = {
   discoverId: fk({
     to: 'Discover',
     as: 'discover',
+    relatedName: 'tvs',
+  }),
+  trendingId: fk({
+    to: 'Trending',
+    as: 'trending',
     relatedName: 'tvs',
   }),
 }

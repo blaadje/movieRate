@@ -20,11 +20,7 @@ const Wrapper = styled.aside`
 const Nav = styled.nav`
   border-top: 1px solid ${({ theme }) => theme.colors.grey};
   border-bottom: 1px solid ${({ theme }) => theme.colors.grey};
-  padding: ${({
-    theme: {
-      spacing: { XXL },
-    },
-  }) => `${XXL} 0 ${XXL} ${XXL}`};
+  padding: ${({ theme }: any) => theme.spacing.XXL} 0;
 `
 
 const Logo = styled.header`
@@ -36,11 +32,9 @@ const Logo = styled.header`
 `
 
 const NavLink = styled(Link)`
-  &:not(:last-child) {
-    margin-bottom: ${({ theme }) => theme.spacing.L};
-  }
-
+  padding: ${({ theme }: any) => `${theme.spacing.S} ${theme.spacing.XL}`};
   &:hover {
+    background: ${({ theme }) => theme.colors.grey};
     .icon {
       fill: ${({ theme }) => theme.colors.highlight};
     }
@@ -69,7 +63,10 @@ const SideBar: React.FunctionComponent = () => {
           to="/"
           icon={<Icon className="icon" glyph="clock" />}
         >
-          <span>Trends</span>
+          <span>Trending</span>
+        </NavLink>
+        <NavLink to="/discover" icon={<Icon className="icon" glyph="seen" />}>
+          <span>Discover</span>
         </NavLink>
         <NavLink to="/seen" icon={<Icon className="icon" glyph="seen" />}>
           <span>Movie seen</span>
