@@ -1,4 +1,4 @@
-import * as URI from 'urijs'
+import URI from 'urijs'
 
 export const API_BASE_URL: uri.URI = new URI('https://api.themoviedb.org')
 export const API_KEY: string = '9a216746b14d5069ec45091058ad259b'

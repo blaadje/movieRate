@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import Icon from '@components/Icon'
-import { useDidUpdateEffect } from '@core/store/orm/models/tests/utils'
+import { useDidUpdateEffect } from '@core/utils'
 
 interface Iprops {
   error?: any

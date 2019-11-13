@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react'
+
 export function uuid(): string {
   let d = new Date().getTime()
 
@@ -23,4 +25,13 @@ export const memoize = (fn: (...args: any[]) => any): any => {
     cache.push(args)
     return result
   }
+}
+
+export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
+  const didMountRef = useRef(false)
+
+  useEffect(() => {
+    if (didMountRef.current) fn()
+    else didMountRef.current = true
+  }, inputs)
 }
