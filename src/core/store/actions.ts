@@ -22,6 +22,6 @@ export const resourceFetch = ({
   }
 }
 
-export const resourceFilter = (filter: object, filterId: number): any => {
+export const setFilter = (filter: object, filterId: number): any => {
   return { type: SET_FILTER, filter, filterId }
 }

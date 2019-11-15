@@ -8,7 +8,7 @@ import FilterButton from '@containers/FilterButton'
 import MovieItem from '@containers/MovieItem'
 import { resourceFetch } from '@core/store/actions'
 import {
-  filterProps,
+  FilterProps,
   MOVIES_FILTER,
   TRENDING,
   TRENDING_FILTER_ID,
@@ -50,20 +50,20 @@ const StyledFilterButton: any = styled(FilterButton)`
 
 interface Iprops {
   dispatch: (Object: any) => Promise<any>
-  activeFilter: filterProps
+  resourceFilter: FilterProps
   movies: any
 }
 
 const Trending: React.FunctionComponent<Iprops> = ({
   dispatch,
-  activeFilter,
+  resourceFilter,
   movies,
 }: Iprops) => {
   const fetch = () =>
     dispatch(
       resourceFetch({
         resourceType: TRENDING,
-        relationShip: activeFilter.field,
+        relationShip: resourceFilter.value,
         options: {
           parameter: 'week',
         },
@@ -73,7 +73,7 @@ const Trending: React.FunctionComponent<Iprops> = ({
   React.useEffect((): any => {
     // tslint:disable-next-line: no-floating-promises
     fetch()
-  }, [activeFilter])
+  }, [resourceFilter])
 
   return (
     <>
@@ -81,7 +81,7 @@ const Trending: React.FunctionComponent<Iprops> = ({
         <CategorySelector
           targetComponent={
             <>
-              {activeFilter.label}
+              {resourceFilter.label}
               <Icon className="icon" glyph="vector" />
             </>
           }
@@ -118,7 +118,7 @@ const Trending: React.FunctionComponent<Iprops> = ({
 const mapStateToProps = (state: any) => {
   return {
     movies: trendingMovies(state),
-    activeFilter: activeFilter(state, 1).value,
+    resourceFilter: activeFilter(state, TRENDING_FILTER_ID).value,
   }
 }
 

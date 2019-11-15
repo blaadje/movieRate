@@ -9,6 +9,7 @@ interface Iprops {
   rate: number
   readonly?: boolean
   onChange?: (rate: number) => void
+  onClick?: (rate: number) => void
 }
 
 const StyledRating = styled(Rating)`
@@ -24,14 +25,15 @@ const Rate: React.FunctionComponent<Iprops> = ({
   readonly,
   onChange,
   rate,
+  ...rest
 }: Iprops) => {
   return (
     <StyledRating
       readonly={readonly}
       emptySymbol={<Icon className="icon" glyph="starUnchecked" />}
       fullSymbol={<Icon className="icon" glyph="star" />}
-      initialRating={Math.round(rate / 2)}
-      onChange={rate => onChange && onChange(rate)}
+      initialRating={rate}
+      {...rest}
     />
   )
 }

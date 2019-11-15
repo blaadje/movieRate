@@ -9,7 +9,7 @@ import {
   Search,
   Trending,
   Tv,
-} from '@core/store/orm/models'
+} from '@core/store/orm/resourcesModels'
 
 const orm = new ORM({
   stateSelector: (state: any) => state.orm,

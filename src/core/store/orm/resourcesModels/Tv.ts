@@ -18,11 +18,12 @@ export default class Tv extends Model<typeof Tv, TvItem> {
   ) {
     switch (type) {
       case createResourceByType(TV):
-        const createTv = (item: object) =>
+        const createTv = (item: any) =>
           Tv.upsert(
             relationShip
               ? {
                   ...item,
+                  vote_average: Math.round(item.vote_average / 2),
                   [`${relationShip}Id`]: session[
                     capitalize(relationShip)
                   ].last().id,

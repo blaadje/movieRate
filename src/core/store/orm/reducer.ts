@@ -1,6 +1,12 @@
 import orm from '@core/store/orm'
 
-import { DISCOVER, MOVIES_FILTER, TRENDING } from '../constants'
+import {
+  DISCOVER,
+  MOVIES_FILTER,
+  RATE,
+  RATE_FILTER,
+  TRENDING,
+} from '../constants'
 
 function defaultUpdater(session: any, action: object) {
   session.sessionBoundModels.forEach((modelClass: any) => {
@@ -18,6 +24,7 @@ function createReducer(orm: any, updater = defaultUpdater) {
     if (!state) {
       session.Filter.create({ type: TRENDING, value: MOVIES_FILTER })
       session.Filter.create({ type: DISCOVER, value: MOVIES_FILTER })
+      session.Filter.create({ type: RATE, value: RATE_FILTER })
     }
     updater(session, action)
     return session.state

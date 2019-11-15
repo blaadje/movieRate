@@ -4,19 +4,21 @@ import styled from 'styled-components'
 
 import Icon from '@components/Icon'
 import Popper from '@components/Popper'
+import Rate from '@components/Rate'
 import FilterButton from '@containers/FilterButton'
 import MovieItem from '@containers/MovieItem'
 import Search from '@containers/Search'
-import { resourceFetch } from '@core/store/actions'
+import { resourceFetch, setFilter } from '@core/store/actions'
 import {
-  filterProps,
   DISCOVER,
   DISCOVER_FILTER_ID,
+  FilterProps,
   MOVIE,
   MOVIES_FILTER,
+  RATE_FILTER_ID,
   TVS_FILTER,
 } from '@core/store/constants'
-import { activeFilter, discoverMovies } from '@core/store/selectors'
+import { activeFilter, filteredMoviesSelector } from '@core/store/selectors'
 
 const Header = styled.header`
   display: flex;
@@ -50,37 +52,46 @@ const StyledFilterButton: any = styled(FilterButton)`
 `
 
 interface Iprops {
-  activeFilter: filterProps
   movies: any
+  resourceFilter: FilterProps
   resourceFetch: any
+  setRateFilter: any
 }
 
 const Discover: React.FunctionComponent<Iprops> = ({
-  activeFilter,
   movies,
+  resourceFilter,
   resourceFetch,
+  setRateFilter,
 }: Iprops) => {
   const [movieCurrentPage, incrementMoviePage] = React.useState(1)
   const [tvCurrentPage, incrementTvPage] = React.useState(1)
-  const isMovieFilter = activeFilter.field === MOVIE
+  const [rate, setRate] = React.useState(5)
+  const isMovieFilter = resourceFilter.value === MOVIE
 
   const loadMore = () =>
     isMovieFilter
       ? incrementMoviePage(movieCurrentPage + 1)
       : incrementTvPage(tvCurrentPage + 1)
 
+  const handleChange = (rate: number) => {
+    setRate(rate)
+    setRateFilter({ value: rate })
+  }
+
   React.useEffect(
-    (): any =>
+    () =>
       resourceFetch({
         resourceType: DISCOVER,
-        relationShip: activeFilter.field,
+        relationShip: resourceFilter.value,
         options: {
           queries: {
+            ['vote_count.lte']: rate * 2,
             page: isMovieFilter ? movieCurrentPage : tvCurrentPage,
           },
         },
       }),
-    [activeFilter, movieCurrentPage, tvCurrentPage]
+    [resourceFilter, movieCurrentPage, tvCurrentPage, rate]
   )
 
   return (
@@ -90,7 +101,18 @@ const Discover: React.FunctionComponent<Iprops> = ({
         <CategorySelector
           targetComponent={
             <>
-              {activeFilter.label}
+              Rates
+              <Icon className="icon" glyph="vector" />
+            </>
+          }
+          popperComponent={
+            <Rate rate={rate} readonly={false} onClick={handleChange} />
+          }
+        />
+        <CategorySelector
+          targetComponent={
+            <>
+              {resourceFilter.label}
               <Icon className="icon" glyph="vector" />
             </>
           }
@@ -130,13 +152,16 @@ const mapDispatchToProps = (dispatch: any) => {
     resourceFetch: (params: any) => {
       dispatch(resourceFetch(params))
     },
+    setRateFilter: (params: any) => {
+      dispatch(setFilter(params, RATE_FILTER_ID))
+    },
   }
 }
 
 const mapStateToProps = (state: any) => {
   return {
-    movies: discoverMovies(state),
-    activeFilter: activeFilter(state, 0).value,
+    movies: filteredMoviesSelector(state),
+    resourceFilter: activeFilter(state, DISCOVER_FILTER_ID).value,
   }
 }
 

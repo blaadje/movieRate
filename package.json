@@ -9,7 +9,7 @@
     "node": "~12.13.0"
   },
   "scripts": {
-    "start": "NODE_ENV=development concurrently -p \"{name}\" -n \"🚋 Webpack,🔌 Electron\" -c \"green.bold,yellow.bold\" \"webpack-dev-server --config=./config/dev/webpack.config.js --hot --inline --mode development\" \"sleep 2 && electron .\"",
+    "start": "NODE_ENV=development concurrently -p \"{name}\" -n \"🚋 Webpack,🔌 Electron\" -c \"green.bold,yellow.bold\" \"webpack-dev-server --config=./config/dev/webpack.config.js --mode development\" \"sleep 2 && electron .\"",
     "build": "node config/prod/build.js && electron-builder",
     "lint": "tslint -c tslint.json --project tsconfig.json --fix",
     "test": "jest"

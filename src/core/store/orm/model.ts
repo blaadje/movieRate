@@ -7,7 +7,7 @@ import {
   Search,
   Trending,
   Tv,
-} from './models'
+} from './resourcesModels'
 
 export interface Action<P> {
   type: string

@@ -5,6 +5,7 @@ export const TV = 'tv'
 export const DISCOVER = 'discover'
 export const TRENDING = 'trending'
 export const PLAYLIST = 'playlist'
+export const RATE = 'rate'
 
 export type allowedTypes =
   | 'movie'
@@ -20,19 +21,23 @@ export const createResourceByType = (resourceType: allowedTypes) =>
   `API/RESOURCE_CREATE_${resourceType.toUpperCase()}`
 
 // FILTERS
-export type filterProps = {
-  field: string
+export type FilterProps = {
+  value: any
   label: string
 }
 export const SET_FILTER: string = 'filter'
-export const MOVIES_FILTER: filterProps = {
-  field: MOVIE,
+export const MOVIES_FILTER: FilterProps = {
+  value: MOVIE,
   label: 'Popular movies',
 }
-export const TVS_FILTER: filterProps = {
-  field: TV,
+export const TVS_FILTER: FilterProps = {
+  value: TV,
   label: 'Popular TVs',
+}
+export const RATE_FILTER: any = {
+  value: 5,
 }
 
 export const DISCOVER_FILTER_ID = 0
 export const TRENDING_FILTER_ID = 1
+export const RATE_FILTER_ID = 2
