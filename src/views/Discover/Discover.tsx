@@ -8,12 +8,15 @@ import Rate from '@components/Rate'
 import FilterButton from '@containers/FilterButton'
 import MovieItem from '@containers/MovieItem'
 import Search from '@containers/Search'
-import { resourceFetch, setFilter } from '@core/store/actions'
+import {
+  resourceFetch,
+  resourceFetchMore,
+  setFilter,
+} from '@core/store/actions'
 import {
   DISCOVER,
   DISCOVER_FILTER_ID,
   FilterProps,
-  MOVIE,
   MOVIES_FILTER,
   RATE_FILTER_ID,
   TVS_FILTER,
@@ -55,6 +58,7 @@ interface Iprops {
   movies: any
   resourceFilter: FilterProps
   resourceFetch: any
+  resourceFetchMore: any
   setRateFilter: any
 }
 
@@ -62,22 +66,28 @@ const Discover: React.FunctionComponent<Iprops> = ({
   movies,
   resourceFilter,
   resourceFetch,
+  resourceFetchMore,
   setRateFilter,
 }: Iprops) => {
-  const [movieCurrentPage, incrementMoviePage] = React.useState(1)
-  const [tvCurrentPage, incrementTvPage] = React.useState(1)
   const [rate, setRate] = React.useState(5)
-  const isMovieFilter = resourceFilter.value === MOVIE
-
-  const loadMore = () =>
-    isMovieFilter
-      ? incrementMoviePage(movieCurrentPage + 1)
-      : incrementTvPage(tvCurrentPage + 1)
 
   const handleChange = (rate: number) => {
     setRate(rate)
     setRateFilter({ value: rate })
   }
+
+  const queries = {
+    ['vote_count.lte']: rate * 2,
+  }
+
+  const loadMore = () =>
+    resourceFetchMore({
+      resourceType: DISCOVER,
+      relationShip: resourceFilter.value,
+      options: {
+        queries,
+      },
+    })
 
   React.useEffect(
     () =>
@@ -85,13 +95,10 @@ const Discover: React.FunctionComponent<Iprops> = ({
         resourceType: DISCOVER,
         relationShip: resourceFilter.value,
         options: {
-          queries: {
-            ['vote_count.lte']: rate * 2,
-            page: isMovieFilter ? movieCurrentPage : tvCurrentPage,
-          },
+          queries,
         },
       }),
-    [resourceFilter, movieCurrentPage, tvCurrentPage, rate]
+    [resourceFilter, rate]
   )
 
   return (
@@ -151,6 +158,9 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     resourceFetch: (params: any) => {
       dispatch(resourceFetch(params))
+    },
+    resourceFetchMore: (params: any) => {
+      dispatch(resourceFetchMore(params))
     },
     setRateFilter: (params: any) => {
       dispatch(setFilter(params, RATE_FILTER_ID))

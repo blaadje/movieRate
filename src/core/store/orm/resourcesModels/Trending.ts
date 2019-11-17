@@ -9,11 +9,14 @@ interface ActionProps {
 }
 
 export default class Trending extends Model<typeof Trending, TrendingItem> {
-  static reducer({ relationShip, type }: ActionProps, Trending: any) {
+  static reducer({ type }: ActionProps, Trending: any) {
     switch (type) {
       case createResourceByType(TRENDING):
-        Trending.create({ type: relationShip })
-        return
+        if (Trending.idExists(0)) {
+          return
+        }
+
+        return Trending.create({ type: 'trending' })
     }
   }
 }

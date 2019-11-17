@@ -17,18 +17,19 @@ export default class Movie extends Model<typeof Movie, MovieItem> {
   ) {
     switch (type) {
       case createResourceByType(MOVIE):
-        const createMovie = (item: any) =>
+        const createMovie = (item: any) => {
+          const relationShipId = session[capitalize(relationShip)].last().id
+
           Movie.upsert(
             relationShip
               ? {
                   ...item,
                   vote_average: Math.round(item.vote_average / 2),
-                  [`${relationShip}Id`]: session[
-                    capitalize(relationShip)
-                  ].last().id,
+                  [`${relationShip}Id`]: relationShipId,
                 }
               : item
           )
+        }
 
         return result.forEach(createMovie)
     }

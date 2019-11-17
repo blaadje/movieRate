@@ -15,8 +15,9 @@ export type allowedTypes =
   | 'search'
   | 'trending'
 
-export const RESOURCE_FETCHING: any = 'API/RESOURCE_FETCHING'
-export const RESOURCE_ERROR: any = 'API/RESOURCE_ERROR'
+export const RESOURCE_FETCHING: string = 'API/RESOURCE_FETCHING'
+export const RESOURCE_FETCHING_MORE: string = 'API/RESOURCE_FETCHING_MORE'
+export const RESOURCE_ERROR: string = 'API/RESOURCE_ERROR'
 export const createResourceByType = (resourceType: allowedTypes) =>
   `API/RESOURCE_CREATE_${resourceType.toUpperCase()}`
 
