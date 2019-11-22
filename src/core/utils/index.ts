@@ -1,5 +1,24 @@
 import { useEffect, useRef } from 'react'
 
+export type sizeOptions = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl'
+
+export function getSize(size: sizeOptions = 'm'): string {
+  switch (size) {
+    case 'xs':
+      return '9px'
+    case 's':
+      return '13px'
+    case 'm':
+      return '15px'
+    case 'l':
+      return '20px'
+    case 'xl':
+      return '25px'
+    case 'xxl':
+      return '40px'
+  }
+}
+
 export function uuid(): string {
   let d = new Date().getTime()
 

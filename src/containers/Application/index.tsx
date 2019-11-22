@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { Route } from 'react-router-dom'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 
-import ErrorManager from '@containers/ErrorManager'
+// import ErrorManager from '@containers/ErrorManager'
 import Sidebar from '@containers/Sidebar'
 import store from '@core/store'
 import Discover from '@views/Discover/Discover'
@@ -75,7 +75,7 @@ const App: React.FunctionComponent = () => (
   <ThemeProvider theme={theme}>
     <Provider store={store}>
       <GlobalStyle />
-      <ErrorManager />
+      {/* <ErrorManager /> */}
       <AppWrapper>
         <Sidebar />
         <GradientWrapper>

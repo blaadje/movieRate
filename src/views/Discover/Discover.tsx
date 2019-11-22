@@ -1,8 +1,10 @@
+import { rem } from 'polished'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import Icon from '@components/Icon'
+import Panel from '@components/Panel'
 import Popper from '@components/Popper'
 import Rate from '@components/Rate'
 import FilterButton from '@containers/FilterButton'
@@ -17,6 +19,8 @@ import {
   TVS_FILTER,
 } from '@core/store/constants'
 import { activeFilter, discoverByType } from '@core/store/selectors'
+
+import Filters from './components/Filters'
 
 const Header = styled.header`
   display: flex;
@@ -115,6 +119,12 @@ const Discover: React.FunctionComponent<Iprops> = ({
     <>
       <Header>
         <Search />
+        <Panel
+          direction="right"
+          width={rem('300px')}
+          targetComponent={<span>Filters</span>}
+          panelComponent={<Filters />}
+        />
         <CategorySelector
           targetComponent={
             <>
