@@ -3,6 +3,7 @@ import { ORM } from 'redux-orm'
 import {
   Discover,
   Filter,
+  Genre,
   Movie,
   Playlist,
   Rate,
@@ -15,6 +16,16 @@ const orm = new ORM({
   stateSelector: (state: any) => state.orm,
 } as any) as any
 
-orm.register(Movie, Rate, Playlist, Discover, Search, Filter, Tv, Trending)
+orm.register(
+  Movie,
+  Rate,
+  Playlist,
+  Discover,
+  Search,
+  Filter,
+  Tv,
+  Trending,
+  Genre
+)
 
 export default orm

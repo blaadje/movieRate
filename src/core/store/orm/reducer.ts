@@ -1,4 +1,5 @@
 import orm from '@core/store/orm'
+import genres from '@core/store/orm/resourcesModels/Genre/genresList'
 
 import {
   DISCOVER,
@@ -25,6 +26,7 @@ function createReducer(orm: any, updater = defaultUpdater) {
       session.Filter.create({ type: TRENDING, value: MOVIES_FILTER })
       session.Filter.create({ type: DISCOVER, value: MOVIES_FILTER })
       session.Filter.create({ type: RATE, value: RATE_FILTER })
+      genres.forEach(genre => session.Genre.create(genre))
     }
     updater(session, action)
     return session.state

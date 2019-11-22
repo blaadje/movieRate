@@ -8,20 +8,15 @@ import Rate from '@components/Rate'
 import FilterButton from '@containers/FilterButton'
 import MovieItem from '@containers/MovieItem'
 import Search from '@containers/Search'
-import {
-  resourceFetch,
-  resourceFetchMore,
-  setFilter,
-} from '@core/store/actions'
+import { resourceFetch, resourceFetchMore } from '@core/store/actions'
 import {
   DISCOVER,
   DISCOVER_FILTER_ID,
   FilterProps,
   MOVIES_FILTER,
-  RATE_FILTER_ID,
   TVS_FILTER,
 } from '@core/store/constants'
-import { activeFilter, filteredMoviesSelector } from '@core/store/selectors'
+import { activeFilter, discoverByType } from '@core/store/selectors'
 
 const Header = styled.header`
   display: flex;
@@ -67,18 +62,33 @@ const Discover: React.FunctionComponent<Iprops> = ({
   resourceFilter,
   resourceFetch,
   resourceFetchMore,
-  setRateFilter,
 }: Iprops) => {
-  const [rate, setRate] = React.useState(5)
+  const [rate, setRate] = React.useState(0)
+
+  const querylist: any = [
+    {
+      filter: ({ vote_average }: any) => vote_average >= rate,
+      query: {
+        ['vote_count.gte']: rate * 2,
+      },
+    },
+  ]
+
+  const filteredMovies = movies
+    .filter((movie: any) => querylist.some((query: any) => query.filter(movie)))
+    .sort((a: any, b: any) => b.vote_average - a.vote_average)
 
   const handleChange = (rate: number) => {
     setRate(rate)
-    setRateFilter({ value: rate })
   }
 
-  const queries = {
-    ['vote_count.lte']: rate * 2,
-  }
+  const queries = querylist.reduce(
+    (acc: any, { query }: any) => ({
+      ...acc,
+      ...query,
+    }),
+    {}
+  )
 
   const loadMore = () =>
     resourceFetchMore({
@@ -144,8 +154,8 @@ const Discover: React.FunctionComponent<Iprops> = ({
         />
       </Header>
       <MovieWrapper>
-        {movies &&
-          movies.map((movie: any) => (
+        {filteredMovies &&
+          filteredMovies.map((movie: any) => (
             <MovieItem key={movie.id} movie={movie} />
           ))}
       </MovieWrapper>
@@ -162,15 +172,12 @@ const mapDispatchToProps = (dispatch: any) => {
     resourceFetchMore: (params: any) => {
       dispatch(resourceFetchMore(params))
     },
-    setRateFilter: (params: any) => {
-      dispatch(setFilter(params, RATE_FILTER_ID))
-    },
   }
 }
 
 const mapStateToProps = (state: any) => {
   return {
-    movies: filteredMoviesSelector(state),
+    movies: discoverByType(state),
     resourceFilter: activeFilter(state, DISCOVER_FILTER_ID).value,
   }
 }

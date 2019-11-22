@@ -1,6 +1,7 @@
 import {
   Discover,
   Filter,
+  Genre,
   Movie,
   Playlist,
   Rate,
@@ -23,6 +24,7 @@ export interface ORMModels {
   Playlist: typeof Playlist
   Tv: typeof Tv
   Trending: typeof Trending
+  Genre: typeof Genre
 }
 
 export interface ORMState {
@@ -34,4 +36,5 @@ export interface ORMState {
   Rate: Rate
   Playlist: Playlist
   Trending: Trending
+  Genre: Genre
 }

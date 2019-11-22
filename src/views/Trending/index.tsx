@@ -14,7 +14,7 @@ import {
   TRENDING_FILTER_ID,
   TVS_FILTER,
 } from '@core/store/constants'
-import { activeFilter, trendingMovies } from '@core/store/selectors'
+import { activeFilter, trendingByType } from '@core/store/selectors'
 
 const Header = styled.header`
   display: flex;
@@ -117,7 +117,7 @@ const Trending: React.FunctionComponent<Iprops> = ({
 
 const mapStateToProps = (state: any) => {
   return {
-    movies: trendingMovies(state),
+    movies: trendingByType(state),
     resourceFilter: activeFilter(state, TRENDING_FILTER_ID).value,
   }
 }
