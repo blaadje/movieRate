@@ -3,22 +3,29 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import Icon from '@components/Icon'
 import Panel from '@components/Panel'
-import Popper from '@components/Popper'
-import Rate from '@components/Rate'
-import FilterButton from '@containers/FilterButton'
-import MovieItem from '@containers/MovieItem'
+import MovieBlock from '@containers/MovieBlock'
 import Search from '@containers/Search'
-import { resourceFetch, resourceFetchMore } from '@core/store/actions'
+import {
+  resourceFetchAction,
+  resourceFetchMoreAction,
+  setFilterAction,
+  ResourceFetchParams,
+} from '@core/store/actions'
 import {
   DISCOVER,
   DISCOVER_FILTER_ID,
   FilterProps,
-  MOVIES_FILTER,
-  TVS_FILTER,
+  GENRE_FILTER_ID,
+  RATE_FILTER_ID,
 } from '@core/store/constants'
-import { activeFilter, discoverByType } from '@core/store/selectors'
+import { GenreItem } from '@core/store/orm/resourcesModels/Genre'
+import { MovieItem } from '@core/store/orm/resourcesModels/Movie'
+import {
+  activeFilter,
+  discoverResources,
+  movieGenres,
+} from '@core/store/selectors'
 
 import Filters from './components/Filters'
 
@@ -29,79 +36,50 @@ const Header = styled.header`
   margin-bottom: ${({ theme }) => theme.spacing.L};
 `
 
-const CategorySelector = styled(Popper)`
-  font-weight: 600;
-  flex-shrink: 0;
-  color: ${({ theme }) => theme.colors.greyLight};
-  margin-left: ${({ theme }) => theme.spacing.XL};
-  cursor: pointer;
-
-  .icon {
-    margin-left: ${({ theme }) => theme.spacing.S};
-  }
-`
-
 const MovieWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 `
 
-const StyledFilterButton: any = styled(FilterButton)`
-  display: block;
-  width: 100%;
-  text-align: left;
-`
-
 interface Iprops {
-  movies: any
+  movies: MovieItem[]
+  genres: GenreItem[]
   resourceFilter: FilterProps
-  resourceFetch: any
-  resourceFetchMore: any
-  setRateFilter: any
+  genreFilter: []
+  rateFilter: number
+  resourceFetch: (params: ResourceFetchParams) => void
+  resourceFetchMore: (params: ResourceFetchParams) => void
+  setFilter: (Object: object, filterId: number) => void
 }
 
 const Discover: React.FunctionComponent<Iprops> = ({
   movies,
+  genres,
   resourceFilter,
+  genreFilter,
+  rateFilter,
+  setFilter,
   resourceFetch,
   resourceFetchMore,
 }: Iprops) => {
-  const [rate, setRate] = React.useState(0)
+  const [localGenres, setLocalGenres] = React.useState([])
 
-  const querylist: any = [
+  const QUERIES: any = [
+    { ['vote_count.gte']: rateFilter * 2 },
     {
-      filter: ({ vote_average }: any) => vote_average >= rate,
-      query: {
-        ['vote_count.gte']: rate * 2,
-      },
+      with_genres: genreFilter,
     },
+    { sort_by: 'release_date.desc' },
   ]
 
-  const filteredMovies = movies
-    .filter((movie: any) => querylist.some((query: any) => query.filter(movie)))
-    .sort((a: any, b: any) => b.vote_average - a.vote_average)
-
-  const handleChange = (rate: number) => {
-    setRate(rate)
-  }
-
-  const queries = querylist.reduce(
-    (acc: any, { query }: any) => ({
+  const queries = QUERIES.reduce(
+    (acc: any, query: any) => ({
       ...acc,
       ...query,
     }),
     {}
   )
-
-  const loadMore = () =>
-    resourceFetchMore({
-      resourceType: DISCOVER,
-      relationShip: resourceFilter.value,
-      options: {
-        queries,
-      },
-    })
 
   React.useEffect(
     () =>
@@ -112,8 +90,55 @@ const Discover: React.FunctionComponent<Iprops> = ({
           queries,
         },
       }),
-    [resourceFilter, rate]
+    [resourceFilter.value, rateFilter, genreFilter]
   )
+
+  React.useEffect(() => {
+    const formattedGenres = genres.reduce(
+      (acc: any, item) => [
+        ...acc,
+        {
+          ...item,
+          isChecked: genreFilter.some((genre: any) => genre === item.id),
+        },
+      ],
+      []
+    )
+    setLocalGenres(formattedGenres)
+  }, [genreFilter])
+
+  const loadMore = () =>
+    resourceFetchMore({
+      resourceType: DISCOVER,
+      relationShip: resourceFilter.value,
+      options: {
+        queries,
+      },
+    })
+
+  const handleSelectedRate = (rate: number) => {
+    setFilter({ value: rate }, RATE_FILTER_ID)
+  }
+
+  const handleSelectedType = (selectedType: object) => {
+    setFilter(selectedType, DISCOVER_FILTER_ID)
+  }
+
+  const filteredMovies = movies.sort(
+    (a: any, b: any) => b.release_date - a.release_date
+  )
+
+  const handleSelectedGenre = (id: any) => {
+    const value = localGenres.reduce((acc: any, genre: any) => {
+      if (genre.id !== id || genre.isChecked) {
+        return acc
+      }
+
+      return [...acc, id]
+    }, [])
+
+    setFilter({ [resourceFilter.value]: { value } }, GENRE_FILTER_ID)
+  }
 
   return (
     <>
@@ -123,50 +148,22 @@ const Discover: React.FunctionComponent<Iprops> = ({
           direction="right"
           width={rem('300px')}
           targetComponent={<span>Filters</span>}
-          panelComponent={<Filters />}
-        />
-        <CategorySelector
-          targetComponent={
-            <>
-              Rates
-              <Icon className="icon" glyph="vector" />
-            </>
-          }
-          popperComponent={
-            <Rate rate={rate} readonly={false} onClick={handleChange} />
-          }
-        />
-        <CategorySelector
-          targetComponent={
-            <>
-              {resourceFilter.label}
-              <Icon className="icon" glyph="vector" />
-            </>
-          }
-          popperComponent={
-            <>
-              <StyledFilterButton
-                raw={true}
-                filterId={DISCOVER_FILTER_ID}
-                filterBy={MOVIES_FILTER}
-              >
-                {MOVIES_FILTER.label}
-              </StyledFilterButton>
-              <StyledFilterButton
-                raw={true}
-                filterId={DISCOVER_FILTER_ID}
-                filterBy={TVS_FILTER}
-              >
-                {TVS_FILTER.label}
-              </StyledFilterButton>
-            </>
+          panelComponent={
+            <Filters
+              currentRate={rateFilter}
+              currentType={resourceFilter.value}
+              genres={localGenres}
+              onSelectedType={handleSelectedType}
+              onSelectedRate={handleSelectedRate}
+              onSelectedGenre={handleSelectedGenre}
+            />
           }
         />
       </Header>
       <MovieWrapper>
         {filteredMovies &&
           filteredMovies.map((movie: any) => (
-            <MovieItem key={movie.id} movie={movie} />
+            <MovieBlock key={movie.id} movie={movie} />
           ))}
       </MovieWrapper>
       <button onClick={loadMore}>load more</button>
@@ -177,18 +174,26 @@ const Discover: React.FunctionComponent<Iprops> = ({
 const mapDispatchToProps = (dispatch: any) => {
   return {
     resourceFetch: (params: any) => {
-      dispatch(resourceFetch(params))
+      dispatch(resourceFetchAction(params))
     },
     resourceFetchMore: (params: any) => {
-      dispatch(resourceFetchMore(params))
+      dispatch(resourceFetchMoreAction(params))
+    },
+    setFilter: (filterBy: object, filterId: number) => {
+      dispatch(setFilterAction(filterBy, filterId))
     },
   }
 }
 
 const mapStateToProps = (state: any) => {
+  const resourceFilter = activeFilter(state, DISCOVER_FILTER_ID)
   return {
-    movies: discoverByType(state),
-    resourceFilter: activeFilter(state, DISCOVER_FILTER_ID).value,
+    genres: movieGenres(state, DISCOVER_FILTER_ID),
+    movies: discoverResources(state, DISCOVER_FILTER_ID),
+    resourceFilter,
+    rateFilter: activeFilter(state, RATE_FILTER_ID).value,
+    genreFilter: activeFilter(state, GENRE_FILTER_ID)[resourceFilter.value]
+      .value,
   }
 }
 

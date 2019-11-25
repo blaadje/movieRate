@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import Icon from '@components/Icon'
 import Popper from '@components/Popper'
 import FilterButton from '@containers/FilterButton'
-import MovieItem from '@containers/MovieItem'
-import { resourceFetch } from '@core/store/actions'
+import MovieBlock from '@containers/MovieBlock'
+import { resourceFetchAction } from '@core/store/actions'
 import {
   FilterProps,
   MOVIES_FILTER,
@@ -14,7 +14,7 @@ import {
   TRENDING_FILTER_ID,
   TVS_FILTER,
 } from '@core/store/constants'
-import { activeFilter, trendingByType } from '@core/store/selectors'
+import { activeFilter, trendingResources } from '@core/store/selectors'
 
 const Header = styled.header`
   display: flex;
@@ -25,7 +25,7 @@ const Header = styled.header`
 `
 
 const CategorySelector = styled(Popper)`
-  font-weight: 600;
+  /* font-weight: 600; */
   flex-shrink: 0;
   color: ${({ theme }) => theme.colors.greyLight};
   margin-left: ${({ theme }) => theme.spacing.XL};
@@ -61,7 +61,7 @@ const Trending: React.FunctionComponent<Iprops> = ({
 }: Iprops) => {
   const fetch = () =>
     dispatch(
-      resourceFetch({
+      resourceFetchAction({
         resourceType: TRENDING,
         relationShip: resourceFilter.value,
         options: {
@@ -108,7 +108,7 @@ const Trending: React.FunctionComponent<Iprops> = ({
       <MovieWrapper>
         {movies &&
           movies.map((movie: any) => (
-            <MovieItem key={movie.id} movie={movie} />
+            <MovieBlock key={movie.id} movie={movie} />
           ))}
       </MovieWrapper>
     </>
@@ -117,8 +117,8 @@ const Trending: React.FunctionComponent<Iprops> = ({
 
 const mapStateToProps = (state: any) => {
   return {
-    movies: trendingByType(state),
-    resourceFilter: activeFilter(state, TRENDING_FILTER_ID).value,
+    movies: trendingResources(state, TRENDING_FILTER_ID),
+    resourceFilter: activeFilter(state, TRENDING_FILTER_ID),
   }
 }
 

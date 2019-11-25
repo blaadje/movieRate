@@ -28,7 +28,7 @@ const colors: ColorsProps = {
   grey: '#344350',
   greyLight: '#a5abb1',
   blue: '#176087',
-  red: '#592930',
+  red: '#b5465a',
 }
 
 const spacingUnit: number = 8

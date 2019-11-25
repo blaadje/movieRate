@@ -29,7 +29,6 @@ const GlobalStyle = createGlobalStyle`
     font-family: ${({ theme }: any) => theme.fontFamily};
     height: 100vh;
     width: 100%;
-    font-weight: 700;
     margin: 0;
     padding: 0;
     background: rgb(49, 87, 108);
@@ -67,8 +66,13 @@ const GradientWrapper = styled.div`
     rgba(20, 37, 49, 0.98) 87%
   );
 `
+
 const AppWrapper = styled.div`
   display: flex;
+`
+
+const PanelPortal = styled.div`
+  z-index: 3;
 `
 
 const App: React.FunctionComponent = () => (
@@ -84,6 +88,7 @@ const App: React.FunctionComponent = () => (
           <Route path="/playlist" component={Playlist as any} />
           <Route path="/" exact={true} component={Trending} />
         </GradientWrapper>
+        <PanelPortal id="panel" />
       </AppWrapper>
     </Provider>
   </ThemeProvider>

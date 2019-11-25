@@ -1,5 +1,5 @@
 import { capitalize } from 'lodash'
-import { fk, Model } from 'redux-orm'
+import { fk, many, Model } from 'redux-orm'
 import { MovieItem } from './Movie'
 
 import { createResourceByType, TV } from '@core/store/constants'
@@ -49,6 +49,11 @@ Tv.fields = {
   trendingId: fk({
     to: 'Trending',
     as: 'trending',
+    relatedName: 'tvs',
+  }),
+  genre_ids: many({
+    to: 'Genre',
+    as: 'genres',
     relatedName: 'tvs',
   }),
 }

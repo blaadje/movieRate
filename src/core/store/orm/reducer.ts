@@ -3,6 +3,8 @@ import genres from '@core/store/orm/resourcesModels/Genre/genresList'
 
 import {
   DISCOVER,
+  GENRE,
+  GENRE_FILTER,
   MOVIES_FILTER,
   RATE,
   RATE_FILTER,
@@ -23,9 +25,10 @@ function createReducer(orm: any, updater = defaultUpdater) {
 
     // if there's no db yet we generate our default models
     if (!state) {
-      session.Filter.create({ type: TRENDING, value: MOVIES_FILTER })
-      session.Filter.create({ type: DISCOVER, value: MOVIES_FILTER })
-      session.Filter.create({ type: RATE, value: RATE_FILTER })
+      session.Filter.create({ type: DISCOVER, ...MOVIES_FILTER })
+      session.Filter.create({ type: TRENDING, ...MOVIES_FILTER })
+      session.Filter.create({ type: RATE, ...RATE_FILTER })
+      session.Filter.create({ type: GENRE, ...GENRE_FILTER })
       genres.forEach(genre => session.Genre.create(genre))
     }
     updater(session, action)

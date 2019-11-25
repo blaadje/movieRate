@@ -6,6 +6,7 @@ export const DISCOVER = 'discover'
 export const TRENDING = 'trending'
 export const PLAYLIST = 'playlist'
 export const RATE = 'rate'
+export const GENRE = 'genre'
 
 export type allowedTypes =
   | 'movie'
@@ -14,6 +15,7 @@ export type allowedTypes =
   | 'playlist'
   | 'search'
   | 'trending'
+  | 'genre'
 
 export const RESOURCE_FETCHING: string = 'API/RESOURCE_FETCHING'
 export const RESOURCE_FETCHING_MORE: string = 'API/RESOURCE_FETCHING_MORE'
@@ -23,22 +25,35 @@ export const createResourceByType = (resourceType: allowedTypes) =>
 
 // FILTERS
 export type FilterProps = {
-  value: any
+  value: string
   label: string
 }
 export const SET_FILTER: string = 'filter'
+
 export const MOVIES_FILTER: FilterProps = {
   value: MOVIE,
   label: 'Popular movies',
 }
+
 export const TVS_FILTER: FilterProps = {
   value: TV,
   label: 'Popular TVs',
 }
+
 export const RATE_FILTER: any = {
-  value: 5,
+  value: 1,
+}
+
+export const GENRE_FILTER: any = {
+  [MOVIE]: {
+    value: [],
+  },
+  [TV]: {
+    value: [],
+  },
 }
 
 export const DISCOVER_FILTER_ID = 0
 export const TRENDING_FILTER_ID = 1
 export const RATE_FILTER_ID = 2
+export const GENRE_FILTER_ID = 3

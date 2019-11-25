@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import styled, { css } from 'styled-components'
 
 import Button from '@components/Button'
-import { setFilter } from '@core/store/actions'
+import { setFilterAction } from '@core/store/actions'
 import { activeFilter } from '@core/store/selectors'
 
 interface FilterBy {
@@ -53,7 +53,7 @@ const mapDispatchToProps = (
 ) => ({
   onClick: () => {
     onClick && onClick()
-    dispatch(setFilter(filterBy, filterId))
+    dispatch(setFilterAction(filterBy, filterId))
   },
 })
 

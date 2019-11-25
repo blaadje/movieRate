@@ -19,7 +19,6 @@ interface Iprops {
 
 const Wrapper = styled(Image)`
   position: relative;
-  cursor: pointer;
   display: flex;
   flex-direction: row;
   box-shadow: 0px 0px 0px 12px ${({ theme }) => rgba(theme.colors.dark, 0.8)};
@@ -47,13 +46,13 @@ const Title = styled.span`
   text-overflow: ellipsis;
 `
 
-const OptionsWrapper = styled.div`
+const OptionsWrapper: any = styled.div`
+  display: ${({ isHovered }: any) => (isHovered ? 'flex' : 'none')};
   position: absolute;
   top: 0;
   bottom: 0;
   width: 100%;
   height: 100%;
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -70,7 +69,7 @@ const Button = styled(Popper)`
   }
 `
 
-const MovieItem: React.FunctionComponent<Iprops> = ({ movie }) => {
+const MovieBlock: React.FunctionComponent<Iprops> = ({ movie }) => {
   const [isHovered, setIsHover] = React.useState(false)
 
   return (
@@ -85,39 +84,37 @@ const MovieItem: React.FunctionComponent<Iprops> = ({ movie }) => {
         <span>{movie.release_date || movie.first_air_date}</span>
         <Rate rate={movie.vote_average} />
       </Description>
-      {isHovered && (
-        <OptionsWrapper>
-          <Button
-            popperPlacement="right"
-            targetComponent={
-              <RoundedButton>
-                <StyledIcon glyph="checked" />
-              </RoundedButton>
-            }
-            popperComponent={<Form movieId={movie.id} />}
-          />
-          <Button
-            popperPlacement="right"
-            targetComponent={
-              <RoundedButton>
-                <StyledIcon glyph="playlist" />
-              </RoundedButton>
-            }
-            popperComponent={<p>test</p>}
-          />
-          <Panel
-            onClickOutside={() => setIsHover(false)}
-            targetComponent={
-              <RoundedButton>
-                <StyledIcon glyph="infos" />
-              </RoundedButton>
-            }
-            panelComponent={<MovieInfos movie={movie} />}
-          />
-        </OptionsWrapper>
-      )}
+      <OptionsWrapper isHovered={isHovered}>
+        <Button
+          popperPlacement="right"
+          targetComponent={
+            <RoundedButton>
+              <StyledIcon glyph="checked" />
+            </RoundedButton>
+          }
+          popperComponent={<Form movieId={movie.id} />}
+        />
+        <Button
+          popperPlacement="right"
+          targetComponent={
+            <RoundedButton>
+              <StyledIcon glyph="playlist" />
+            </RoundedButton>
+          }
+          popperComponent={<p>test</p>}
+        />
+        <Panel
+          onClickOutside={() => setIsHover(false)}
+          targetComponent={
+            <RoundedButton>
+              <StyledIcon glyph="infos" />
+            </RoundedButton>
+          }
+          panelComponent={<MovieInfos movie={movie} />}
+        />
+      </OptionsWrapper>
     </Wrapper>
   )
 }
 
-export default MovieItem
+export default MovieBlock

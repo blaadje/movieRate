@@ -21,6 +21,13 @@ const LoadedImage: any = styled.div`
   background-size: cover;
 `
 
+const Error: any = styled.div`
+  height: 100%;
+  width: 100%;
+  background: url(${({ src }: any) => src});
+  background-repeat: no-repeat;
+  background-size: cover;
+`
 const Filter: any = styled.div`
   height: 100%;
   width: 100%;
@@ -46,13 +53,18 @@ const Image: React.FunctionComponent<Iprops> = (props: Iprops) => {
     children,
     ...rest
   } = props
+  const errorUrl = 'https://fakeimg.pl/160x240'
 
   return (
     <ImageLoader src={src} className={className}>
       <LoadedImage {...rest}>
         <Filter hasFilter={filter}>{children}</Filter>
       </LoadedImage>
-      <Fullsize>Error</Fullsize>
+      <Filter hasFilter={filter}>
+        <Error src={errorUrl} {...rest}>
+          {children}
+        </Error>
+      </Filter>
       <Fullsize>{loader && <Loader />}</Fullsize>
     </ImageLoader>
   )

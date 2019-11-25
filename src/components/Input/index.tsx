@@ -2,27 +2,49 @@ import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
 import styled from 'styled-components'
 
-interface Iprops extends React.HTMLAttributes<any> {
-  value: string
+import CheckBox from './components/CheckBox'
+import Radio from './components/Radio'
+import TextField from './components/TextField'
+
+interface Iprops extends React.InputHTMLAttributes<any> {
+  type: 'text' | 'radio' | 'checkbox'
+  id: string
+  value: string | number
+  label?: string
+  error?: string
 }
 
-const Wrapper = styled.input`
-  background: transparent;
-  border: none;
-  color: ${({ theme }) => theme.colors.white};
-  padding: 0 ${({ theme }) => theme.spacing.L};
-  width: ${rem('250px')};
-  font-size: ${rem('20px')};
-  outline: none;
-
-  &::placeholder {
-    font-style: italic;
-    color: ${({ theme }) => theme.colors.greyLight};
-  }
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-size: ${rem('18px')};
 `
 
-const Input: React.FunctionComponent<Iprops> = (props: Iprops) => {
-  return <Wrapper {...props} />
+const Error = styled.div`
+  color: ${({ theme }) => theme.colors.red};
+`
+
+const Input: React.FunctionComponent<Iprops> = ({
+  type = 'text',
+  value,
+  id,
+  error,
+  label = '',
+  ...rest
+}: Iprops) => {
+  const components = {
+    text: TextField,
+    radio: Radio,
+    checkbox: CheckBox,
+  }
+  const Component = components[type]
+
+  return (
+    <Wrapper>
+      <Component label={label} id={id} type={type} {...rest} value={value} />
+      {error && <Error>{error}</Error>}
+    </Wrapper>
+  )
 }
 
 export default Input

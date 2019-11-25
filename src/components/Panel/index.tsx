@@ -1,5 +1,7 @@
+import rgba from 'polished/lib/color/rgba'
 import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
+import ReactDOM from 'react-dom'
 import onClickOutside from 'react-onclickoutside'
 import styled, { css } from 'styled-components'
 
@@ -29,28 +31,17 @@ const StyledContainer: any = styled(Container)`
   top: 0;
   bottom: 0;
   height: 100%;
-  background: ${({ theme }) => theme.colors.dark};
+  background: ${({ theme }) => rgba(theme.colors.dark, 0.98)};
   position: absolute;
 
   ${({ direction }: Iprops) =>
     direction === 'left'
       ? css`
-          left: 0;
+          left: ${rem('295px')};
         `
       : css`
           right: 0;
         `}
-`
-
-const Wrapper = styled.div`
-  position: fixed;
-  height: 100%;
-  top: 0;
-  left: ${rem('295px')};
-  right: 0;
-  opacity: 0.99;
-  z-index: 1;
-  cursor: initial;
 `
 
 const Panel: React.FunctionComponent<Iprops> = ({
@@ -61,26 +52,35 @@ const Panel: React.FunctionComponent<Iprops> = ({
   width = '55%',
 }: Iprops) => {
   const [isOpen, setIsOpen] = React.useState(false)
+  const [element] = React.useState(document.createElement('div'))
   const toggle = () => setIsOpen(!isOpen)
   const handeClickOutside = () => {
     onClickOutside && onClickOutside()
     setIsOpen(false)
   }
+  React.useEffect(() => {
+    const panel = document.getElementById('panel')
+
+    panel && panel.appendChild(element)
+    return () => {
+      panel && panel.removeChild(element)
+    }
+  }, [])
 
   return (
     <>
       <div onClick={toggle}>{targetComponent}</div>
-      {isOpen && (
-        <Wrapper>
+      {isOpen &&
+        ReactDOM.createPortal(
           <StyledContainer
             direction={direction}
             width={width}
             onClickOutside={handeClickOutside}
           >
             {panelComponent}
-          </StyledContainer>
-        </Wrapper>
-      )}
+          </StyledContainer>,
+          element
+        )}
     </>
   )
 }

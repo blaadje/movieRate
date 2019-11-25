@@ -4,13 +4,13 @@ import {
   SET_FILTER,
 } from './constants'
 
-interface ResourceFetchParams {
+export interface ResourceFetchParams {
   resourceType: string
   relationShip: string
   options?: object
 }
 
-export const resourceFetch = ({
+export const resourceFetchAction = ({
   resourceType,
   relationShip,
   options = {},
@@ -26,7 +26,7 @@ export const resourceFetch = ({
   }
 }
 
-export const resourceFetchMore = ({
+export const resourceFetchMoreAction = ({
   resourceType,
   relationShip,
   options = {},
@@ -42,6 +42,6 @@ export const resourceFetchMore = ({
   }
 }
 
-export const setFilter = (filter: object, filterId: number): any => {
+export const setFilterAction = (filter: any, filterId: number): any => {
   return { type: SET_FILTER, filter, filterId }
 }
