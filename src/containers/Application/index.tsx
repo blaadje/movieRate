@@ -1,3 +1,4 @@
+import FontFaceObserver from 'fontfaceobserver'
 import rgba from 'polished/lib/color/rgba'
 import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
@@ -5,7 +6,6 @@ import { Provider } from 'react-redux'
 import { Route } from 'react-router-dom'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 
-// import ErrorManager from '@containers/ErrorManager'
 import Sidebar from '@containers/Sidebar'
 import store from '@core/store'
 import Discover from '@views/Discover/Discover'
@@ -14,6 +14,8 @@ import Seen from '@views/Seen'
 import Trending from '@views/Trending'
 
 import theme from './theme'
+
+// import ErrorManager from '@containers/ErrorManager'
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -25,11 +27,19 @@ const GlobalStyle = createGlobalStyle`
     margin: 0
   }
 
+  .fonts-loaded {
+    body {
+      display: block;
+    }
+  }
+
   body {
     font-family: ${({ theme }: any) => theme.fontFamily};
+    display: none;
     height: 100vh;
     width: 100%;
     margin: 0;
+    overflow: hidden;
     padding: 0;
     background: rgb(49, 87, 108);
     -webkit-font-smoothing: antialiased;
@@ -75,23 +85,41 @@ const PanelPortal = styled.div`
   z-index: 3;
 `
 
-const App: React.FunctionComponent = () => (
-  <ThemeProvider theme={theme}>
-    <Provider store={store}>
-      <GlobalStyle />
-      {/* <ErrorManager /> */}
-      <AppWrapper>
-        <Sidebar />
-        <GradientWrapper>
-          <Route path="/seen" component={Seen as any} />
-          <Route path="/discover" component={Discover as any} />
-          <Route path="/playlist" component={Playlist as any} />
-          <Route path="/" exact={true} component={Trending} />
-        </GradientWrapper>
-        <PanelPortal id="panel" />
-      </AppWrapper>
-    </Provider>
-  </ThemeProvider>
-)
+const App: React.FunctionComponent = () => {
+  const LoadFont = async () => {
+    try {
+      const font = new FontFaceObserver('Catamaran')
+      await font.load()
+
+      document.documentElement.className += ' fonts-loaded'
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  React.useEffect(() => {
+    // tslint:disable-next-line: no-floating-promises
+    LoadFont()
+  }, [])
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <GlobalStyle />
+        {/* <ErrorManager /> */}
+        <AppWrapper>
+          <Sidebar />
+          <GradientWrapper>
+            <Route path="/seen" component={Seen as any} />
+            <Route path="/discover" component={Discover as any} />
+            <Route path="/playlist" component={Playlist as any} />
+            <Route path="/" exact={true} component={Trending} />
+          </GradientWrapper>
+          <PanelPortal id="panel" />
+        </AppWrapper>
+      </Provider>
+    </ThemeProvider>
+  )
+}
 
 export default App

@@ -9,6 +9,7 @@ module.exports = {
   output: {
     publicPath,
     filename: 'index.js',
+    pathinfo: false,
   },
   devtool: 'cheap-module-eval-source-map',
   devServer: {

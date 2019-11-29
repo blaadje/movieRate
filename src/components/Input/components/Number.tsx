@@ -17,6 +17,10 @@ const Wrapper = styled.input`
     font-style: italic;
     color: ${({ theme }) => theme.colors.greyLight};
   }
+
+  &:focus {
+    border-bottom: 1px solid ${({ theme }) => theme.colors.white};
+  }
 `
 
 const Input: React.FunctionComponent<Iprops> = (props: Iprops) => {

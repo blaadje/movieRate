@@ -3,13 +3,12 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import CheckBox from './components/CheckBox'
+import Number from './components/Number'
 import Radio from './components/Radio'
 import TextField from './components/TextField'
 
 interface Iprops extends React.InputHTMLAttributes<any> {
-  type: 'text' | 'radio' | 'checkbox'
-  id: string
-  value: string | number
+  type: 'text' | 'radio' | 'checkbox' | 'number'
   label?: string
   error?: string
 }
@@ -26,22 +25,20 @@ const Error = styled.div`
 
 const Input: React.FunctionComponent<Iprops> = ({
   type = 'text',
-  value,
-  id,
   error,
-  label = '',
   ...rest
 }: Iprops) => {
   const components = {
     text: TextField,
     radio: Radio,
     checkbox: CheckBox,
+    number: Number,
   }
   const Component = components[type]
 
   return (
     <Wrapper>
-      <Component label={label} id={id} type={type} {...rest} value={value} />
+      <Component type={type} {...rest} />
       {error && <Error>{error}</Error>}
     </Wrapper>
   )

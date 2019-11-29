@@ -43,7 +43,7 @@ const mapStateToProps = (
   { filterId, filterBy }: FilterButtonProps
 ) => {
   return {
-    active: activeFilter(state, filterId).value.value === filterBy.value,
+    active: activeFilter(state, filterId).value === filterBy.value,
   }
 }
 

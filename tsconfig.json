@@ -12,7 +12,7 @@
     "noUnusedLocals": true,
     "baseUrl": "./",
     "paths": {
-      "@images/*": ["src/assets/images/*"],
+      "@assets/*": ["src/assets/*"],
       "@components/*": ["src/components/*"],
       "@containers/*": ["src/containers/*"],
       "@views/*": ["src/views/*"],

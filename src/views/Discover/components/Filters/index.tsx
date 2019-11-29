@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Divider from '@components/Divider'
 import Input from '@components/Input'
 import Rate from '@components/Rate'
-import { MOVIES_FILTER, TVS_FILTER } from '@core/store/constants'
+import { MOVIE, MOVIES_FILTER, TV, TVS_FILTER } from '@core/store/constants'
 
 interface Iprops {
   genres: any[]
@@ -41,7 +41,7 @@ const Filters: React.FunctionComponent<Iprops> = ({
         <div>Type</div>
         <Input
           value={MOVIES_FILTER.value}
-          label={MOVIES_FILTER.label}
+          label={MOVIE}
           name="typeFilter"
           id="moviesFilter"
           type="radio"
@@ -50,7 +50,7 @@ const Filters: React.FunctionComponent<Iprops> = ({
         />
         <Input
           value={TVS_FILTER.value}
-          label={TVS_FILTER.label}
+          label={TV}
           name="typeFilter"
           id="tvsFilter"
           type="radio"
@@ -85,6 +85,11 @@ const Filters: React.FunctionComponent<Iprops> = ({
           readonly={false}
           onClick={(rate: number) => onSelectedRate(rate)}
         />
+      </PaddedWrapper>
+      <Divider />
+      <PaddedWrapper>
+        <div>Year Release</div>
+        <Input type="number" min="1900" max="2099" placeholder="2010" />
       </PaddedWrapper>
     </Wrapper>
   )

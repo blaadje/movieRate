@@ -2,9 +2,11 @@ const path = require('path')
 
 module.exports = {
   resolve: {
+    symlinks: false,
+    cacheWithContext: false,
     extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
-      ['@images']: path.resolve(__dirname, '../src/assets/images/'),
+      ['@assets']: path.resolve(__dirname, '../src/assets/'),
       ['@components']: path.resolve(__dirname, '../src/components'),
       ['@containers']: path.resolve(__dirname, '../src/containers'),
       ['@views']: path.resolve(__dirname, '../src/views'),
@@ -15,23 +17,26 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(png|jpg|jpeg|gif|svg|ttf|eot|svg|woff)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {},
+        test: /\.(png|jpg|jpeg|gif|ttf|eot|svg|woff)$/,
+        include: path.resolve(__dirname, '../src/assets'),
+        use: {
+          loader: 'file-loader',
+          options: {},
+        },
+      },
+      {
+        test: /\.svg$/,
+        include: path.resolve(__dirname, '../src/assets/images'),
+        use: {
+          loader: 'svgo-loader',
+          options: {
+            externalConfig: 'svgo-config.yml',
           },
-          {
-            loader: 'svgo-loader',
-            options: {
-              externalConfig: 'svgo-config.yml',
-            },
-          },
-        ],
+        },
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        include: path.resolve(__dirname, '../src'),
         use: {
           loader: 'babel-loader',
           query: {
@@ -41,8 +46,12 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
+        include: path.resolve(__dirname, '../src'),
         loader: 'ts-loader',
-        exclude: /node_modules/,
+        options: {
+          transpileOnly: true,
+          experimentalWatchApi: true,
+        },
       },
     ],
   },

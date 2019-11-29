@@ -22,8 +22,8 @@ const Wrapper: any = styled.textarea`
 const Textarea: React.FunctionComponent<React.AllHTMLAttributes<any>> = (
   props: React.AllHTMLAttributes<any>
 ) => {
-  const autoGrow = (element: any): void => {
-    element.target.style.height = element.target.scrollHeight + 'px'
+  const autoGrow = ({ target }: any): void => {
+    target.style.height = target.scrollHeight + 'px'
   }
 
   return <Wrapper {...props} onKeyUp={autoGrow} />

@@ -2,11 +2,10 @@ import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
 import styled from 'styled-components'
 
-interface Iprops extends React.HTMLAttributes<any> {
-  value: string | number
-  id: string
-  type: string
-  label: string
+import { uuid } from '@core/utils'
+
+interface Iprops extends React.InputHTMLAttributes<any> {
+  label?: string
 }
 
 const Wrapper = styled.div`
@@ -35,8 +34,8 @@ const Label = styled.label`
 `
 
 const Radio: React.FunctionComponent<Iprops> = ({
-  id,
-  label,
+  id = `checkbox-${uuid()}`,
+  label = 'label',
   ...rest
 }: Iprops) => {
   return (

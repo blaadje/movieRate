@@ -30,6 +30,9 @@ import {
 import Filters from './components/Filters'
 
 const Header = styled.header`
+  position: sticky;
+  top: 0;
+  z-index: 3;
   display: flex;
   align-items: center;
   font-size: 20px;
@@ -124,21 +127,30 @@ const Discover: React.FunctionComponent<Iprops> = ({
     setFilter(selectedType, DISCOVER_FILTER_ID)
   }
 
+  const handleSelectedGenre = (selectedId: any) => {
+    const genresWithoutSelectedId = genreFilter.filter(
+      (item: any) => item !== selectedId
+    )
+    const itemToAdd: any =
+      (localGenres.find(
+        ({ id, isChecked }) => id === selectedId && !isChecked
+      ) as any) || null
+
+    setFilter(
+      {
+        [resourceFilter.value]: {
+          value: itemToAdd
+            ? [...genresWithoutSelectedId, itemToAdd.id]
+            : genresWithoutSelectedId,
+        },
+      },
+      GENRE_FILTER_ID
+    )
+  }
+
   const filteredMovies = movies.sort(
     (a: any, b: any) => b.release_date - a.release_date
   )
-
-  const handleSelectedGenre = (id: any) => {
-    const value = localGenres.reduce((acc: any, genre: any) => {
-      if (genre.id !== id || genre.isChecked) {
-        return acc
-      }
-
-      return [...acc, id]
-    }, [])
-
-    setFilter({ [resourceFilter.value]: { value } }, GENRE_FILTER_ID)
-  }
 
   return (
     <>
