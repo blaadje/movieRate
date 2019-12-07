@@ -15,9 +15,10 @@ import {
 import {
   DISCOVER,
   DISCOVER_FILTER_ID,
-  FilterProps,
   GENRE_FILTER_ID,
+  MOVIE,
   RATE_FILTER_ID,
+  YEAR_FILTER_ID,
 } from '@core/store/constants'
 import { GenreItem } from '@core/store/orm/resourcesModels/Genre'
 import { MovieItem } from '@core/store/orm/resourcesModels/Movie'
@@ -48,7 +49,11 @@ const MovieWrapper = styled.div`
 interface Iprops {
   movies: MovieItem[]
   genres: GenreItem[]
-  resourceFilter: FilterProps
+  resourceFilter: {
+    value: string
+    label: string
+  }
+  yearFilter: null | number
   genreFilter: []
   rateFilter: number
   resourceFetch: (params: ResourceFetchParams) => void
@@ -61,6 +66,7 @@ const Discover: React.FunctionComponent<Iprops> = ({
   genres,
   resourceFilter,
   genreFilter,
+  yearFilter,
   rateFilter,
   setFilter,
   resourceFetch,
@@ -68,21 +74,17 @@ const Discover: React.FunctionComponent<Iprops> = ({
 }: Iprops) => {
   const [localGenres, setLocalGenres] = React.useState([])
 
-  const QUERIES: any = [
-    { ['vote_count.gte']: rateFilter * 2 },
-    {
-      with_genres: genreFilter,
-    },
-    { sort_by: 'release_date.desc' },
-  ]
-
-  const queries = QUERIES.reduce(
-    (acc: any, query: any) => ({
-      ...acc,
-      ...query,
-    }),
-    {}
-  )
+  const getDate = () => {
+    return resourceFilter.value === MOVIE
+      ? 'primary_release_year'
+      : 'first_air_date_year'
+  }
+  const queries: any = {
+    ['vote_average.gte']: rateFilter * 2,
+    with_genres: genreFilter,
+    [getDate()]: yearFilter,
+    sort_by: 'release_date.desc',
+  }
 
   React.useEffect(
     () =>
@@ -93,7 +95,7 @@ const Discover: React.FunctionComponent<Iprops> = ({
           queries,
         },
       }),
-    [resourceFilter.value, rateFilter, genreFilter]
+    [resourceFilter.value, rateFilter, genreFilter, yearFilter]
   )
 
   React.useEffect(() => {
@@ -119,12 +121,16 @@ const Discover: React.FunctionComponent<Iprops> = ({
       },
     })
 
-  const handleSelectedRate = (rate: number) => {
-    setFilter({ value: rate }, RATE_FILTER_ID)
+  const handleSelectedRate = (value: number) => {
+    setFilter({ value }, RATE_FILTER_ID)
   }
 
   const handleSelectedType = (selectedType: object) => {
     setFilter(selectedType, DISCOVER_FILTER_ID)
+  }
+
+  const handleSelectedYear = (value: string | number) => {
+    setFilter({ value }, YEAR_FILTER_ID)
   }
 
   const handleSelectedGenre = (selectedId: any) => {
@@ -164,10 +170,12 @@ const Discover: React.FunctionComponent<Iprops> = ({
             <Filters
               currentRate={rateFilter}
               currentType={resourceFilter.value}
+              currentYear={yearFilter}
               genres={localGenres}
               onSelectedType={handleSelectedType}
               onSelectedRate={handleSelectedRate}
               onSelectedGenre={handleSelectedGenre}
+              onSelectedYear={handleSelectedYear}
             />
           }
         />
@@ -199,11 +207,13 @@ const mapDispatchToProps = (dispatch: any) => {
 
 const mapStateToProps = (state: any) => {
   const resourceFilter = activeFilter(state, DISCOVER_FILTER_ID)
+
   return {
     genres: movieGenres(state, DISCOVER_FILTER_ID),
     movies: discoverResources(state, DISCOVER_FILTER_ID),
     resourceFilter,
     rateFilter: activeFilter(state, RATE_FILTER_ID).value,
+    yearFilter: activeFilter(state, YEAR_FILTER_ID).value,
     genreFilter: activeFilter(state, GENRE_FILTER_ID)[resourceFilter.value]
       .value,
   }

@@ -9,7 +9,6 @@ const Wrapper = styled.input`
   border: none;
   color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.spacing.L} ${({ theme }) => theme.spacing.L};
-  width: ${rem('250px')};
   font-size: ${rem('20px')};
   outline: none;
 

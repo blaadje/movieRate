@@ -4,7 +4,7 @@ import Svg from 'react-inlinesvg'
 import styled from 'styled-components'
 
 import iconsMap from '@components/Icon/iconsMap'
-import { sizeOptions, getSize } from '@core/utils'
+import { getSize, sizeOptions } from '@core/utils'
 
 export type glyphOptions =
   | 'checked'

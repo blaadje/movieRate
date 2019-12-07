@@ -1,6 +1,8 @@
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
 const path = require('path')
+const smp = new SpeedMeasurePlugin()
 
-module.exports = {
+module.exports = smp.wrap({
   resolve: {
     symlinks: false,
     cacheWithContext: false,
@@ -55,4 +57,4 @@ module.exports = {
       },
     ],
   },
-}
+})

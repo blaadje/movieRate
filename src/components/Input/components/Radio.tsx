@@ -13,6 +13,12 @@ const Wrapper = styled.div`
     background: white;
     border: 0;
   }
+
+  .input + .label:hover {
+    .icon {
+      border-color: ${({ theme }) => theme.colors.white};
+    }
+  }
 `
 const Input = styled.input`
   display: none;
@@ -25,6 +31,7 @@ const Icon = styled.span`
   border-radius: 100%;
   height: ${rem('22px')};
   width: ${rem('22px')};
+  transition: ${({ theme }) => theme.transition};
   margin-right: ${({ theme }) => theme.spacing.S};
 `
 

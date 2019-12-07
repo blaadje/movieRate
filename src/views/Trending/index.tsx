@@ -8,7 +8,6 @@ import FilterButton from '@containers/FilterButton'
 import MovieBlock from '@containers/MovieBlock'
 import { resourceFetchAction } from '@core/store/actions'
 import {
-  FilterProps,
   MOVIES_FILTER,
   TRENDING,
   TRENDING_FILTER_ID,
@@ -50,7 +49,10 @@ const StyledFilterButton: any = styled(FilterButton)`
 
 interface Iprops {
   dispatch: (Object: any) => Promise<any>
-  resourceFilter: FilterProps
+  resourceFilter: {
+    value: string
+    label: string
+  }
   movies: any
 }
 

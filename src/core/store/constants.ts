@@ -1,3 +1,7 @@
+import { FilterProps } from './orm/reducer'
+
+export const DEFAULT = 'default'
+
 // ORM
 export const MOVIE = 'movie'
 export const SEARCH = 'search'
@@ -24,12 +28,7 @@ export const createResourceByType = (resourceType: allowedTypes) =>
   `API/RESOURCE_CREATE_${resourceType.toUpperCase()}`
 
 // FILTERS
-export type FilterProps = {
-  value: string
-  label: string
-}
 export const SET_FILTER: string = 'filter'
-
 export const MOVIES_FILTER: FilterProps = {
   value: MOVIE,
   label: 'Popular movies',
@@ -40,20 +39,9 @@ export const TVS_FILTER: FilterProps = {
   label: 'Popular TVs',
 }
 
-export const RATE_FILTER: any = {
-  value: 1,
-}
-
-export const GENRE_FILTER: any = {
-  [MOVIE]: {
-    value: [],
-  },
-  [TV]: {
-    value: [],
-  },
-}
-
+// filters IDs
 export const DISCOVER_FILTER_ID = 0
 export const TRENDING_FILTER_ID = 1
 export const RATE_FILTER_ID = 2
 export const GENRE_FILTER_ID = 3
+export const YEAR_FILTER_ID = 4

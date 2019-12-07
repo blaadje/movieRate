@@ -6,12 +6,19 @@ import { uuid } from '@core/utils'
 
 interface Iprops extends React.InputHTMLAttributes<any> {
   label?: string
+  className?: string
 }
 
 const Wrapper = styled.div`
   .input:checked + .label .icon {
     background: white;
     border: 0;
+  }
+
+  .input + .label:hover {
+    .icon {
+      border-color: ${({ theme }) => theme.colors.white};
+    }
   }
 `
 const Input = styled.input`
@@ -24,6 +31,7 @@ const Icon = styled.span`
   border: 2px solid ${({ theme }) => theme.colors.grey};
   height: ${rem('22px')};
   width: ${rem('22px')};
+  transition: ${({ theme }) => theme.transition};
   margin-right: ${({ theme }) => theme.spacing.S};
 `
 
@@ -36,10 +44,11 @@ const Label = styled.label`
 const Radio: React.FunctionComponent<Iprops> = ({
   id = `checkbox-${uuid()}`,
   label = 'label',
+  className,
   ...rest
 }: Iprops) => {
   return (
-    <Wrapper>
+    <Wrapper className={className}>
       <Input className="input" id={id} {...rest} />
       <Label className="label" htmlFor={id}>
         <Icon className="icon" />

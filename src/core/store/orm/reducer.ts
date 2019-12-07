@@ -4,12 +4,44 @@ import genres from '@core/store/orm/resourcesModels/Genre/genresList'
 import {
   DISCOVER,
   GENRE,
-  GENRE_FILTER,
+  MOVIE,
   MOVIES_FILTER,
   RATE,
-  RATE_FILTER,
   TRENDING,
+  TV,
 } from '../constants'
+import { ORMModels } from './model'
+
+export interface FilterProps {
+  value: string | number | [] | null
+  label?: string
+}
+
+const createDefaultState = ({ Filter, Genre }: ORMModels) => {
+  const rateFilter: FilterProps = {
+    value: 1,
+  }
+
+  const genreFilter: { [resourceType: string]: FilterProps } = {
+    [MOVIE]: {
+      value: [],
+    },
+    [TV]: {
+      value: [],
+    },
+  }
+
+  const yearfilter: FilterProps = {
+    value: null,
+  }
+
+  Filter.create({ type: DISCOVER, ...MOVIES_FILTER })
+  Filter.create({ type: TRENDING, ...MOVIES_FILTER })
+  Filter.create({ type: RATE, ...rateFilter })
+  Filter.create({ type: GENRE, ...genreFilter })
+  Filter.create({ type: 'year', ...yearfilter })
+  genres.forEach(genre => Genre.create(genre))
+}
 
 function defaultUpdater(session: any, action: object) {
   session.sessionBoundModels.forEach((modelClass: any) => {
@@ -25,11 +57,7 @@ function createReducer(orm: any, updater = defaultUpdater) {
 
     // if there's no db yet we generate our default models
     if (!state) {
-      session.Filter.create({ type: DISCOVER, ...MOVIES_FILTER })
-      session.Filter.create({ type: TRENDING, ...MOVIES_FILTER })
-      session.Filter.create({ type: RATE, ...RATE_FILTER })
-      session.Filter.create({ type: GENRE, ...GENRE_FILTER })
-      genres.forEach(genre => session.Genre.create(genre))
+      createDefaultState(session)
     }
     updater(session, action)
     return session.state

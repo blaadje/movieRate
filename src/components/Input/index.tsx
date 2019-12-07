@@ -17,6 +17,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   font-size: ${rem('18px')};
+  width: ${rem('250px')};
 `
 
 const Error = styled.div`

@@ -1,35 +1,68 @@
+import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
 import styled from 'styled-components'
 
 import Divider from '@components/Divider'
 import Input from '@components/Input'
 import Rate from '@components/Rate'
-import { MOVIE, MOVIES_FILTER, TV, TVS_FILTER } from '@core/store/constants'
+import Select from '@components/Select'
+import {
+  MOVIE,
+  MOVIES_FILTER,
+  TV,
+  TVS_FILTER,
+  DEFAULT,
+} from '@core/store/constants'
 
 interface Iprops {
   genres: any[]
   currentType: string
+  currentYear: null | number
   currentRate: number
   onSelectedType: (type: object) => void
   onSelectedRate: (rate: number) => void
   onSelectedGenre: (id: number) => void
+  onSelectedYear: (value: number | string) => void
 }
 
 const Wrapper = styled.div`
   padding: ${({ theme }) => theme.spacing.XL} 0;
+  overflow: auto;
+  height: 100%;
 `
 
 const PaddedWrapper = styled.div`
   padding: 0 ${({ theme }) => theme.spacing.XL};
 `
 
+const StyledSelect = styled(Select)`
+  width: 100%;
+`
+
+const StyledInput = styled(Input)`
+  margin-bottom: ${({ theme }) => theme.spacing.XS};
+`
+
+const Label = styled.div`
+  font-size: ${rem('18px')};
+  margin-bottom: ${({ theme }) => theme.spacing.XS};
+`
+
+const generateYears = [...Array(30)].map((_, index) => {
+  const date = new Date().getFullYear() - index
+
+  return { value: date }
+})
+
 const Filters: React.FunctionComponent<Iprops> = ({
   genres,
   currentRate,
   onSelectedRate,
   currentType,
+  currentYear,
   onSelectedType,
   onSelectedGenre,
+  onSelectedYear,
 }: Iprops) => {
   return (
     <Wrapper>
@@ -38,7 +71,7 @@ const Filters: React.FunctionComponent<Iprops> = ({
       </PaddedWrapper>
       <Divider />
       <PaddedWrapper>
-        <div>Type</div>
+        <Label>Type</Label>
         <Input
           value={MOVIES_FILTER.value}
           label={MOVIE}
@@ -60,11 +93,11 @@ const Filters: React.FunctionComponent<Iprops> = ({
       </PaddedWrapper>
       <Divider />
       <PaddedWrapper>
-        <div>Genre</div>
+        <Label>Genre</Label>
         {genres &&
           genres.map((genre: any) => {
             return (
-              <Input
+              <StyledInput
                 key={genre.id}
                 value={genre.id}
                 name={genre.name}
@@ -79,7 +112,7 @@ const Filters: React.FunctionComponent<Iprops> = ({
       </PaddedWrapper>
       <Divider />
       <PaddedWrapper>
-        <div>Rate</div>
+        <Label>Rate</Label>
         <Rate
           rate={currentRate}
           readonly={false}
@@ -88,8 +121,12 @@ const Filters: React.FunctionComponent<Iprops> = ({
       </PaddedWrapper>
       <Divider />
       <PaddedWrapper>
-        <div>Year Release</div>
-        <Input type="number" min="1900" max="2099" placeholder="2010" />
+        <Label>Release Year</Label>
+        <StyledSelect
+          value={currentYear || DEFAULT}
+          options={[{ value: DEFAULT, label: 'all years' }, ...generateYears]}
+          onChange={({ target }) => onSelectedYear(Number(target.value))}
+        />
       </PaddedWrapper>
     </Wrapper>
   )
