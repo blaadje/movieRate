@@ -1,5 +1,5 @@
 import { capitalize } from 'lodash'
-import { fk, Model } from 'redux-orm'
+import { fk, many, Model } from 'redux-orm'
 
 import { createResourceByType, MOVIE } from '@core/store/constants'
 
@@ -17,20 +17,35 @@ export default class Movie extends Model<typeof Movie, MovieItem> {
   ) {
     switch (type) {
       case createResourceByType(MOVIE):
-        const createMovie = (item: object) =>
+        const createMovie = (fetchedMovie: any) => {
+          const relationShipId = session[capitalize(relationShip)].last().id
+          const item = {
+            ...fetchedMovie,
+            vote_average: Math.round(fetchedMovie.vote_average / 2),
+          }
+
           Movie.upsert(
             relationShip
               ? {
                   ...item,
-                  [`${relationShip}Id`]: session[
-                    capitalize(relationShip)
-                  ].last().id,
+                  [`${relationShip}Id`]: relationShipId,
                 }
               : item
           )
+        }
 
         return result.forEach(createMovie)
     }
+  }
+
+  static withGenres(genres: object[]) {
+    return this.all()
+      .toModelArray()
+      .filter((item: any) =>
+        item.genres
+          .toRefArray()
+          .some((item: any) => genres.some((genre: any) => genre === item.id))
+      )
   }
 }
 
@@ -63,6 +78,11 @@ Movie.fields = {
   trendingId: fk({
     to: 'Trending',
     as: 'trending',
+    relatedName: 'movies',
+  }),
+  genre_ids: many({
+    to: 'Genre',
+    as: 'genres',
     relatedName: 'movies',
   }),
 }

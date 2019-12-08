@@ -1,7 +1,17 @@
+import rgba from 'polished/lib/color/rgba'
 import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
+import ReactDOM from 'react-dom'
 import onClickOutside from 'react-onclickoutside'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+
+interface Iprops {
+  targetComponent: React.ReactNode
+  panelComponent: React.ReactNode
+  direction?: 'left' | 'right'
+  width?: string
+  onClickOutside?: () => void
+}
 
 const clickOutsideConfig = {
   handleClickOutside: (component: any) => component.props.onClickOutside,
@@ -15,52 +25,62 @@ const Container = onClickOutside(function Container({
 },
 clickOutsideConfig)
 
-const StyledContainer = styled(Container)`
+const StyledContainer: any = styled(Container)`
   box-shadow: ${({ theme }) => theme.boxShadow()};
-  width: 55%;
-  height: 100%;
-  background: ${({ theme }) => theme.colors.dark};
-`
-
-const Wrapper = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100vh;
+  width: ${({ width }) => width};
   top: 0;
-  left: ${rem('295px')};
-  opacity: 0.99;
-  z-index: 1;
-  cursor: initial;
-`
+  bottom: 0;
+  height: 100%;
+  background: ${({ theme }) => rgba(theme.colors.dark, 0.98)};
+  position: absolute;
 
-interface Iprops {
-  targetComponent: React.ReactNode
-  panelComponent: React.ReactNode
-  onClickOutside?: () => void
-}
+  ${({ direction }: Iprops) =>
+    direction === 'left'
+      ? css`
+          left: ${rem('295px')};
+        `
+      : css`
+          right: 0;
+        `}
+`
 
 const Panel: React.FunctionComponent<Iprops> = ({
   targetComponent,
   panelComponent,
   onClickOutside,
+  direction = 'left',
+  width = '55%',
 }: Iprops) => {
   const [isOpen, setIsOpen] = React.useState(false)
+  const [element] = React.useState(document.createElement('div'))
   const toggle = () => setIsOpen(!isOpen)
   const handeClickOutside = () => {
     onClickOutside && onClickOutside()
     setIsOpen(false)
   }
+  React.useEffect(() => {
+    const panel = document.getElementById('panel')
+
+    panel && panel.appendChild(element)
+    return () => {
+      panel && panel.removeChild(element)
+    }
+  }, [])
 
   return (
     <>
       <div onClick={toggle}>{targetComponent}</div>
-      {isOpen && (
-        <Wrapper>
-          <StyledContainer onClickOutside={handeClickOutside}>
+      {isOpen &&
+        ReactDOM.createPortal(
+          <StyledContainer
+            direction={direction}
+            width={width}
+            onClickOutside={handeClickOutside}
+          >
             {panelComponent}
-          </StyledContainer>
-        </Wrapper>
-      )}
+          </StyledContainer>,
+          element
+        )}
     </>
   )
 }

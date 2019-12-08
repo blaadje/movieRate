@@ -1,6 +1,6 @@
 import { fk, Model } from 'redux-orm'
 
-import Movie from '@core/store/orm/models/Movie'
+import Movie from '@core/store/orm/resourcesModels/Movie'
 
 export default class Playlist extends Model<typeof Playlist, PlaylistItem> {}
 

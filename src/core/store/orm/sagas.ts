@@ -8,11 +8,14 @@ import {
   PutEffect,
 } from 'redux-saga/effects'
 
+import { uuid } from '@core/utils'
+
 import {
   allowedTypes,
   createResourceByType,
   RESOURCE_ERROR,
   RESOURCE_FETCHING,
+  RESOURCE_FETCHING_MORE,
 } from '../constants'
 import request from '../request'
 
@@ -23,6 +26,7 @@ interface OptionsProp {
 
 interface ApiFetchProps {
   type: string
+  fetchMore: boolean
   resourceType: allowedTypes
   relationShip?: allowedTypes
   id?: string
@@ -30,12 +34,13 @@ interface ApiFetchProps {
   meta: object
 }
 
-const requestCallParams: object[] = []
-
-const isCached = (params: ApiFetchProps): boolean =>
-  requestCallParams.some(
-    (el: object) => JSON.stringify(el) === JSON.stringify(params)
-  )
+interface CallListProps {
+  [id: string]: {
+    page: number
+    params: object
+    id: string
+  }
+}
 
 export default function* applicationSaga(): Iterator<any> {
   function* makeCall(
@@ -43,10 +48,6 @@ export default function* applicationSaga(): Iterator<any> {
   ): Iterator<CallEffect | PutEffect<Action>> {
     const { resourceType, relationShip, id, options = {}, meta } = params
     const { parameter, queries } = options
-
-    if (isCached(params)) {
-      return
-    }
 
     try {
       const result = yield call(request, resourceType, {
@@ -68,7 +69,6 @@ export default function* applicationSaga(): Iterator<any> {
           result,
         })
       }
-      requestCallParams.push(params)
     } catch (error) {
       yield put({
         type: RESOURCE_ERROR,
@@ -79,5 +79,65 @@ export default function* applicationSaga(): Iterator<any> {
     }
   }
 
-  yield all([takeLatest(RESOURCE_FETCHING, makeCall)])
+  const requestCallParams: object[] = []
+
+  const compareObjects = (firstObject: object, secondObject: object) =>
+    JSON.stringify(firstObject) === JSON.stringify(secondObject)
+
+  const isCached = (params: ApiFetchProps): any =>
+    requestCallParams.some((item: any) => compareObjects(item, params))
+
+  const createCache = (params: ApiFetchProps) => requestCallParams.push(params)
+
+  const callList: CallListProps = {}
+
+  function* handleFetchMoreResource(params: ApiFetchProps) {
+    const getPreviousCallId = (): string => {
+      const [previousCallId]: any = Object.entries(callList).find(
+        ([key, value]) => compareObjects(value.params, params)
+      ) || [false]
+
+      if (!previousCallId) {
+        const id = uuid()
+        const initialPage = 2
+
+        callList[id] = {
+          page: initialPage,
+          params,
+          id,
+        }
+
+        return id
+      }
+
+      callList[previousCallId].page = callList[previousCallId].page + 1
+
+      return previousCallId
+    }
+
+    const { page } = callList[getPreviousCallId()]
+
+    yield makeCall({
+      ...params,
+      options: {
+        ...params.options,
+        queries: { ...(params.options && params.options.queries), page },
+      },
+    })
+  }
+
+  function* handleFetchResource(params: ApiFetchProps) {
+    if (isCached(params)) {
+      return
+    }
+
+    yield makeCall(params)
+
+    createCache(params)
+  }
+
+  yield all([
+    takeLatest(RESOURCE_FETCHING, handleFetchResource),
+    takeLatest(RESOURCE_FETCHING_MORE, handleFetchMoreResource),
+  ])
 }

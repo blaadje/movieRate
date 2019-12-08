@@ -1,42 +1,67 @@
-import { flatten } from 'lodash'
 import { createSelector as CR } from 'redux-orm'
 
 import orm from '@core/store/orm'
 
-import { DISCOVER_FILTER_ID, TRENDING_FILTER_ID } from './constants'
+import {
+  DEFAULT,
+  GENRE_FILTER_ID,
+  RATE_FILTER_ID,
+  YEAR_FILTER_ID,
+} from './constants'
 
 const createSelector = CR as any
 
 export const activeFilter = createSelector(orm.Filter)
 
-export const discoverMovies = createSelector(
+export const discoverResources = createSelector(
   orm,
-  ({ Discover, Filter }: any) => {
-    const discoverFilter = Filter.withId(DISCOVER_FILTER_ID).value
-    const discovers = Discover.filter(
-      ({ type }: any) => type === discoverFilter.field
-    ).toModelArray()
+  activeFilter,
+  ({ Discover, Filter }: any, filter: any) => {
+    const filteredGenres = Filter.withId(GENRE_FILTER_ID)[filter.value].value
+    const filteredRate = Filter.withId(RATE_FILTER_ID).value
+    const filteredDate = Filter.withId(YEAR_FILTER_ID).value
+    const movies = Discover.first() && Discover.first()[`${filter.value}s`]
 
-    return flatten(
-      discovers.map((item: any) =>
-        item[`${discoverFilter.field}s`].toRefArray()
-      )
-    )
+    if (!movies) {
+      return []
+    }
+
+    const byGenre = ({ genres }: any) => {
+      const foo = genres
+        .toRefArray()
+        .some((item: any) =>
+          filteredGenres.some((genre: any) => genre === item.id)
+        )
+
+      return filteredGenres.length ? foo : true
+    }
+
+    const byRate = ({ vote_average }: any) => vote_average >= filteredRate
+
+    const byYear = ({ release_date, first_air_date }: any) => {
+      const year = new Date(release_date || first_air_date).getFullYear()
+
+      return filteredDate && filteredDate !== DEFAULT
+        ? year === filteredDate
+        : true
+    }
+
+    return movies
+      .toModelArray()
+      .filter((movie: any) => byRate(movie) && byGenre(movie) && byYear(movie))
   }
 )
 
-export const trendingMovies = createSelector(
+export const trendingResources = createSelector(
   orm,
-  ({ Trending, Filter }: any) => {
-    const trendingFilter = Filter.withId(TRENDING_FILTER_ID).value
-    const trendings = Trending.filter(
-      ({ type }: any) => type === trendingFilter.field
-    ).toModelArray()
+  activeFilter,
+  ({ Trending }: any, filter: any) =>
+    Trending.first() ? Trending.first()[`${filter.value}s`].toRefArray() : []
+)
 
-    return flatten(
-      trendings.map((item: any) =>
-        item[`${trendingFilter.field}s`].toRefArray()
-      )
-    )
-  }
+export const movieGenres = createSelector(
+  orm,
+  activeFilter,
+  ({ Genre }: any, filter: any) =>
+    Genre.filter((genre: any) => genre.type.includes(filter.value)).toRefArray()
 )

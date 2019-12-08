@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import styled, { css } from 'styled-components'
 
 import Button from '@components/Button'
-import { resourceFilter } from '@core/store/actions'
+import { setFilterAction } from '@core/store/actions'
 import { activeFilter } from '@core/store/selectors'
 
 interface FilterBy {
   label: string
-  field: number
+  value: number
 }
 
 interface FilterButtonProps {
@@ -43,7 +43,7 @@ const mapStateToProps = (
   { filterId, filterBy }: FilterButtonProps
 ) => {
   return {
-    active: activeFilter(state, filterId).value.field === filterBy.field,
+    active: activeFilter(state, filterId).value === filterBy.value,
   }
 }
 
@@ -53,7 +53,7 @@ const mapDispatchToProps = (
 ) => ({
   onClick: () => {
     onClick && onClick()
-    dispatch(resourceFilter(filterBy, filterId))
+    dispatch(setFilterAction(filterBy, filterId))
   },
 })
 

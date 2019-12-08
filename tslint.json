@@ -6,7 +6,7 @@
     "tslint-config-prettier"
   ],
   "linterOptions": {
-    "exclude": ["build", "node_modules"]
+    "exclude": ["build", "node_modules", "**/*.js"]
   },
   "rulesDirectory": ["src"],
   "rules": {

@@ -1,3 +1,7 @@
+import { FilterProps } from './orm/reducer'
+
+export const DEFAULT = 'default'
+
 // ORM
 export const MOVIE = 'movie'
 export const SEARCH = 'search'
@@ -5,6 +9,8 @@ export const TV = 'tv'
 export const DISCOVER = 'discover'
 export const TRENDING = 'trending'
 export const PLAYLIST = 'playlist'
+export const RATE = 'rate'
+export const GENRE = 'genre'
 
 export type allowedTypes =
   | 'movie'
@@ -13,26 +19,29 @@ export type allowedTypes =
   | 'playlist'
   | 'search'
   | 'trending'
+  | 'genre'
 
-export const RESOURCE_FETCHING: any = 'API/RESOURCE_FETCHING'
-export const RESOURCE_ERROR: any = 'API/RESOURCE_ERROR'
+export const RESOURCE_FETCHING: string = 'API/RESOURCE_FETCHING'
+export const RESOURCE_FETCHING_MORE: string = 'API/RESOURCE_FETCHING_MORE'
+export const RESOURCE_ERROR: string = 'API/RESOURCE_ERROR'
 export const createResourceByType = (resourceType: allowedTypes) =>
   `API/RESOURCE_CREATE_${resourceType.toUpperCase()}`
 
 // FILTERS
-export type filterProps = {
-  field: string
-  label: string
-}
 export const SET_FILTER: string = 'filter'
-export const MOVIES_FILTER: filterProps = {
-  field: MOVIE,
+export const MOVIES_FILTER: FilterProps = {
+  value: MOVIE,
   label: 'Popular movies',
 }
-export const TVS_FILTER: filterProps = {
-  field: TV,
+
+export const TVS_FILTER: FilterProps = {
+  value: TV,
   label: 'Popular TVs',
 }
 
+// filters IDs
 export const DISCOVER_FILTER_ID = 0
 export const TRENDING_FILTER_ID = 1
+export const RATE_FILTER_ID = 2
+export const GENRE_FILTER_ID = 3
+export const YEAR_FILTER_ID = 4

@@ -28,11 +28,9 @@ const colors: ColorsProps = {
   grey: '#344350',
   greyLight: '#a5abb1',
   blue: '#176087',
-  red: '#592930',
+  red: '#b5465a',
 }
-
 const spacingUnit: number = 8
-
 const spacing: SpacingProps = {
   XS: rem(spacingUnit / 2), // 4px - 0.4rem
   S: rem(spacingUnit * 1.5), // 12px - 1.2rem
@@ -41,13 +39,15 @@ const spacing: SpacingProps = {
   XL: rem(spacingUnit * 4), // 32px - 3.2rem
   XXL: rem(spacingUnit * 5), // 40px - 4rem
 }
+const delay: string = '0.3s'
 
 export default {
   boxShadow: (color: string = colors.black): string =>
     `0px 0px 30px ${rgba(color, 0.3)}`,
   colors,
   radius: rem('3px'),
-  delay: '0.3s',
+  delay,
+  transition: `all ${delay} ease`,
   spacing,
   fontFamily: 'Catamaran',
 }

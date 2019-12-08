@@ -5,16 +5,15 @@ import styled from 'styled-components'
 import Icon from '@components/Icon'
 import Popper from '@components/Popper'
 import FilterButton from '@containers/FilterButton'
-import MovieItem from '@containers/MovieItem'
-import { resourceFetch } from '@core/store/actions'
+import MovieBlock from '@containers/MovieBlock'
+import { resourceFetchAction } from '@core/store/actions'
 import {
-  filterProps,
   MOVIES_FILTER,
   TRENDING,
   TRENDING_FILTER_ID,
   TVS_FILTER,
 } from '@core/store/constants'
-import { activeFilter, trendingMovies } from '@core/store/selectors'
+import { activeFilter, trendingResources } from '@core/store/selectors'
 
 const Header = styled.header`
   display: flex;
@@ -25,7 +24,7 @@ const Header = styled.header`
 `
 
 const CategorySelector = styled(Popper)`
-  font-weight: 600;
+  /* font-weight: 600; */
   flex-shrink: 0;
   color: ${({ theme }) => theme.colors.greyLight};
   margin-left: ${({ theme }) => theme.spacing.XL};
@@ -50,20 +49,23 @@ const StyledFilterButton: any = styled(FilterButton)`
 
 interface Iprops {
   dispatch: (Object: any) => Promise<any>
-  activeFilter: filterProps
+  resourceFilter: {
+    value: string
+    label: string
+  }
   movies: any
 }
 
 const Trending: React.FunctionComponent<Iprops> = ({
   dispatch,
-  activeFilter,
+  resourceFilter,
   movies,
 }: Iprops) => {
   const fetch = () =>
     dispatch(
-      resourceFetch({
+      resourceFetchAction({
         resourceType: TRENDING,
-        relationShip: activeFilter.field,
+        relationShip: resourceFilter.value,
         options: {
           parameter: 'week',
         },
@@ -73,7 +75,7 @@ const Trending: React.FunctionComponent<Iprops> = ({
   React.useEffect((): any => {
     // tslint:disable-next-line: no-floating-promises
     fetch()
-  }, [activeFilter])
+  }, [resourceFilter])
 
   return (
     <>
@@ -81,7 +83,7 @@ const Trending: React.FunctionComponent<Iprops> = ({
         <CategorySelector
           targetComponent={
             <>
-              {activeFilter.label}
+              {resourceFilter.label}
               <Icon className="icon" glyph="vector" />
             </>
           }
@@ -108,7 +110,7 @@ const Trending: React.FunctionComponent<Iprops> = ({
       <MovieWrapper>
         {movies &&
           movies.map((movie: any) => (
-            <MovieItem key={movie.id} movie={movie} />
+            <MovieBlock key={movie.id} movie={movie} />
           ))}
       </MovieWrapper>
     </>
@@ -117,8 +119,8 @@ const Trending: React.FunctionComponent<Iprops> = ({
 
 const mapStateToProps = (state: any) => {
   return {
-    movies: trendingMovies(state),
-    activeFilter: activeFilter(state, 1).value,
+    movies: trendingResources(state, TRENDING_FILTER_ID),
+    resourceFilter: activeFilter(state, TRENDING_FILTER_ID),
   }
 }
 

@@ -8,18 +8,17 @@ interface ActionProps {
   relationShip?: string
 }
 
-export default class Discover extends Model<typeof Discover, DiscoverItem> {
-  static reducer({ relationShip, type }: ActionProps, Discover: any) {
+export default class Discover extends Model<typeof Discover> {
+  static reducer({ type }: ActionProps, Discover: any) {
     switch (type) {
       case createResourceByType(DISCOVER):
-        Discover.create({ type: relationShip })
-        return
+        if (Discover.idExists(0)) {
+          return
+        }
+
+        return Discover.create({ type: 'discover' })
     }
   }
-}
-
-export interface DiscoverItem {
-  type: string
 }
 
 Discover.modelName = 'Discover'

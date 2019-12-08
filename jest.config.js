@@ -1,7 +1,7 @@
 module.exports = {
   moduleNameMapper: {
     '^@components/(.*)$': '<rootDir>/src/components/$1',
-    '^@images/(.*)$': '<rootDir>/src/assets/images/$1',
+    '^@assets/(.*)$': '<rootDir>/src/assets/$1',
     '^@containers/(.*)$': '<rootDir>/src/containers/$1',
     '^@core/(.*)$': '<rootDir>/src/core/$1',
     '^@views/(.*)$': '<rootDir>/src/views/$1',

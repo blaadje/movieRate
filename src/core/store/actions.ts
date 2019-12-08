@@ -1,12 +1,16 @@
-import { RESOURCE_FETCHING, SET_FILTER } from './constants'
+import {
+  RESOURCE_FETCHING,
+  RESOURCE_FETCHING_MORE,
+  SET_FILTER,
+} from './constants'
 
-interface ResourceFetchParams {
+export interface ResourceFetchParams {
   resourceType: string
   relationShip: string
   options?: object
 }
 
-export const resourceFetch = ({
+export const resourceFetchAction = ({
   resourceType,
   relationShip,
   options = {},
@@ -22,6 +26,22 @@ export const resourceFetch = ({
   }
 }
 
-export const resourceFilter = (filter: object, filterId: number): any => {
+export const resourceFetchMoreAction = ({
+  resourceType,
+  relationShip,
+  options = {},
+}: ResourceFetchParams): object => {
+  return {
+    type: RESOURCE_FETCHING_MORE,
+    resourceType,
+    relationShip,
+    options,
+    meta: {
+      thunk: false,
+    },
+  }
+}
+
+export const setFilterAction = (filter: any, filterId: number): any => {
   return { type: SET_FILTER, filter, filterId }
 }

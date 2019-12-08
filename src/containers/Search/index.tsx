@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import Icon from '@components/Icon'
 import Input from '@components/Input'
-import { resourceFetch } from '@core/store/actions'
+import { resourceFetchAction } from '@core/store/actions'
 import { MOVIE, SEARCH } from '@core/store/constants'
 
 interface Iprops {
@@ -30,7 +30,7 @@ const Search: React.FunctionComponent<Iprops> = ({ dispatch }: Iprops) => {
     }
 
     await dispatch(
-      resourceFetch({
+      resourceFetchAction({
         resourceType: SEARCH,
         relationShip: MOVIE,
         options: {
@@ -52,6 +52,8 @@ const Search: React.FunctionComponent<Iprops> = ({ dispatch }: Iprops) => {
       <InputWrapper>
         <Icon size="xl" glyph="search" />
         <StyledInput
+          type="text"
+          id="search"
           value={value}
           placeholder="Search movie"
           onChange={onChangeInput}

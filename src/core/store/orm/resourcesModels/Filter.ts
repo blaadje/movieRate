@@ -12,7 +12,7 @@ export default class Filter extends Model<typeof Filter, FilterItem> {
   static reducer({ type, filter, filterId }: ActionProps, Filter: any): any {
     switch (type) {
       case SET_FILTER:
-        Filter.withId(filterId).update({ value: filter })
+        Filter.withId(filterId).update(filter)
         return
     }
   }
