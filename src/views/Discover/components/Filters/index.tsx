@@ -7,11 +7,11 @@ import Input from '@components/Input'
 import Rate from '@components/Rate'
 import Select from '@components/Select'
 import {
+  DEFAULT,
   MOVIE,
   MOVIES_FILTER,
   TV,
   TVS_FILTER,
-  DEFAULT,
 } from '@core/store/constants'
 
 interface Iprops {

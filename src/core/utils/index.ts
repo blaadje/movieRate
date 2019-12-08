@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { debounce } from 'lodash'
+import { useCallback, useEffect, useRef } from 'react'
 
 export type sizeOptions = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl'
 
@@ -54,3 +55,12 @@ export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
     else didMountRef.current = true
   }, inputs)
 }
+
+export const useDebounce = (
+  fnToDebounce: (...args: any) => void,
+  durationInMs: number = 200
+) =>
+  useCallback(debounce(fnToDebounce, durationInMs), [
+    fnToDebounce,
+    durationInMs,
+  ])

@@ -29,6 +29,8 @@ interface ApiFetchProps {
   fetchMore: boolean
   resourceType: allowedTypes
   relationShip?: allowedTypes
+  ignoreCall: boolean
+  resourceValues?: any
   id?: string
   options?: OptionsProp
   meta: object
@@ -46,8 +48,17 @@ export default function* applicationSaga(): Iterator<any> {
   function* makeCall(
     params: ApiFetchProps
   ): Iterator<CallEffect | PutEffect<Action>> {
-    const { resourceType, relationShip, id, options = {}, meta } = params
+    const {
+      resourceType,
+      resourceValues,
+      relationShip,
+      id,
+      options = {},
+      meta,
+    } = params
     const { parameter, queries } = options
+
+    console.log(resourceValues)
 
     try {
       const result = yield call(request, resourceType, {
@@ -58,6 +69,7 @@ export default function* applicationSaga(): Iterator<any> {
       yield put({
         type: createResourceByType(resourceType),
         relationShip,
+        resourceValues,
         result,
         meta,
       })
@@ -127,7 +139,24 @@ export default function* applicationSaga(): Iterator<any> {
   }
 
   function* handleFetchResource(params: ApiFetchProps) {
-    if (isCached(params)) {
+    const {
+      resourceType,
+      resourceValues,
+      relationShip,
+      meta,
+      ignoreCall,
+    } = params
+
+    if (resourceValues !== undefined && (isCached(params) || ignoreCall)) {
+      return yield put({
+        type: createResourceByType(resourceType),
+        relationShip,
+        resourceValues,
+        meta,
+      })
+    }
+
+    if (isCached(params) || ignoreCall) {
       return
     }
 

@@ -16,24 +16,32 @@ export const activeFilter = createSelector(orm.Filter)
 export const discoverResources = createSelector(
   orm,
   activeFilter,
-  ({ Discover, Filter }: any, filter: any) => {
-    const filteredGenres = Filter.withId(GENRE_FILTER_ID)[filter.value].value
+  ({ Discover, Movie, Filter, Search }: any, resourceFilter: any) => {
+    const filteredGenres = Filter.withId(GENRE_FILTER_ID)[resourceFilter.value]
+      .value
     const filteredRate = Filter.withId(RATE_FILTER_ID).value
     const filteredDate = Filter.withId(YEAR_FILTER_ID).value
-    const movies = Discover.first() && Discover.first()[`${filter.value}s`]
+    // const movies =
+    //   Discover.first() && Discover.first()[`${resourceFilter.value}s`]
 
-    if (!movies) {
-      return []
+    // if (!movies) {
+    //   return []
+    // }
+
+    const byName = ({ title }: any) => {
+      return title
+        .toLowerCase()
+        .includes(Search.last() ? Search.last().query.toLowerCase() : '')
     }
 
     const byGenre = ({ genres }: any) => {
-      const foo = genres
+      const moviesByGenre = genres
         .toRefArray()
         .some((item: any) =>
           filteredGenres.some((genre: any) => genre === item.id)
         )
 
-      return filteredGenres.length ? foo : true
+      return filteredGenres.length ? moviesByGenre : true
     }
 
     const byRate = ({ vote_average }: any) => vote_average >= filteredRate
@@ -46,9 +54,13 @@ export const discoverResources = createSelector(
         : true
     }
 
-    return movies
+    return Movie.all()
       .toModelArray()
-      .filter((movie: any) => byRate(movie) && byGenre(movie) && byYear(movie))
+      .filter(
+        (movie: any) =>
+          byName(movie) && byRate(movie) && byGenre(movie) && byYear(movie)
+      )
+      .sort((a: any, b: any) => b.release_date - a.release_date)
   }
 )
 

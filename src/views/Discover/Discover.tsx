@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import Panel from '@components/Panel'
+import Search from '@components/Search'
 import MovieBlock from '@containers/MovieBlock'
-import Search from '@containers/Search'
 import {
   resourceFetchAction,
   resourceFetchMoreAction,
@@ -18,6 +18,7 @@ import {
   GENRE_FILTER_ID,
   MOVIE,
   RATE_FILTER_ID,
+  SEARCH,
   YEAR_FILTER_ID,
 } from '@core/store/constants'
 import { GenreItem } from '@core/store/orm/resourcesModels/Genre'
@@ -73,6 +74,7 @@ const Discover: React.FunctionComponent<Iprops> = ({
   resourceFetchMore,
 }: Iprops) => {
   const [localGenres, setLocalGenres] = React.useState([])
+  const [searchQuery, setSearchQuery] = React.useState('')
 
   const getDate = () => {
     return resourceFilter.value === MOVIE
@@ -112,14 +114,18 @@ const Discover: React.FunctionComponent<Iprops> = ({
     setLocalGenres(formattedGenres)
   }, [genreFilter])
 
-  const loadMore = () =>
+  const loadMore = () => {
+    const isSearching = Boolean(searchQuery)
+
     resourceFetchMore({
-      resourceType: DISCOVER,
+      resourceType: isSearching ? SEARCH : DISCOVER,
       relationShip: resourceFilter.value,
+      ...(isSearching && { resourceValues: { query: searchQuery } }),
       options: {
-        queries,
+        queries: isSearching ? { query: searchQuery } : queries,
       },
     })
+  }
 
   const handleSelectedRate = (value: number) => {
     setFilter({ value }, RATE_FILTER_ID)
@@ -154,14 +160,23 @@ const Discover: React.FunctionComponent<Iprops> = ({
     )
   }
 
-  const filteredMovies = movies.sort(
-    (a: any, b: any) => b.release_date - a.release_date
-  )
+  const handleSearch = (value: string) => {
+    setSearchQuery(value)
+    resourceFetch({
+      resourceType: SEARCH,
+      relationShip: resourceFilter.value,
+      resourceValues: { query: value },
+      ignoreCall: !Boolean(value),
+      options: {
+        queries: { query: value },
+      },
+    })
+  }
 
   return (
     <>
       <Header>
-        <Search />
+        <Search placeholder="Search a movie" onSearch={handleSearch} />
         <Panel
           direction="right"
           width={rem('300px')}
@@ -181,8 +196,8 @@ const Discover: React.FunctionComponent<Iprops> = ({
         />
       </Header>
       <MovieWrapper>
-        {filteredMovies &&
-          filteredMovies.map((movie: any) => (
+        {movies &&
+          movies.map((movie: any) => (
             <MovieBlock key={movie.id} movie={movie} />
           ))}
       </MovieWrapper>
