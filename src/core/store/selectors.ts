@@ -1,3 +1,4 @@
+import { capitalize, deburr } from 'lodash'
 import { createSelector as CR } from 'redux-orm'
 
 import orm from '@core/store/orm'
@@ -16,23 +17,30 @@ export const activeFilter = createSelector(orm.Filter)
 export const discoverResources = createSelector(
   orm,
   activeFilter,
-  ({ Discover, Movie, Filter, Search }: any, resourceFilter: any) => {
+  ({ Discover, Tv, Movie, Filter, Search }: any, resourceFilter: any) => {
     const filteredGenres = Filter.withId(GENRE_FILTER_ID)[resourceFilter.value]
       .value
     const filteredRate = Filter.withId(RATE_FILTER_ID).value
     const filteredDate = Filter.withId(YEAR_FILTER_ID).value
-    // const movies =
-    //   Discover.first() && Discover.first()[`${resourceFilter.value}s`]
-
-    // if (!movies) {
-    //   return []
-    // }
-
-    const byName = ({ title }: any) => {
-      return title
-        .toLowerCase()
-        .includes(Search.last() ? Search.last().query.toLowerCase() : '')
+    const isSearching = Boolean(Search.last() && Search.last().query)
+    const resources: any = {
+      Movie,
+      Tv,
     }
+    const movies = isSearching
+      ? resources[capitalize(resourceFilter.value)].all()
+      : Discover.first() && Discover.first()[`${resourceFilter.value}s`]
+
+    if (!movies) {
+      return []
+    }
+
+    const byName = ({ title, original_name }: any) =>
+      deburr(title || original_name)
+        .toLowerCase()
+        .includes(
+          Search.last() ? deburr(Search.last().query).toLowerCase() : ''
+        )
 
     const byGenre = ({ genres }: any) => {
       const moviesByGenre = genres
@@ -54,7 +62,7 @@ export const discoverResources = createSelector(
         : true
     }
 
-    return Movie.all()
+    return movies
       .toModelArray()
       .filter(
         (movie: any) =>

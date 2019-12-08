@@ -196,6 +196,7 @@ const Discover: React.FunctionComponent<Iprops> = ({
         />
       </Header>
       <MovieWrapper>
+        {!movies.length && <div>No Movie</div>}
         {movies &&
           movies.map((movie: any) => (
             <MovieBlock key={movie.id} movie={movie} />

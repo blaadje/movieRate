@@ -58,8 +58,6 @@ export default function* applicationSaga(): Iterator<any> {
     } = params
     const { parameter, queries } = options
 
-    console.log(resourceValues)
-
     try {
       const result = yield call(request, resourceType, {
         segment: { parameter, relationShip, id },
@@ -146,8 +144,10 @@ export default function* applicationSaga(): Iterator<any> {
       meta,
       ignoreCall,
     } = params
+    const avoidMakeCall = isCached(params) || ignoreCall
+    const resourceValueToUpdate = resourceValues !== undefined
 
-    if (resourceValues !== undefined && (isCached(params) || ignoreCall)) {
+    if (resourceValueToUpdate && avoidMakeCall) {
       return yield put({
         type: createResourceByType(resourceType),
         relationShip,
@@ -156,7 +156,7 @@ export default function* applicationSaga(): Iterator<any> {
       })
     }
 
-    if (isCached(params) || ignoreCall) {
+    if (avoidMakeCall) {
       return
     }
 
