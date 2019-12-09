@@ -16,23 +16,23 @@ interface Iprops extends React.HTMLAttributes<any> {
 const LoadedImage: any = styled.div.attrs(({ src }: Iprops) => ({
   style: {
     background: `url(${src})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
   },
 }))`
   height: 100%;
   width: 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
 `
 
 const Error: any = styled.div.attrs(({ src }: Iprops) => ({
   style: {
     background: `url(${src})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
   },
 }))`
   height: 100%;
   width: 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
 `
 const Filter: any = styled.div`
   height: 100%;

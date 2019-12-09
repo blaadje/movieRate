@@ -27,12 +27,16 @@ const Logo = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: calc(${({ theme }) => theme.spacing.M} * 4) 0;
+  padding: calc(${({ theme }) => theme.spacing.M} * 5) 0;
   font-size: ${rem('25px')};
 `
 
+const Title = styled.div`
+  margin-bottom: ${({ theme }) => theme.spacing.M};
+`
+
 const NavLink = styled(Link)`
-  padding: ${({ theme }: any) => `${theme.spacing.S} ${theme.spacing.XL}`};
+  padding: ${({ theme }: any) => `${theme.spacing.L} ${theme.spacing.XL}`};
   &:hover {
     background: ${({ theme }) => theme.colors.grey};
     .icon {
@@ -54,7 +58,7 @@ const SideBar: React.FunctionComponent = () => {
   return (
     <Wrapper>
       <Logo>
-        <strong>Movie Rate</strong>
+        <Title>Movie Rate</Title>
         <Rate readonly={true} rate={4} />
       </Logo>
       <Nav>

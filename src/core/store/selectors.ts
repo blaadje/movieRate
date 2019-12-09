@@ -35,8 +35,13 @@ export const discoverResources = createSelector(
       return []
     }
 
-    const byName = ({ title, original_name }: any) =>
+    const byName = ({ title, original_title, original_name }: any) =>
       deburr(title || original_name)
+        .toLowerCase()
+        .includes(
+          Search.last() ? deburr(Search.last().query).toLowerCase() : ''
+        ) ||
+      deburr(original_title || original_name)
         .toLowerCase()
         .includes(
           Search.last() ? deburr(Search.last().query).toLowerCase() : ''
@@ -68,7 +73,9 @@ export const discoverResources = createSelector(
         (movie: any) =>
           byName(movie) && byRate(movie) && byGenre(movie) && byYear(movie)
       )
-      .sort((a: any, b: any) => b.release_date - a.release_date)
+      .sort(
+        (a: any, b: any) => new Date(b.release_date) < new Date(a.release_date)
+      )
   }
 )
 

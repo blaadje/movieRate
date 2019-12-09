@@ -39,9 +39,9 @@ const GlobalStyle = createGlobalStyle`
     height: 100vh;
     width: 100%;
     margin: 0;
+    line-height: 99%;
     overflow: hidden;
     padding: 0;
-    background: rgb(49, 87, 108);
     -webkit-font-smoothing: antialiased;
     color: ${({ theme }: any) => theme.colors.white};
   }
@@ -63,18 +63,11 @@ const GradientWrapper = styled.div`
   box-shadow: ${({ theme }) => theme.boxShadow()};
   height: 100vh;
   width: 100%;
-  padding: ${({ theme }) => theme.spacing.XXL};
+  /* padding: ${({ theme }) => theme.spacing.XXL}; */
   overflow: auto;
   display: inline-block;
   vertical-align: top;
-  background: linear-gradient(
-    to left,
-    rgba(20, 37, 49, 1) 0%,
-    rgba(20, 37, 49, 0.95) 5%,
-    rgba(20, 37, 49, 0.9) 15%,
-    rgba(20, 37, 49, 0.85) 35%,
-    rgba(20, 37, 49, 0.98) 87%
-  );
+  background: ${({ theme }) => theme.colors.gradient};
 `
 
 const AppWrapper = styled.div`

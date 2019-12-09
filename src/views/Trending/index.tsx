@@ -15,6 +15,10 @@ import {
 } from '@core/store/constants'
 import { activeFilter, trendingResources } from '@core/store/selectors'
 
+const Wrapper = styled.div`
+  padding: ${({ theme }) => theme.spacing.XXL};
+`
+
 const Header = styled.header`
   display: flex;
   align-items: center;
@@ -78,7 +82,7 @@ const Trending: React.FunctionComponent<Iprops> = ({
   }, [resourceFilter])
 
   return (
-    <>
+    <Wrapper>
       <Header>
         <CategorySelector
           targetComponent={
@@ -113,7 +117,7 @@ const Trending: React.FunctionComponent<Iprops> = ({
             <MovieBlock key={movie.id} movie={movie} />
           ))}
       </MovieWrapper>
-    </>
+    </Wrapper>
   )
 }
 
