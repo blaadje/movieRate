@@ -76,7 +76,7 @@
     "chalk": "^2.3.2",
     "concurrently": "^5.0.0",
     "del": "^5.1.0",
-    "electron": "^7.0.0",
+    "electron": "^7.1.4",
     "electron-builder": "^21.2.0",
     "electron-builder-squirrel-windows": "^22.2.0",
     "electron-devtools-installer": "^2.2.4",
