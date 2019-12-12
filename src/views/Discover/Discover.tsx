@@ -4,8 +4,9 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import Panel from '@components/Panel'
+import Rate from '@components/Rate'
+import Search from '@components/Search'
 import MovieBlock from '@containers/MovieBlock'
-import Search from '@containers/Search'
 import {
   resourceFetchAction,
   resourceFetchMoreAction,
@@ -18,6 +19,7 @@ import {
   GENRE_FILTER_ID,
   MOVIE,
   RATE_FILTER_ID,
+  SEARCH,
   YEAR_FILTER_ID,
 } from '@core/store/constants'
 import { GenreItem } from '@core/store/orm/resourcesModels/Genre'
@@ -29,21 +31,46 @@ import {
 } from '@core/store/selectors'
 
 import Filters from './components/Filters'
+import Tag from './components/Tag'
+
+const ContentWrapper = styled.div`
+  padding: ${({ theme }) => theme.spacing.XXL};
+  padding-top: 0;
+  overflow: auto;
+`
 
 const Header = styled.header`
   position: sticky;
+  background: ${({ theme }) => theme.colors.gradient};
+  opacity: 0.9;
   top: 0;
   z-index: 3;
+  padding: ${({ theme }) => theme.spacing.XL}
+    ${({ theme }) => theme.spacing.XXL};
+  margin-bottom: ${({ theme }) => theme.spacing.L};
+`
+
+const SearchWrapper = styled.div`
   display: flex;
   align-items: center;
-  font-size: 20px;
-  margin-bottom: ${({ theme }) => theme.spacing.L};
+`
+
+const TagsWrapper = styled.div`
+  display: flex;
 `
 
 const MovieWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+`
+
+const StyledTag = styled(Tag)`
+  margin-right: ${({ theme }) => theme.spacing.L};
+`
+
+const FiltersTrigger = styled.span`
+  cursor: pointer;
 `
 
 interface Iprops {
@@ -73,6 +100,7 @@ const Discover: React.FunctionComponent<Iprops> = ({
   resourceFetchMore,
 }: Iprops) => {
   const [localGenres, setLocalGenres] = React.useState([])
+  const [searchQuery, setSearchQuery] = React.useState('')
 
   const getDate = () => {
     return resourceFilter.value === MOVIE
@@ -112,14 +140,18 @@ const Discover: React.FunctionComponent<Iprops> = ({
     setLocalGenres(formattedGenres)
   }, [genreFilter])
 
-  const loadMore = () =>
+  const loadMore = () => {
+    const isSearching = Boolean(searchQuery)
+
     resourceFetchMore({
-      resourceType: DISCOVER,
+      resourceType: isSearching ? SEARCH : DISCOVER,
       relationShip: resourceFilter.value,
+      ...(isSearching && { resourceValues: { query: searchQuery } }),
       options: {
-        queries,
+        queries: isSearching ? { query: searchQuery } : queries,
       },
     })
+  }
 
   const handleSelectedRate = (value: number) => {
     setFilter({ value }, RATE_FILTER_ID)
@@ -154,39 +186,82 @@ const Discover: React.FunctionComponent<Iprops> = ({
     )
   }
 
-  const filteredMovies = movies.sort(
-    (a: any, b: any) => b.release_date - a.release_date
-  )
+  const handleSearch = (value: string) => {
+    setSearchQuery(value)
+    resourceFetch({
+      resourceType: SEARCH,
+      relationShip: resourceFilter.value,
+      resourceValues: { query: value },
+      ignoreCall: !Boolean(value),
+      options: {
+        queries: { query: value },
+      },
+    })
+  }
 
   return (
     <>
       <Header>
-        <Search />
-        <Panel
-          direction="right"
-          width={rem('300px')}
-          targetComponent={<span>Filters</span>}
-          panelComponent={
-            <Filters
-              currentRate={rateFilter}
-              currentType={resourceFilter.value}
-              currentYear={yearFilter}
-              genres={localGenres}
-              onSelectedType={handleSelectedType}
-              onSelectedRate={handleSelectedRate}
-              onSelectedGenre={handleSelectedGenre}
-              onSelectedYear={handleSelectedYear}
-            />
-          }
-        />
+        <SearchWrapper>
+          <Search placeholder="Search a movie" onSearch={handleSearch} />
+          <Panel
+            direction="right"
+            width={rem('300px')}
+            targetComponent={<FiltersTrigger>Filters</FiltersTrigger>}
+            panelComponent={
+              <Filters
+                currentRate={rateFilter}
+                currentType={resourceFilter.value}
+                currentYear={yearFilter}
+                genres={localGenres}
+                onSelectedType={handleSelectedType}
+                onSelectedRate={handleSelectedRate}
+                onSelectedGenre={handleSelectedGenre}
+                onSelectedYear={handleSelectedYear}
+              />
+            }
+          />
+        </SearchWrapper>
+        <TagsWrapper>
+          {localGenres.length &&
+            localGenres.map((genre: any) => {
+              if (!genre.isChecked) {
+                return
+              }
+
+              return (
+                <StyledTag
+                  key={genre.name}
+                  onRemove={() => handleSelectedGenre(genre.id)}
+                >
+                  {genre.name}
+                </StyledTag>
+              )
+            })}
+          {rateFilter > 1 && (
+            <StyledTag onRemove={() => setFilter({ value: 1 }, RATE_FILTER_ID)}>
+              <Rate rate={rateFilter} />
+            </StyledTag>
+          )}
+          {yearFilter && (
+            <StyledTag
+              onRemove={() => setFilter({ value: null }, YEAR_FILTER_ID)}
+            >
+              {yearFilter}
+            </StyledTag>
+          )}
+        </TagsWrapper>
       </Header>
-      <MovieWrapper>
-        {filteredMovies &&
-          filteredMovies.map((movie: any) => (
-            <MovieBlock key={movie.id} movie={movie} />
-          ))}
-      </MovieWrapper>
-      <button onClick={loadMore}>load more</button>
+      <ContentWrapper>
+        <MovieWrapper>
+          {!movies.length && <div>No Movie</div>}
+          {movies &&
+            movies.map((movie: any) => (
+              <MovieBlock key={movie.id} movie={movie} />
+            ))}
+        </MovieWrapper>
+        <button onClick={loadMore}>load more</button>
+      </ContentWrapper>
     </>
   )
 }

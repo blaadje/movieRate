@@ -24,7 +24,7 @@ const Wrapper = styled(Image)`
   box-shadow: 0px 0px 0px 12px ${({ theme }) => rgba(theme.colors.dark, 0.8)};
   width: ${rem('160px')};
   height: ${rem('240px')};
-  margin: ${rem('30px')};
+  margin: ${rem('45px')} ${rem('35px')};
 `
 
 const Description = styled.div`
@@ -44,6 +44,11 @@ const Title = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: ${({ theme }) => theme.spacing.XS};
+`
+
+const Date = styled.span`
+  margin-bottom: ${({ theme }) => theme.spacing.XS};
 `
 
 const OptionsWrapper: any = styled.div`
@@ -80,8 +85,8 @@ const MovieBlock: React.FunctionComponent<Iprops> = ({ movie }) => {
       onMouseLeave={() => setIsHover(false)}
     >
       <Description>
-        <Title>{movie.title || movie.name}</Title>
-        <span>{movie.release_date || movie.first_air_date}</span>
+        <Title>{movie.original_title || movie.name}</Title>
+        <Date>{movie.release_date || movie.first_air_date}</Date>
         <Rate rate={movie.vote_average} />
       </Description>
       <OptionsWrapper isHovered={isHovered}>

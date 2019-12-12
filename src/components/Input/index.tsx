@@ -10,6 +10,7 @@ import TextField from './components/TextField'
 interface Iprops extends React.InputHTMLAttributes<any> {
   type: 'text' | 'radio' | 'checkbox' | 'number'
   label?: string
+  className?: string
   error?: string
 }
 
@@ -27,6 +28,7 @@ const Error = styled.div`
 const Input: React.FunctionComponent<Iprops> = ({
   type = 'text',
   error,
+  className,
   ...rest
 }: Iprops) => {
   const components = {
@@ -38,7 +40,7 @@ const Input: React.FunctionComponent<Iprops> = ({
   const Component = components[type]
 
   return (
-    <Wrapper>
+    <Wrapper className={className}>
       <Component type={type} {...rest} />
       {error && <Error>{error}</Error>}
     </Wrapper>

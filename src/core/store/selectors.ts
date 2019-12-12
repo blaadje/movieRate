@@ -1,3 +1,4 @@
+import { capitalize, deburr } from 'lodash'
 import { createSelector as CR } from 'redux-orm'
 
 import orm from '@core/store/orm'
@@ -16,24 +17,44 @@ export const activeFilter = createSelector(orm.Filter)
 export const discoverResources = createSelector(
   orm,
   activeFilter,
-  ({ Discover, Filter }: any, filter: any) => {
-    const filteredGenres = Filter.withId(GENRE_FILTER_ID)[filter.value].value
+  ({ Discover, Tv, Movie, Filter, Search }: any, resourceFilter: any) => {
+    const filteredGenres = Filter.withId(GENRE_FILTER_ID)[resourceFilter.value]
+      .value
     const filteredRate = Filter.withId(RATE_FILTER_ID).value
     const filteredDate = Filter.withId(YEAR_FILTER_ID).value
-    const movies = Discover.first() && Discover.first()[`${filter.value}s`]
+    const isSearching = Boolean(Search.last() && Search.last().query)
+    const resources: any = {
+      Movie,
+      Tv,
+    }
+    const movies = isSearching
+      ? resources[capitalize(resourceFilter.value)].all()
+      : Discover.first() && Discover.first()[`${resourceFilter.value}s`]
 
     if (!movies) {
       return []
     }
 
+    const byName = ({ title, original_title, original_name }: any) =>
+      deburr(title || original_name)
+        .toLowerCase()
+        .includes(
+          Search.last() ? deburr(Search.last().query).toLowerCase() : ''
+        ) ||
+      deburr(original_title || original_name)
+        .toLowerCase()
+        .includes(
+          Search.last() ? deburr(Search.last().query).toLowerCase() : ''
+        )
+
     const byGenre = ({ genres }: any) => {
-      const foo = genres
+      const moviesByGenre = genres
         .toRefArray()
         .some((item: any) =>
           filteredGenres.some((genre: any) => genre === item.id)
         )
 
-      return filteredGenres.length ? foo : true
+      return filteredGenres.length ? moviesByGenre : true
     }
 
     const byRate = ({ vote_average }: any) => vote_average >= filteredRate
@@ -48,7 +69,13 @@ export const discoverResources = createSelector(
 
     return movies
       .toModelArray()
-      .filter((movie: any) => byRate(movie) && byGenre(movie) && byYear(movie))
+      .filter(
+        (movie: any) =>
+          byName(movie) && byRate(movie) && byGenre(movie) && byYear(movie)
+      )
+      .sort(
+        (a: any, b: any) => new Date(b.release_date) < new Date(a.release_date)
+      )
   }
 )
 

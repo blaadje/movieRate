@@ -7,11 +7,11 @@ import Input from '@components/Input'
 import Rate from '@components/Rate'
 import Select from '@components/Select'
 import {
+  DEFAULT,
   MOVIE,
   MOVIES_FILTER,
   TV,
   TVS_FILTER,
-  DEFAULT,
 } from '@core/store/constants'
 
 interface Iprops {
@@ -31,6 +31,10 @@ const Wrapper = styled.div`
   height: 100%;
 `
 
+const StyledRadio = styled(Input)`
+  margin-bottom: ${({ theme }) => theme.spacing.S};
+`
+
 const PaddedWrapper = styled.div`
   padding: 0 ${({ theme }) => theme.spacing.XL};
 `
@@ -40,12 +44,12 @@ const StyledSelect = styled(Select)`
 `
 
 const StyledInput = styled(Input)`
-  margin-bottom: ${({ theme }) => theme.spacing.XS};
+  margin-bottom: ${({ theme }) => theme.spacing.S};
 `
 
 const Label = styled.div`
   font-size: ${rem('18px')};
-  margin-bottom: ${({ theme }) => theme.spacing.XS};
+  margin-bottom: ${({ theme }) => theme.spacing.M};
 `
 
 const generateYears = [...Array(30)].map((_, index) => {
@@ -72,7 +76,7 @@ const Filters: React.FunctionComponent<Iprops> = ({
       <Divider />
       <PaddedWrapper>
         <Label>Type</Label>
-        <Input
+        <StyledRadio
           value={MOVIES_FILTER.value}
           label={MOVIE}
           name="typeFilter"
@@ -81,7 +85,7 @@ const Filters: React.FunctionComponent<Iprops> = ({
           checked={currentType === 'movie'}
           onChange={() => onSelectedType(MOVIES_FILTER)}
         />
-        <Input
+        <StyledRadio
           value={TVS_FILTER.value}
           label={TV}
           name="typeFilter"

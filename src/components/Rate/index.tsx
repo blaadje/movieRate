@@ -13,8 +13,14 @@ interface Iprops {
 }
 
 const StyledRating = styled(Rating)`
-  display: flex;
+  display: flex !important;
   align-items: center;
+
+  span {
+    display: inline-flex !important;
+    align-items: center;
+    height: 100%;
+  }
 
   .icon:not(:last-child) {
     margin-right: ${({ theme }) => theme.spacing.XS};

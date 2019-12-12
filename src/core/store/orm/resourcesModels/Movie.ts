@@ -75,6 +75,11 @@ Movie.fields = {
     as: 'discover',
     relatedName: 'movies',
   }),
+  searchId: fk({
+    to: 'Search',
+    as: 'search',
+    relatedName: 'movies',
+  }),
   trendingId: fk({
     to: 'Trending',
     as: 'trending',

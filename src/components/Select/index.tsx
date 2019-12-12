@@ -3,7 +3,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 interface OptionProps {
-  value: string | number | null
+  value: string | number
   label?: string
 }
 
@@ -31,15 +31,15 @@ const Select: React.FunctionComponent<Iprops> = ({
   ...rest
 }: Iprops) => {
   return (
-    <Wrapper {...rest}>
+    <Wrapper defaultValue={value} {...rest}>
       {!value && <option>{label}</option>}
       {options.map((option: OptionProps) => {
-        const value = option.value
-        const label = option.label || option.value || option
+        const optionValue = option.value
+        const optionLabel = option.label || option.value || option
 
         return (
-          <option key={value} value={value}>
-            {label}
+          <option key={optionValue} value={optionValue}>
+            {optionLabel}
           </option>
         )
       })}

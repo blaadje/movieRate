@@ -10,6 +10,7 @@ interface SpacingProps {
   XXL: string
 }
 interface ColorsProps {
+  gradient: string
   white: string
   black: string
   dark: string
@@ -21,6 +22,14 @@ interface ColorsProps {
 }
 
 const colors: ColorsProps = {
+  gradient: `linear-gradient(
+    to left,
+    rgba(20, 37, 49) 0%,
+    rgba(17, 38, 53) 5%,
+    rgba(18, 37, 51) 15%,
+    rgba(20, 36, 53) 35%,
+    rgba(16, 37, 50) 87%
+  )`,
   white: '#FFFFFF',
   black: '#000000',
   dark: '#1e2e3d',
@@ -45,7 +54,7 @@ export default {
   boxShadow: (color: string = colors.black): string =>
     `0px 0px 30px ${rgba(color, 0.3)}`,
   colors,
-  radius: rem('3px'),
+  radius: rem('6px'),
   delay,
   transition: `all ${delay} ease`,
   spacing,
