@@ -73,7 +73,7 @@
     "babel-preset-es2017-node7": "^0.5.2",
     "babel-preset-react": "^6.24.1",
     "cfonts": "^2.4.5",
-    "chalk": "^2.3.2",
+    "chalk": "^3.0.0",
     "concurrently": "^5.0.0",
     "del": "^5.1.0",
     "electron": "^7.1.4",
