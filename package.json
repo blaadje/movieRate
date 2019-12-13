@@ -76,7 +76,7 @@
     "babel-preset-react": "^6.24.1",
     "cfonts": "^2.4.5",
     "chalk": "^3.0.0",
-    "concurrently": "^5.0.0",
+    "concurrently": "^5.0.1",
     "del": "^5.1.0",
     "electron": "^7.1.4",
     "electron-builder": "^21.2.0",
