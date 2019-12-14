@@ -114,7 +114,12 @@ const Trending: React.FunctionComponent<Iprops> = ({
       <MovieWrapper>
         {movies &&
           movies.map((movie: any) => (
-            <MovieBlock key={movie.id} movie={movie} />
+            <MovieBlock
+              key={movie.id}
+              filterId={TRENDING_FILTER_ID}
+              resourceType={resourceFilter.value}
+              movie={movie}
+            />
           ))}
       </MovieWrapper>
     </Wrapper>

@@ -28,8 +28,11 @@ interface ApiFetchProps {
   type: string
   fetchMore: boolean
   resourceType: allowedTypes
+  resourceId?: string
   relationShip?: allowedTypes
+  relationShipId?: string
   ignoreCall: boolean
+  createResource: boolean
   resourceValues?: any
   id?: string
   options?: OptionsProp
@@ -50,9 +53,11 @@ export default function* applicationSaga(): Iterator<any> {
   ): Iterator<CallEffect | PutEffect<Action>> {
     const {
       resourceType,
+      resourceId,
       resourceValues,
+      createResource,
       relationShip,
-      id,
+      relationShipId,
       options = {},
       meta,
     } = params
@@ -60,22 +65,25 @@ export default function* applicationSaga(): Iterator<any> {
 
     try {
       const result = yield call(request, resourceType, {
-        segment: { parameter, relationShip, id },
+        segment: { parameter, relationShip, resourceId, relationShipId },
         queries,
       })
 
-      yield put({
-        type: createResourceByType(resourceType),
-        relationShip,
-        resourceValues,
-        result,
-        meta,
-      })
+      if (createResource) {
+        yield put({
+          type: createResourceByType(resourceType),
+          relationShip,
+          resourceValues,
+          result,
+          meta,
+        })
+      }
 
       if (relationShip) {
         yield put({
           type: createResourceByType(relationShip),
           relationShip: resourceType,
+          resourceId,
           result,
         })
       }
@@ -103,9 +111,9 @@ export default function* applicationSaga(): Iterator<any> {
 
   function* handleFetchMoreResource(params: ApiFetchProps) {
     const getPreviousCallId = (): string => {
-      const [previousCallId]: any = Object.entries(callList).find(
-        ([key, value]) => compareObjects(value.params, params)
-      ) || [false]
+      const [previousCallId]: any = Object.entries(
+        callList
+      ).find(([key, value]) => compareObjects(value.params, params)) || [false]
 
       if (!previousCallId) {
         const id = uuid()

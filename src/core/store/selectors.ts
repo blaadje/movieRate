@@ -22,14 +22,14 @@ export const discoverResources = createSelector(
       .value
     const filteredRate = Filter.withId(RATE_FILTER_ID).value
     const filteredDate = Filter.withId(YEAR_FILTER_ID).value
-    const isSearching = Boolean(Search.last() && Search.last().query)
+    const isSearching = Boolean(Search.last()?.query)
     const resources: any = {
       Movie,
       Tv,
     }
     const movies = isSearching
       ? resources[capitalize(resourceFilter.value)].all()
-      : Discover.first() && Discover.first()[`${resourceFilter.value}s`]
+      : Discover.first()?.[`${resourceFilter.value}s`]
 
     if (!movies) {
       return []
@@ -75,6 +75,29 @@ export const discoverResources = createSelector(
       )
       .sort(
         (a: any, b: any) => new Date(b.release_date) < new Date(a.release_date)
+      )
+  }
+)
+
+export const movieVideos = createSelector(
+  orm,
+  activeFilter,
+  ({ Movie, Tv }: any, filter: any) => {
+    const resources: any = {
+      Movie,
+      Tv,
+    }
+    const currentResource = resources[capitalize(filter.value)]
+
+    return currentResource
+      .all()
+      .toModelArray()
+      .reduce(
+        (map: any, resource: any) => ({
+          ...map,
+          [resource.id]: resource.videos.toRefArray(),
+        }),
+        {}
       )
   }
 )

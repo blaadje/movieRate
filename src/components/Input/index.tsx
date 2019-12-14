@@ -9,6 +9,7 @@ import TextField from './components/TextField'
 
 interface Iprops extends React.InputHTMLAttributes<any> {
   type: 'text' | 'radio' | 'checkbox' | 'number'
+  value: any
   label?: string
   className?: string
   error?: string

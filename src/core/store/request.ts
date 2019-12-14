@@ -5,34 +5,50 @@ import { API_BASE_URL, API_KEY } from '@settings'
 interface SegmentProps {
   parameter?: string
   relationShip?: string
-  id?: string
+  resourceId?: string
+  relationShipId?: string
 }
 
 export interface RequestOptionsProps {
-  segment?: SegmentProps
+  segment: SegmentProps
   queries?: object
 }
 
 export default async function request(
-  url: string,
-  { segment = {}, queries }: RequestOptionsProps
+  resourceType: string,
+  {
+    segment: {
+      parameter = '',
+      relationShip = '',
+      resourceId = '',
+      relationShipId = '',
+    },
+    queries,
+  }: RequestOptionsProps
 ): Promise<any> {
-  const { parameter = '', relationShip = '', id = '' } = segment
-  const segments = ['3', url, relationShip || id, parameter]
-
-  const createUrl = API_BASE_URL.clone()
-    .segment(segments)
-    .query({
-      api_key: API_KEY,
-      ...(queries && { ...queries }),
-    })
-    .toString()
+  const segments = [
+    '3',
+    ...(resourceType && [resourceType]),
+    ...(resourceId && [resourceId]),
+    ...(relationShip && [relationShip]),
+    ...(relationShipId && [relationShipId]),
+    ...(parameter && [parameter]),
+  ]
 
   try {
+    const createUrl = API_BASE_URL.clone()
+      .segment(segments)
+      .query({
+        api_key: API_KEY,
+        ...(queries && { ...queries }),
+      })
+      .toString()
+
     const { data } = await axios.get(createUrl)
 
     return data.results || data
   } catch (error) {
+    console.error(error)
     if (error.response) {
       throw {
         code: error.response.data.status_code,
@@ -47,6 +63,5 @@ export default async function request(
       // Something happened in setting up the request that triggered an Error
       throw error.message
     }
-    throw error.config
   }
 }

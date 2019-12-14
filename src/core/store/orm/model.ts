@@ -8,6 +8,7 @@ import {
   Search,
   Trending,
   Tv,
+  Video,
 } from './resourcesModels'
 
 export interface Action<P> {
@@ -25,6 +26,7 @@ export interface ORMModels {
   Tv: typeof Tv
   Trending: typeof Trending
   Genre: typeof Genre
+  Video: typeof Video
 }
 
 export interface ORMState {
@@ -37,4 +39,5 @@ export interface ORMState {
   Playlist: Playlist
   Trending: Trending
   Genre: Genre
+  Video: Video
 }

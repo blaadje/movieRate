@@ -37,16 +37,6 @@ export default class Movie extends Model<typeof Movie, MovieItem> {
         return result.forEach(createMovie)
     }
   }
-
-  static withGenres(genres: object[]) {
-    return this.all()
-      .toModelArray()
-      .filter((item: any) =>
-        item.genres
-          .toRefArray()
-          .some((item: any) => genres.some((genre: any) => genre === item.id))
-      )
-  }
 }
 
 export interface MovieItem {

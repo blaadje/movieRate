@@ -5,8 +5,11 @@ import {
 } from './constants'
 
 export interface ResourceFetchParams {
+  createResource?: boolean
   resourceType: string
-  relationShip: string
+  relationShip?: string
+  resourceId?: number
+  relationShipId?: number
   resourceValues?: any
   ignoreCall?: boolean
   options?: object
@@ -14,16 +17,22 @@ export interface ResourceFetchParams {
 
 export const resourceFetchAction = ({
   resourceType,
-  relationShip,
+  resourceId,
   resourceValues,
+  relationShip,
+  relationShipId,
   ignoreCall,
+  createResource = true,
   options = {},
 }: ResourceFetchParams): object => {
   return {
     type: RESOURCE_FETCHING,
     resourceType,
+    createResource,
+    resourceId: resourceId && String(resourceId),
     resourceValues,
     relationShip,
+    relationShipId: relationShipId && String(relationShipId),
     ignoreCall,
     options,
     meta: {

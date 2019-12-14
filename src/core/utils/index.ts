@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef } from 'react'
 
 export type sizeOptions = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl'
 
-export function getSize(size: sizeOptions = 'm'): string {
+export const getSize = (size: sizeOptions = 'm'): string => {
   switch (size) {
     case 'xs':
       return '9px'
@@ -20,7 +20,10 @@ export function getSize(size: sizeOptions = 'm'): string {
   }
 }
 
-export function uuid(): string {
+export const sleep = (time: number) =>
+  new Promise(resolve => setTimeout(() => resolve(), time))
+
+export const uuid = (): string => {
   let d = new Date().getTime()
 
   d += window.performance.now()
