@@ -1,24 +1,18 @@
-import rgba from 'polished/lib/color/rgba'
 import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
-import { spring, Motion } from 'react-motion'
-import ReactPlayer from 'react-player'
 import { connect } from 'react-redux'
 import styled, { css } from 'styled-components'
 
-import Icon from '@components/Icon'
 import Image from '@components/Image'
-import Panel from '@components/Panel'
-import Popper from '@components/Popper'
 import Rate from '@components/Rate'
-import RoundedButton from '@components/RoundedButton'
-import Form from '@containers/Form'
-import MovieInfos from '@containers/MovieInfos'
 import { resourceFetchAction } from '@core/store/actions'
 import { VIDEO } from '@core/store/constants'
 import { movieVideos } from '@core/store/selectors'
 import { sleep, useDebounce } from '@core/utils'
 import { API_IMAGE_LINK } from '@settings'
+
+import OptionsLayer from './components/OptionsLayer'
+import Player from './components/Player'
 
 interface Iprops extends React.HTMLAttributes<any> {
   movie: any
@@ -26,6 +20,24 @@ interface Iprops extends React.HTMLAttributes<any> {
   filterId: number
   resourceType: string
   onMouseEnter?: () => void
+}
+
+interface PourcentageFromScaleProps {
+  scaleParam?: number
+  position: 'x' | 'y'
+}
+
+const scale: number = 1.3
+const calculatePourcentageFromScale = ({
+  scaleParam = scale,
+  position = 'x',
+}: PourcentageFromScaleProps) => {
+  const references = {
+    x: 17,
+    y: 9.6,
+  }
+  const decimal = Number(scaleParam.toString().split('.')[1])
+  return decimal ? decimal * references[position] : 0
 }
 
 const Wrapper: any = styled(Image)`
@@ -36,24 +48,37 @@ const Wrapper: any = styled(Image)`
   height: ${rem('191px')};
   margin: ${({ theme }) => theme.spacing.XS};
   transform: scale(1);
-  transition: all 0.5s ease;
+  transition: transform 0.5s ease;
   cursor: pointer;
-  ${({ isHovered }: any) =>
-    isHovered &&
-    css`
-      z-index: 5;
-      transform: scale(1.4);
-    `}
+  z-index: 1;
+  &:hover {
+    z-index: 5;
+    box-shadow: ${({ theme }) => theme.boxShadow(0.2)};
+    transform: scale(${scale});
+
+    .description {
+      transform: scale(${1 / scale})
+        translateX(-${calculatePourcentageFromScale({ position: 'x' })}px);
+      ${({ isOptionsLayerOpened }: any) =>
+        !isOptionsLayerOpened &&
+        css`
+          opacity: 0;
+        `}
+    }
+  }
 `
 
 const Description = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
+  transform-origin: bottom;
+  z-index: 10;
   width: 100%;
-  padding: 1em;
+  padding: ${({ theme }) => theme.spacing.S};
   font-size: 17px;
-  background: ${({ theme }) => rgba(theme.colors.black, 0.3)};
+  transition: all 0.5s ease;
+  opacity: 1;
   span {
     display: block;
   }
@@ -70,40 +95,36 @@ const Date = styled.span`
   margin-bottom: ${({ theme }) => theme.spacing.XS};
 `
 
+const StyledOptionsLayer = styled(OptionsLayer)`
+  position: absolute;
+  z-index: 1000;
+  transform: scale(${1 / scale});
+  top: -${calculatePourcentageFromScale({ position: 'y' })}px;
+  left: -${calculatePourcentageFromScale({ position: 'x' })}px;
+  right: -${calculatePourcentageFromScale({ position: 'x' })}px;
+  bottom: -${calculatePourcentageFromScale({ position: 'y' })}px;
+`
+
 const OptionsWrapper: any = styled.div`
   display: flex;
   position: absolute;
   top: 0;
   bottom: 0;
+  z-index: 1;
   width: 100%;
 `
 
-const StyledIcon = styled(Icon)`
-  fill: ${({ theme }) => theme.colors.white};
-`
-
-const Button = styled(Popper)`
-  &:not(:last-child) {
-    margin-bottom: ${({ theme }) => theme.spacing.XS};
-  }
-`
-
-const Content = styled.div`
-  display: flex;
-  position: absolute;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-`
-
-const StyledPlayer = styled(ReactPlayer).attrs(({ opacity }) => ({
-  style: { opacity },
-}))`
-  transition: all 0.5s ease;
+const Gradient = styled.div`
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    0deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(18, 29, 43, 1) 0%,
+    rgba(19, 39, 57, 0.8981967787114846) 27%,
+    rgba(23, 96, 135, 0.10547969187675066) 100%,
+    rgba(23, 96, 135, 0) 100%
+  );
 `
 
 const MovieBlock: React.FunctionComponent<Iprops> = (
@@ -112,6 +133,7 @@ const MovieBlock: React.FunctionComponent<Iprops> = (
 ) => {
   const [isHovered, setIsHover] = React.useState(false)
   const [showPlayer, setShowPlayer] = React.useState(false)
+  const [isOptionsLayerOpened, setOptionsLayerOpened] = React.useState(false)
 
   const handleMouseEnter = async () => {
     onMouseEnter && onMouseEnter()
@@ -121,82 +143,47 @@ const MovieBlock: React.FunctionComponent<Iprops> = (
   }
 
   const debouncedHandleMouseEnter =
-    onMouseEnter && useDebounce(handleMouseEnter, 100)
+    onMouseEnter && useDebounce(handleMouseEnter, 300)
 
   const handleMouseLeave = () => {
     setIsHover(false)
-    debouncedHandleMouseEnter?.cancel()
     setShowPlayer(false)
+    debouncedHandleMouseEnter?.cancel()
   }
 
+  const handleOptionsLayerUpdate = (value: boolean) =>
+    setOptionsLayerOpened(value)
+
   const curentMovie: any = videos?.[movie.id]?.[0]
-  const movieLink = curentMovie && `https://youtu.be/${curentMovie.key}`
+  const movieLink = curentMovie && `https:// youtu.be/${curentMovie.key}`
 
   return (
     <Wrapper
-      filter={true}
       src={API_IMAGE_LINK + (movie.backdrop_path || movie.poster_path)}
       onMouseEnter={debouncedHandleMouseEnter}
       onMouseLeave={handleMouseLeave}
       isHovered={isHovered}
+      isOptionsLayerOpened={isOptionsLayerOpened}
       {...rest}
     >
-      <Description>
-        <Title>{movie.original_title || movie.name}</Title>
-        <Date>{movie.release_date || movie.first_air_date}</Date>
-        <Rate rate={movie.vote_average} />
-      </Description>
-      <OptionsWrapper isHovered={isHovered} movieLink={movieLink || false}>
-        {isHovered && (
-          <>
-            {showPlayer && movieLink && (
-              <Motion
-                defaultStyle={{ opacity: 0 }}
-                style={{ opacity: spring(1) }}
-              >
-                {({ opacity }) => (
-                  <StyledPlayer
-                    opacity={opacity}
-                    width="100%"
-                    height="100%"
-                    url={movieLink}
-                    playing={true}
-                  />
-                )}
-              </Motion>
-            )}
-            <Content>
-              <Button
-                popperPlacement="right"
-                targetComponent={
-                  <RoundedButton>
-                    <StyledIcon glyph="checked" />
-                  </RoundedButton>
-                }
-                popperComponent={<Form movieId={movie.id} />}
+      <Gradient>
+        <Description className="description">
+          <Title>{movie.original_title || movie.name}</Title>
+          <Date>{movie.release_date || movie.first_air_date}</Date>
+          <Rate rate={movie.vote_average} />
+        </Description>
+        <OptionsWrapper>
+          {isHovered && (
+            <>
+              {showPlayer && movieLink && <Player url={movieLink} />}
+              <StyledOptionsLayer
+                onUpdate={handleOptionsLayerUpdate}
+                movie={movie}
               />
-              <Button
-                popperPlacement="right"
-                targetComponent={
-                  <RoundedButton>
-                    <StyledIcon glyph="playlist" />
-                  </RoundedButton>
-                }
-                popperComponent={<p>test</p>}
-              />
-              <Panel
-                onClickOutside={() => setIsHover(false)}
-                targetComponent={
-                  <RoundedButton>
-                    <StyledIcon glyph="infos" />
-                  </RoundedButton>
-                }
-                panelComponent={<MovieInfos movie={movie} />}
-              />
-            </Content>
-          </>
-        )}
-      </OptionsWrapper>
+            </>
+          )}
+        </OptionsWrapper>
+      </Gradient>
     </Wrapper>
   )
 }

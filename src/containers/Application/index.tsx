@@ -63,7 +63,6 @@ const GradientWrapper = styled.div`
   box-shadow: ${({ theme }) => theme.boxShadow()};
   height: 100vh;
   width: 100%;
-  /* padding: ${({ theme }) => theme.spacing.XXL}; */
   overflow: auto;
   display: inline-block;
   vertical-align: top;
@@ -75,7 +74,7 @@ const AppWrapper = styled.div`
 `
 
 const PanelPortal = styled.div`
-  z-index: 3;
+  z-index: 10;
 `
 
 const App: React.FunctionComponent = () => {
