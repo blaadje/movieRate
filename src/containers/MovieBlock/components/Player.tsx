@@ -1,32 +1,46 @@
 import * as React from 'react'
-import { spring, Motion } from 'react-motion'
-import ReactPlayer from 'react-player'
 import styled from 'styled-components'
-
+import YouTubePlayer from 'youtube-player'
 interface Iprops extends React.HTMLAttributes<any> {
   url: string
 }
 
-const StyledPlayer = styled(ReactPlayer).attrs(({ opacity }) => ({
-  style: { opacity },
-}))`
-  transition: all 0.5s ease;
+const Wrapper: any = styled.div`
+  height: 100%;
+  width: 100%;
+
+  iframe {
+    transition: opacity 1s ease;
+    opacity: ${({ loaded }: any) => (loaded ? 1 : 0)};
+  }
 `
 
 const Player: React.FunctionComponent<Iprops> = ({ url }: Iprops) => {
+  const playerElement: any = React.useRef()
+  const [player, setPlayer]: any = React.useState(null)
+  const [loaded, setLoaded] = React.useState(false)
+
+  React.useEffect(() => {
+    setPlayer(
+      YouTubePlayer(playerElement.current, {
+        videoId: url,
+        height: '100%' as any,
+        width: '100%' as any,
+        playerVars: { autoplay: 1, controls: 0 },
+      })
+    )
+
+    return () => playerElement.current.remove()
+  }, [])
+
+  React.useEffect(() => {
+    player?.on('stateChange', () => setLoaded(true))
+  }, [player])
+
   return (
-    <Motion defaultStyle={{ opacity: 0 }} style={{ opacity: spring(1) }}>
-      {({ opacity }) => (
-        <StyledPlayer
-          muted={true}
-          opacity={opacity}
-          width="100%"
-          height="100%"
-          url={url}
-          playing={true}
-        />
-      )}
-    </Motion>
+    <Wrapper loaded={loaded}>
+      <div ref={playerElement} />
+    </Wrapper>
   )
 }
 

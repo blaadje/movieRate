@@ -8,7 +8,7 @@ import Rate from '@components/Rate'
 import { resourceFetchAction } from '@core/store/actions'
 import { VIDEO } from '@core/store/constants'
 import { movieVideos } from '@core/store/selectors'
-import { sleep, useDebounce } from '@core/utils'
+import { useDebounce } from '@core/utils'
 import { API_IMAGE_LINK } from '@settings'
 
 import OptionsLayer from './components/OptionsLayer'
@@ -52,20 +52,20 @@ const Wrapper: any = styled(Image)`
   cursor: pointer;
   z-index: 1;
   &:hover {
-    z-index: 5;
-    box-shadow: ${({ theme }) => theme.boxShadow(0.2)};
-    transform: scale(${scale});
-
-    .description {
-      transform: scale(${1 / scale})
-        translateX(-${calculatePourcentageFromScale({ position: 'x' })}px);
-      ${({ isOptionsLayerOpened }: any) =>
-        !isOptionsLayerOpened &&
-        css`
-          opacity: 0;
-        `}
-    }
+    z-index: 15;
   }
+  ${({ isHovered }: any) =>
+    isHovered &&
+    css`
+      box-shadow: ${({ theme }) => theme.boxShadow(0.2)};
+      transform: scale(${scale});
+      .description {
+        transform: scale(${1 / scale})
+          translateX(-${calculatePourcentageFromScale({ position: 'x' })}px);
+        opacity: ${({ isOptionsLayerOpened }: any) =>
+          isOptionsLayerOpened ? 1 : 0};
+      }
+    `}
 `
 
 const Description = styled.div`
@@ -77,27 +77,24 @@ const Description = styled.div`
   width: 100%;
   padding: ${({ theme }) => theme.spacing.S};
   font-size: 17px;
-  transition: all 0.5s ease;
+  transition: transform 0.5s ease, opacity 0.5s ease;
   opacity: 1;
-  span {
-    display: block;
-  }
 `
 
-const Title = styled.span`
+const Title = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: ${({ theme }) => theme.spacing.XS};
 `
 
-const Date = styled.span`
+const Date = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.XS};
 `
 
 const StyledOptionsLayer = styled(OptionsLayer)`
   position: absolute;
-  z-index: 1000;
+  z-index: 4;
   transform: scale(${1 / scale});
   top: -${calculatePourcentageFromScale({ position: 'y' })}px;
   left: -${calculatePourcentageFromScale({ position: 'x' })}px;
@@ -132,14 +129,11 @@ const MovieBlock: React.FunctionComponent<Iprops> = (
   ...rest
 ) => {
   const [isHovered, setIsHover] = React.useState(false)
-  const [showPlayer, setShowPlayer] = React.useState(false)
   const [isOptionsLayerOpened, setOptionsLayerOpened] = React.useState(false)
 
-  const handleMouseEnter = async () => {
+  const handleMouseEnter = () => {
     onMouseEnter && onMouseEnter()
     setIsHover(true)
-    await sleep(500)
-    setShowPlayer(true)
   }
 
   const debouncedHandleMouseEnter =
@@ -147,15 +141,11 @@ const MovieBlock: React.FunctionComponent<Iprops> = (
 
   const handleMouseLeave = () => {
     setIsHover(false)
-    setShowPlayer(false)
     debouncedHandleMouseEnter?.cancel()
   }
 
-  const handleOptionsLayerUpdate = (value: boolean) =>
-    setOptionsLayerOpened(value)
-
   const curentMovie: any = videos?.[movie.id]?.[0]
-  const movieLink = curentMovie && `https:// youtu.be/${curentMovie.key}`
+  const movieLink = curentMovie && curentMovie.key
 
   return (
     <Wrapper
@@ -175,9 +165,9 @@ const MovieBlock: React.FunctionComponent<Iprops> = (
         <OptionsWrapper>
           {isHovered && (
             <>
-              {showPlayer && movieLink && <Player url={movieLink} />}
+              {movieLink && <Player url={movieLink} />}
               <StyledOptionsLayer
-                onUpdate={handleOptionsLayerUpdate}
+                onUpdate={setOptionsLayerOpened}
                 movie={movie}
               />
             </>
