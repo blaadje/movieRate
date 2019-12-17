@@ -2,6 +2,10 @@ import debounce from 'lodash/debounce'
 import { useCallback, useEffect, useRef } from 'react'
 
 export type sizeOptions = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl'
+interface PourcentageFromScaleProps {
+  scale: number
+  position: 'x' | 'y'
+}
 
 export const getSize = (size: sizeOptions = 'm'): string => {
   switch (size) {
@@ -18,6 +22,18 @@ export const getSize = (size: sizeOptions = 'm'): string => {
     case 'xxl':
       return '40px'
   }
+}
+
+export const calculatePourcentageFromScale = ({
+  scale,
+  position = 'x',
+}: PourcentageFromScaleProps) => {
+  const references = {
+    x: 17,
+    y: 9.6,
+  }
+  const decimal = Number(scale?.toString().split('.')[1])
+  return decimal ? decimal * references[position] : 0
 }
 
 export const sleep = (time: number) =>

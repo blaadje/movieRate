@@ -1,15 +1,17 @@
 import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
+import ReactDOM from 'react-dom'
 import onClickOutside from 'react-onclickoutside'
 import { Manager, Popper, Reference } from 'react-popper'
 import styled, { css } from 'styled-components'
 
 import { uuid } from '@core/utils'
 
-interface Iprops {
+interface Iprops extends React.HTMLAttributes<any> {
   popperComponent: React.ReactNode
   targetComponent: React.ReactNode
   onClickOutside?: () => void
+  onClick?: () => void
   popperPlacement?: 'top' | 'bottom' | 'left' | 'right'
   className?: string
 }
@@ -18,7 +20,6 @@ const StyledWrapper = styled.div`
   ${({ theme }) => css`
     box-shadow: ${theme.boxShadow()};
     padding: ${theme.spacing.L};
-    z-index: 1;
     color: ${theme.colors.white};
     background: ${theme.colors.dark};
     border-radius: ${theme.radius};
@@ -81,11 +82,17 @@ const BasePopper: React.FunctionComponent<Iprops> = ({
   popperComponent,
   popperPlacement,
   onClickOutside,
+  onClick,
+  ...rest
 }: Iprops) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const [popperLinkId] = React.useState(`jsPopperTarget-${uuid()}`)
+  const element: any = React.useRef(document.createElement('div'))
 
-  const toggle = () => setIsOpen(!isOpen)
+  const toggle = () => {
+    onClick && onClick()
+    setIsOpen(!isOpen)
+  }
   const handeClickOutside = (event: any) => {
     const path =
       event.path || (event.composedPath && event.composedPath()) || []
@@ -99,35 +106,47 @@ const BasePopper: React.FunctionComponent<Iprops> = ({
     onClickOutside ? onClickOutside() : setIsOpen(false)
   }
 
+  React.useEffect(() => {
+    const popper = document.getElementById('popper')
+
+    popper?.appendChild(element.current)
+    return () => {
+      popper?.removeChild(element.current)
+    }
+  }, [])
+
   return (
     <Manager>
       <Reference>
         {({ ref }) => (
-          <div id={popperLinkId} className={className} onClick={toggle}>
+          <div
+            {...rest}
+            id={popperLinkId}
+            className={className}
+            onClick={toggle}
+          >
             {<div ref={ref}>{targetComponent}</div>}
           </div>
         )}
       </Reference>
-      {isOpen && (
-        <Popper placement={popperPlacement}>
-          {({ ref, style, placement, arrowProps }) => (
-            <StyledWrapper
-              ref={ref}
-              style={style}
-              data-placement={popperPlacement}
-            >
-              <PopperContent onClickOutside={handeClickOutside}>
-                {popperComponent}
-              </PopperContent>
-              <Arrow
-                ref={arrowProps.ref}
-                data-placement={placement}
-                style={arrowProps.style}
-              />
-            </StyledWrapper>
-          )}
-        </Popper>
-      )}
+      {isOpen &&
+        ReactDOM.createPortal(
+          <Popper placement={popperPlacement}>
+            {({ ref, style, placement, arrowProps }) => (
+              <StyledWrapper ref={ref} style={style} data-placement={placement}>
+                <PopperContent onClickOutside={handeClickOutside}>
+                  {popperComponent}
+                </PopperContent>
+                <Arrow
+                  ref={arrowProps.ref}
+                  data-placement={placement}
+                  style={arrowProps.style}
+                />
+              </StyledWrapper>
+            )}
+          </Popper>,
+          element.current
+        )}
     </Manager>
   )
 }

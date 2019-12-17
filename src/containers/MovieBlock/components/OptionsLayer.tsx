@@ -10,7 +10,9 @@ import MovieInfos from '@containers/MovieInfos'
 
 interface Iprops extends React.HTMLAttributes<any> {
   movie: any
-  onUpdate?: (value: boolean) => void
+  isMuted: boolean
+  onToggleMuted?: () => void
+  onTogglePopper?: (value: boolean) => void
 }
 
 const Wrapper: any = styled.div`
@@ -44,40 +46,64 @@ const StyledIcon = styled(Icon)`
   fill: ${({ theme }) => theme.colors.white};
 `
 
-const Button = styled(Popper)`
-  &:not(:last-child) {
-    margin-bottom: ${({ theme }) => theme.spacing.XS};
-  }
+const StyledRoundedButton: any = styled(RoundedButton)`
+  margin-bottom: ${({ theme }) => theme.spacing.XS};
 `
 
-const OptionsLayer: React.FunctionComponent<Iprops> = ({ movie }: Iprops) => {
+const OptionsLayer: React.FunctionComponent<Iprops> = ({
+  movie,
+  isMuted,
+  onToggleMuted,
+  onTogglePopper,
+}: Iprops) => {
+  const [isFormOpenned, setFormOpenned] = React.useState(false)
+  const [isPlaylistOpenned, setPlaylistOpenned] = React.useState(false)
+
+  React.useEffect(() => {
+    onTogglePopper && onTogglePopper(isFormOpenned || isPlaylistOpenned)
+  }, [isFormOpenned, isPlaylistOpenned])
+
   return (
     <Wrapper>
       <PaddedWrapper>
         <ButtonsWrapper>
-          <Button
+          <StyledRoundedButton
+            active={isMuted}
+            onClick={() => onToggleMuted && onToggleMuted()}
+          >
+            <StyledIcon glyph="mute" />
+          </StyledRoundedButton>
+          <Popper
+            onClick={() => {
+              setFormOpenned(!isFormOpenned)
+              setPlaylistOpenned(false)
+            }}
             popperPlacement="right"
             targetComponent={
-              <RoundedButton>
+              <StyledRoundedButton>
                 <StyledIcon glyph="checked" />
-              </RoundedButton>
+              </StyledRoundedButton>
             }
             popperComponent={<Form movieId={movie.id} />}
           />
-          <Button
+          <Popper
+            onClick={() => {
+              setPlaylistOpenned(!isPlaylistOpenned)
+              setFormOpenned(false)
+            }}
             popperPlacement="right"
             targetComponent={
-              <RoundedButton>
+              <StyledRoundedButton>
                 <StyledIcon glyph="playlist" />
-              </RoundedButton>
+              </StyledRoundedButton>
             }
             popperComponent={<p>test</p>}
           />
           <Panel
             targetComponent={
-              <RoundedButton>
+              <StyledRoundedButton>
                 <StyledIcon glyph="infos" />
-              </RoundedButton>
+              </StyledRoundedButton>
             }
             panelComponent={<MovieInfos movie={movie} />}
           />

@@ -3,17 +3,15 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import styled, { css } from 'styled-components'
 
-import Fadeout from '@components/Fadeout'
 import Image from '@components/Image'
 import Rate from '@components/Rate'
 import { resourceFetchAction } from '@core/store/actions'
 import { VIDEO } from '@core/store/constants'
 import { movieVideos } from '@core/store/selectors'
-import { useDebounce } from '@core/utils'
+import { calculatePourcentageFromScale, useDebounce } from '@core/utils'
 import { API_IMAGE_LINK } from '@settings'
 
-import OptionsLayer from './components/OptionsLayer'
-import Player from './components/Player'
+import ContentLayer from './components/ContentLayer'
 
 interface Iprops extends React.HTMLAttributes<any> {
   movie: any
@@ -23,23 +21,7 @@ interface Iprops extends React.HTMLAttributes<any> {
   onMouseEnter?: () => void
 }
 
-interface PourcentageFromScaleProps {
-  scaleParam?: number
-  position: 'x' | 'y'
-}
-
 const scale: number = 1.3
-const calculatePourcentageFromScale = ({
-  scaleParam = scale,
-  position = 'x',
-}: PourcentageFromScaleProps) => {
-  const references = {
-    x: 17,
-    y: 9.6,
-  }
-  const decimal = Number(scaleParam.toString().split('.')[1])
-  return decimal ? decimal * references[position] : 0
-}
 
 const Wrapper: any = styled(Image)`
   position: relative;
@@ -62,7 +44,9 @@ const Wrapper: any = styled(Image)`
       transform: scale(${scale});
       .description {
         transform: scale(${1 / scale})
-          translateX(-${calculatePourcentageFromScale({ position: 'x' })}px);
+          translateX(
+            -${calculatePourcentageFromScale({ scale, position: 'x' })}px
+          );
         opacity: ${({ isOptionsLayerOpened }: any) =>
           isOptionsLayerOpened ? 1 : 0};
       }
@@ -93,25 +77,6 @@ const Date = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.XS};
 `
 
-const StyledFadeout = styled(Fadeout)`
-  position: absolute;
-  z-index: 4;
-  transform: scale(${1 / scale});
-  top: -${calculatePourcentageFromScale({ position: 'y' })}px;
-  left: -${calculatePourcentageFromScale({ position: 'x' })}px;
-  right: -${calculatePourcentageFromScale({ position: 'x' })}px;
-  bottom: -${calculatePourcentageFromScale({ position: 'y' })}px;
-`
-
-const OptionsWrapper: any = styled.div`
-  display: flex;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  width: 100%;
-`
-
 const Gradient = styled.div`
   width: 100%;
   height: 100%;
@@ -130,7 +95,7 @@ const MovieBlock: React.FunctionComponent<Iprops> = (
   ...rest
 ) => {
   const [isHovered, setIsHover] = React.useState(false)
-  const [isOptionsLayerOpened, setOptionsLayerOpened] = React.useState(false)
+  const [isOptionsLayerOpened, setOptionsLayerOpened] = React.useState(true)
 
   const handleMouseEnter = () => {
     onMouseEnter && onMouseEnter()
@@ -163,16 +128,16 @@ const MovieBlock: React.FunctionComponent<Iprops> = (
           <Date>{movie.release_date || movie.first_air_date}</Date>
           <Rate rate={movie.vote_average} />
         </Description>
-        <OptionsWrapper>
-          {isHovered && (
-            <>
-              {movieLink && <Player url={movieLink} />}
-              <StyledFadeout>
-                <OptionsLayer onUpdate={setOptionsLayerOpened} movie={movie} />
-              </StyledFadeout>
-            </>
-          )}
-        </OptionsWrapper>
+        {isHovered && (
+          <ContentLayer
+            parentScale={scale}
+            movie={movie}
+            movieLink={movieLink}
+            onToggleLayerOpened={() =>
+              setOptionsLayerOpened(!isOptionsLayerOpened)
+            }
+          />
+        )}
       </Gradient>
     </Wrapper>
   )

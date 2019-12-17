@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import YouTubePlayer from 'youtube-player'
 interface Iprops extends React.HTMLAttributes<any> {
   url: string
+  isMuted?: boolean
 }
 
 const Wrapper: any = styled.div`
@@ -15,7 +16,7 @@ const Wrapper: any = styled.div`
   }
 `
 
-const Player: React.FunctionComponent<Iprops> = ({ url }: Iprops) => {
+const Player: React.FunctionComponent<Iprops> = ({ url, isMuted }: Iprops) => {
   const playerElement: any = React.useRef()
   const [player, setPlayer]: any = React.useState(null)
   const [loaded, setLoaded] = React.useState(false)
@@ -36,6 +37,10 @@ const Player: React.FunctionComponent<Iprops> = ({ url }: Iprops) => {
   React.useEffect(() => {
     player?.on('stateChange', () => setLoaded(true))
   }, [player])
+
+  React.useEffect(() => {
+    isMuted ? player?.mute() : player?.unMute()
+  }, [isMuted])
 
   return (
     <Wrapper loaded={loaded}>

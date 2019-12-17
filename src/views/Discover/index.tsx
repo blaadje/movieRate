@@ -105,7 +105,7 @@ const Discover: React.FunctionComponent<Iprops> = ({
   const [localGenres, setLocalGenres] = React.useState([])
   const [searchQuery, setSearchQuery] = React.useState('')
 
-  const getDate = () => {
+  const getDateFieldByResource = () => {
     return resourceFilter.value === MOVIE
       ? 'primary_release_year'
       : 'first_air_date_year'
@@ -113,7 +113,7 @@ const Discover: React.FunctionComponent<Iprops> = ({
   const queries: any = {
     ['vote_average.gte']: rateFilter * 2,
     with_genres: genreFilter,
-    [getDate()]: yearFilter,
+    [getDateFieldByResource()]: yearFilter,
     sort_by: 'release_date.desc',
   }
 
@@ -258,15 +258,14 @@ const Discover: React.FunctionComponent<Iprops> = ({
       <ContentWrapper>
         <MovieWrapper>
           {!movies.length && <div>No Movie</div>}
-          {movies &&
-            movies.map((movie: any) => (
-              <MovieBlock
-                key={movie.id}
-                movie={movie}
-                filterId={DISCOVER_FILTER_ID}
-                resourceType={resourceFilter.value}
-              />
-            ))}
+          {movies.map((movie: any) => (
+            <MovieBlock
+              key={movie.id}
+              movie={movie}
+              filterId={DISCOVER_FILTER_ID}
+              resourceType={resourceFilter.value}
+            />
+          ))}
         </MovieWrapper>
         <button onClick={loadMore}>load more</button>
       </ContentWrapper>
