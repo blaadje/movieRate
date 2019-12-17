@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { spring, Motion } from 'react-motion'
 import styled from 'styled-components'
 
 import Icon from '@components/Icon'
@@ -15,16 +14,18 @@ interface Iprops extends React.HTMLAttributes<any> {
 }
 
 const Wrapper: any = styled.div`
-  cursor: ${({ isOpen }: any) => (isOpen ? 'pointer' : 'none')};
-`
-
-const Content: any = styled.div.attrs(({ opacity }: any) => ({
-  style: { opacity },
-}))`
-  transition: all 0.2s ease;
+  position: relative;
   height: 100%;
   width: 100%;
   display: flex;
+  background: linear-gradient(
+    0deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(18, 29, 43, 1) 0%,
+    rgba(19, 39, 57, 0.8981967787114846) 27%,
+    rgba(23, 96, 135, 0.10547969187675066) 100%,
+    rgba(23, 96, 135, 0) 100%
+  );
 `
 
 const PaddedWrapper = styled.div`
@@ -49,84 +50,39 @@ const Button = styled(Popper)`
   }
 `
 
-const Gradient = styled.div`
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    0deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(18, 29, 43, 1) 0%,
-    rgba(19, 39, 57, 0.8981967787114846) 27%,
-    rgba(23, 96, 135, 0.10547969187675066) 100%,
-    rgba(23, 96, 135, 0) 100%
-  );
-`
-
-const OptionsLayer: React.FunctionComponent<Iprops> = ({
-  movie,
-  onUpdate,
-  ...rest
-}: Iprops) => {
-  const [isOpen, setIsOpen] = React.useState(true)
-  const timer: any = React.useRef()
-
-  const showDetailsWithTimer = () => {
-    clearInterval(timer.current)
-    if (!isOpen) {
-      setIsOpen(true)
-    }
-    timer.current = setTimeout(() => setIsOpen(false), 3000)
-  }
-
-  React.useEffect(() => onUpdate && onUpdate(isOpen), [isOpen])
-
-  React.useEffect(() => {
-    showDetailsWithTimer()
-    return () => clearInterval(timer.current)
-  }, [])
-
+const OptionsLayer: React.FunctionComponent<Iprops> = ({ movie }: Iprops) => {
   return (
-    <Wrapper {...rest} isOpen={isOpen} onMouseMove={showDetailsWithTimer}>
-      {isOpen && (
-        <Motion defaultStyle={{ opacity: 0 }} style={{ opacity: spring(1) }}>
-          {({ opacity }) => (
-            <Content opacity={opacity}>
-              <Gradient>
-                <PaddedWrapper>
-                  <ButtonsWrapper>
-                    <Button
-                      popperPlacement="right"
-                      targetComponent={
-                        <RoundedButton>
-                          <StyledIcon glyph="checked" />
-                        </RoundedButton>
-                      }
-                      popperComponent={<Form movieId={movie.id} />}
-                    />
-                    <Button
-                      popperPlacement="right"
-                      targetComponent={
-                        <RoundedButton>
-                          <StyledIcon glyph="playlist" />
-                        </RoundedButton>
-                      }
-                      popperComponent={<p>test</p>}
-                    />
-                    <Panel
-                      targetComponent={
-                        <RoundedButton>
-                          <StyledIcon glyph="infos" />
-                        </RoundedButton>
-                      }
-                      panelComponent={<MovieInfos movie={movie} />}
-                    />
-                  </ButtonsWrapper>
-                </PaddedWrapper>
-              </Gradient>
-            </Content>
-          )}
-        </Motion>
-      )}
+    <Wrapper>
+      <PaddedWrapper>
+        <ButtonsWrapper>
+          <Button
+            popperPlacement="right"
+            targetComponent={
+              <RoundedButton>
+                <StyledIcon glyph="checked" />
+              </RoundedButton>
+            }
+            popperComponent={<Form movieId={movie.id} />}
+          />
+          <Button
+            popperPlacement="right"
+            targetComponent={
+              <RoundedButton>
+                <StyledIcon glyph="playlist" />
+              </RoundedButton>
+            }
+            popperComponent={<p>test</p>}
+          />
+          <Panel
+            targetComponent={
+              <RoundedButton>
+                <StyledIcon glyph="infos" />
+              </RoundedButton>
+            }
+            panelComponent={<MovieInfos movie={movie} />}
+          />
+        </ButtonsWrapper>
+      </PaddedWrapper>
     </Wrapper>
   )
 }

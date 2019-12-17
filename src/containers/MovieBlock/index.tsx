@@ -3,6 +3,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import styled, { css } from 'styled-components'
 
+import Fadeout from '@components/Fadeout'
 import Image from '@components/Image'
 import Rate from '@components/Rate'
 import { resourceFetchAction } from '@core/store/actions'
@@ -92,7 +93,7 @@ const Date = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.XS};
 `
 
-const StyledOptionsLayer = styled(OptionsLayer)`
+const StyledFadeout = styled(Fadeout)`
   position: absolute;
   z-index: 4;
   transform: scale(${1 / scale});
@@ -166,10 +167,9 @@ const MovieBlock: React.FunctionComponent<Iprops> = (
           {isHovered && (
             <>
               {movieLink && <Player url={movieLink} />}
-              <StyledOptionsLayer
-                onUpdate={setOptionsLayerOpened}
-                movie={movie}
-              />
+              <StyledFadeout>
+                <OptionsLayer onUpdate={setOptionsLayerOpened} movie={movie} />
+              </StyledFadeout>
             </>
           )}
         </OptionsWrapper>
