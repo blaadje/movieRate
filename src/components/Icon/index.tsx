@@ -38,6 +38,7 @@ const Icon: React.FunctionComponent<Iprops> = (props: Iprops) => {
   }
 
   React.useEffect(() => {
+    // tslint:disable-next-line: no-floating-promises
     getIcon()
   }, [])
 
