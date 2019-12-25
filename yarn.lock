@@ -8274,10 +8274,10 @@ react-popper@^1.3.7:
     typed-styles "^0.0.7"
     warning "^4.0.2"
 
-react-rating@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-rating/-/react-rating-2.0.0.tgz#499c9154a27a6352ae8bdb5e88dea5591d2b61a8"
-  integrity sha512-hxNSS4LeEL5/WqVTh5knQR8REJyRsVYW0w1dBbH15l6lGgpEFM9ts8++TnbsGXxkp4QhTlugai3qRxkhMaGOzg==
+react-rating@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-rating/-/react-rating-2.0.3.tgz#76323b24fec71a898bb3cebc7007f06beb736e91"
+  integrity sha512-csnehSKasrtkTXOEh39kKUa1YxDnXyc1XUm5dbi2UNvTUNRQ50ilBMpda/gzoCLd9bhhH5trYa4SljI/GHSRpQ==
   dependencies:
     "@types/lodash" "^4.14.105"
     "@types/react" "^16.0.40"
