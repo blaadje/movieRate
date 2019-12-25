@@ -1,72 +1,55 @@
+import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
 import Button from '@components/Button'
+import Divider from '@components/Divider'
 import Icon from '@components/Icon'
 import Rate from '@components/Rate'
 import Textarea from '@components/Textarea'
 
 interface Iprops {
   dispatch: (Object: any) => void
-  movieId: number
+  movie: any
 }
 
-interface Istate {
-  movieId: number
-  rate: number
-  description: string
-}
+const Wrapper = styled.form`
+  width: ${rem('300px')};
+`
 
-class Form extends React.Component<Iprops, Istate> {
-  constructor(props: Iprops, state: Istate) {
-    super(props)
-    this.state = {
-      movieId: this.props.movieId,
-      rate: 4,
-      description: '',
-    }
-  }
+const Title = styled.h3`
+  margin-top: ${({ theme }: any) => theme.spacing.S};
+  margin-bottom: 0;
+`
 
-  submitForm(event: any) {
-    event.preventDefault()
-    // const rate = {
-    //   movieId: this.state.movieId,
-    //   rate: this.state.rate,
-    //   description: this.state.description,
-    // }
-    // this.props.dispatch(resourceCreate(rate))
-  }
+const StyledTextarea = styled(Textarea)`
+  width: 100%;
+  margin: ${({ theme }: any) => theme.spacing.S} 0;
+`
 
-  handleDescription(event: any) {
-    this.setState({ description: event.target.value })
-  }
+const StyledButton = styled(Button)`
+  width: 100%;
+`
 
-  render() {
-    const { rate, description } = this.state
-
-    return (
-      <form onSubmit={event => this.submitForm(event)}>
-        <Rate
-          readonly={false}
-          rate={rate}
-          onChange={(rate: any) => this.setState({ rate })}
+const Form: React.FunctionComponent<Iprops> = ({ movie }) => {
+  return (
+    <Wrapper>
+      <Rate readonly={false} rate={movie.rate} />
+      <Divider />
+      <>
+        <Title>Description</Title>
+        <StyledTextarea
+          value={movie.description}
+          placeholder="Put what you think about the movie here..."
         />
-        <hr />
-        <div>
-          <h2>Description</h2>
-          <Textarea
-            value={description}
-            onChange={value => this.handleDescription(value)}
-            placeholder="Put what you think about the movie here..."
-          />
 
-          <Button>
-            <Icon glyph="checked" />
-          </Button>
-        </div>
-      </form>
-    )
-  }
+        <StyledButton>
+          <Icon glyph="checked" />
+        </StyledButton>
+      </>
+    </Wrapper>
+  )
 }
 
 export default connect()(Form)

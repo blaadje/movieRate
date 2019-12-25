@@ -6,7 +6,7 @@ import onClickOutside from 'react-onclickoutside'
 import { Manager, Popper, Reference } from 'react-popper'
 import styled, { css } from 'styled-components'
 
-import { uuid } from '@core/utils'
+import { isPopperOpenned, uuid } from '@core/utils'
 
 interface Iprops extends React.HTMLAttributes<any> {
   popperComponent: React.ReactNode
@@ -125,14 +125,10 @@ const BasePopper: React.FunctionComponent<Iprops> = ({
     onClick && onClick()
     setIsOpen(!isOpen)
   }
-  const handeClickOutside = (event: any) => {
-    const path =
-      event.path || (event.composedPath && event.composedPath()) || []
 
-    for (let i = 0; i < path.length - 1; i++) {
-      if (path[i].id === popperLinkId) {
-        return
-      }
+  const handeClickOutside = (event: any) => {
+    if (isPopperOpenned(event, popperLinkId)) {
+      return
     }
 
     onClickOutside && onClickOutside()

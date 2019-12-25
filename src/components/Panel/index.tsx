@@ -5,6 +5,8 @@ import ReactDOM from 'react-dom'
 import onClickOutside from 'react-onclickoutside'
 import styled, { css } from 'styled-components'
 
+import { isPopperOpenned, uuid } from '@core/utils'
+
 interface Iprops {
   targetComponent: React.ReactNode
   panelComponent: React.ReactNode
@@ -54,8 +56,13 @@ const Panel: React.FunctionComponent<Iprops> = ({
   width = '55%',
 }: Iprops) => {
   const [isOpen, setIsOpen] = React.useState(false)
+  const [panelLinkId] = React.useState(`jsPanelTarget-${uuid()}`)
   const element: any = React.useRef(document.createElement('div'))
-  const handeClickOutside = () => {
+  const handeClickOutside = (event: any) => {
+    if (isPopperOpenned(event, panelLinkId)) {
+      return
+    }
+
     onClickOutside && onClickOutside()
     setIsOpen(false)
   }
@@ -76,7 +83,9 @@ const Panel: React.FunctionComponent<Iprops> = ({
 
   return (
     <>
-      <div onClick={handleClick}>{targetComponent}</div>
+      <div id={panelLinkId} onClick={handleClick}>
+        {targetComponent}
+      </div>
       {isOpen &&
         ReactDOM.createPortal(
           <StyledContainer

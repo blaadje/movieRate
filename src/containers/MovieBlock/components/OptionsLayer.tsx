@@ -106,7 +106,7 @@ const OptionsLayer: React.FunctionComponent<Iprops> = ({
                 <StyledIcon glyph="checked" />
               </StyledRoundedButton>
             }
-            popperComponent={<Form movieId={movie.id} />}
+            popperComponent={<Form movie={movie} />}
           />
           <Popper
             onClick={handlePlaylistClick}

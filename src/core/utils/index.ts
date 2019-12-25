@@ -36,6 +36,17 @@ export const calculatePourcentageFromScale = ({
   return decimal ? decimal * references[position] : 0
 }
 
+export const isPopperOpenned = ({ path, composedPath }: any, id: string) => {
+  const eventPath = path || (composedPath && composedPath()) || []
+
+  for (let i = 0; i < eventPath.length - 1; i++) {
+    if (eventPath[i].id === id) {
+      return true
+    }
+  }
+  return false
+}
+
 export const sleep = (time: number) =>
   new Promise(resolve => setTimeout(() => resolve(), time))
 
