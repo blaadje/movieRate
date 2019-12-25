@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 const Wrapper: any = styled.textarea`
   background: transparent;
+  display: block;
   border: none;
   line-height: 1.5em;
   font-size: ${rem('15px')};

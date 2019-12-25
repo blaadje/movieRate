@@ -15,10 +15,11 @@ module.exports = {
   devServer: {
     port,
     publicPath,
-    compress: false,
+    compress: true,
+    clientLogLevel: 'silent',
     noInfo: false,
     overlay: true,
-    stats: 'errors-only',
+    stats: 'minimal',
     http2: true,
     https: {
       cert: fs.readFileSync(path.resolve(__dirname, '../ssl/cert.pem')),

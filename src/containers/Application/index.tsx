@@ -6,16 +6,17 @@ import { Provider } from 'react-redux'
 import { Route } from 'react-router-dom'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 
+// import ErrorManager from '@containers/ErrorManager'
 import Sidebar from '@containers/Sidebar'
 import store from '@core/store'
-import Discover from '@views/Discover/Discover'
-import Playlist from '@views/Playlist'
-import Seen from '@views/Seen'
-import Trending from '@views/Trending'
+import loadable from '@loadable/component'
 
 import theme from './theme'
 
-// import ErrorManager from '@containers/ErrorManager'
+const Trending = loadable(() => import('@views/Trending'))
+const Discover = loadable(() => import('@views/Discover'))
+const Seen = loadable(() => import('@views/Seen'))
+const Playlist = loadable(() => import('@views/Playlist'))
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -63,7 +64,6 @@ const GradientWrapper = styled.div`
   box-shadow: ${({ theme }) => theme.boxShadow()};
   height: 100vh;
   width: 100%;
-  /* padding: ${({ theme }) => theme.spacing.XXL}; */
   overflow: auto;
   display: inline-block;
   vertical-align: top;
@@ -71,11 +71,16 @@ const GradientWrapper = styled.div`
 `
 
 const AppWrapper = styled.div`
+  z-index: 1;
   display: flex;
 `
 
 const PanelPortal = styled.div`
-  z-index: 3;
+  z-index: 100;
+`
+
+const PopperPortal = styled.div`
+  z-index: 100;
 `
 
 const App: React.FunctionComponent = () => {
@@ -108,6 +113,7 @@ const App: React.FunctionComponent = () => {
             <Route path="/playlist" component={Playlist as any} />
             <Route path="/" exact={true} component={Trending} />
           </GradientWrapper>
+          <PopperPortal id="popper" />
           <PanelPortal id="panel" />
         </AppWrapper>
       </Provider>

@@ -20,6 +20,7 @@ import {
   MOVIE,
   RATE_FILTER_ID,
   SEARCH,
+  VIDEO,
   YEAR_FILTER_ID,
 } from '@core/store/constants'
 import { GenreItem } from '@core/store/orm/resourcesModels/Genre'
@@ -44,9 +45,11 @@ const Header = styled.header`
   background: ${({ theme }) => theme.colors.gradient};
   opacity: 0.9;
   top: 0;
-  z-index: 3;
-  padding: ${({ theme }) => theme.spacing.XL}
-    ${({ theme }) => theme.spacing.XXL};
+  z-index: 2;
+  padding-top: ${({ theme }) => theme.spacing.XL};
+  padding-bottom: ${({ theme }) => theme.spacing.XL};
+  padding-left: ${({ theme }) => theme.spacing.XXL};
+  padding-right: ${({ theme }) => theme.spacing.XXL};
   margin-bottom: ${({ theme }) => theme.spacing.L};
 `
 
@@ -102,7 +105,7 @@ const Discover: React.FunctionComponent<Iprops> = ({
   const [localGenres, setLocalGenres] = React.useState([])
   const [searchQuery, setSearchQuery] = React.useState('')
 
-  const getDate = () => {
+  const getDateFieldByResource = () => {
     return resourceFilter.value === MOVIE
       ? 'primary_release_year'
       : 'first_air_date_year'
@@ -110,7 +113,7 @@ const Discover: React.FunctionComponent<Iprops> = ({
   const queries: any = {
     ['vote_average.gte']: rateFilter * 2,
     with_genres: genreFilter,
-    [getDate()]: yearFilter,
+    [getDateFieldByResource()]: yearFilter,
     sort_by: 'release_date.desc',
   }
 
@@ -255,10 +258,14 @@ const Discover: React.FunctionComponent<Iprops> = ({
       <ContentWrapper>
         <MovieWrapper>
           {!movies.length && <div>No Movie</div>}
-          {movies &&
-            movies.map((movie: any) => (
-              <MovieBlock key={movie.id} movie={movie} />
-            ))}
+          {movies.map((movie: any) => (
+            <MovieBlock
+              key={movie.id}
+              movie={movie}
+              filterId={DISCOVER_FILTER_ID}
+              resourceType={resourceFilter.value}
+            />
+          ))}
         </MovieWrapper>
         <button onClick={loadMore}>load more</button>
       </ContentWrapper>
@@ -294,7 +301,4 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Discover)
+export default connect(mapStateToProps, mapDispatchToProps)(Discover)

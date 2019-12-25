@@ -17,13 +17,9 @@ interface FilterButtonProps {
   filterId: number
 }
 
-interface ButtonProps {
-  active: boolean
-}
-
 const StyledButton: any = styled(Button)`
   color: ${({ theme }) => theme.colors.greyLight};
-  ${({ active }: ButtonProps) =>
+  ${({ active }: any) =>
     active &&
     css`
       color: ${({ theme }) => theme.colors.white};
@@ -57,7 +53,4 @@ const mapDispatchToProps = (
   },
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FilterButton)
+export default connect(mapStateToProps, mapDispatchToProps)(FilterButton)

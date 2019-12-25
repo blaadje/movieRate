@@ -1,125 +1,167 @@
-import rgba from 'polished/lib/color/rgba'
 import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
-import styled from 'styled-components'
+import { connect } from 'react-redux'
+import styled, { css } from 'styled-components'
 
-import Icon from '@components/Icon'
 import Image from '@components/Image'
-import Panel from '@components/Panel'
-import Popper from '@components/Popper'
 import Rate from '@components/Rate'
-import RoundedButton from '@components/RoundedButton'
-import Form from '@containers/Form'
-import MovieInfos from '@containers/MovieInfos'
+import { resourceFetchAction } from '@core/store/actions'
+import { VIDEO } from '@core/store/constants'
+import { movieVideos } from '@core/store/selectors'
+import { calculatePourcentageFromScale, useDebounce } from '@core/utils'
 import { API_IMAGE_LINK } from '@settings'
 
-interface Iprops {
+import ContentLayer from './components/ContentLayer'
+
+interface Iprops extends React.HTMLAttributes<any> {
   movie: any
+  videos?: []
+  filterId: number
+  resourceType: string
+  onMouseEnter?: () => void
 }
 
-const Wrapper = styled(Image)`
+const scale: number = 1.3
+
+const Wrapper: any = styled(Image)`
   position: relative;
   display: flex;
   flex-direction: row;
-  box-shadow: 0px 0px 0px 12px ${({ theme }) => rgba(theme.colors.dark, 0.8)};
-  width: ${rem('160px')};
-  height: ${rem('240px')};
-  margin: ${rem('45px')} ${rem('35px')};
+  width: ${rem('340px')};
+  height: ${rem('191px')};
+  margin: ${({ theme }) => theme.spacing.XS};
+  transform: scale(1);
+  transition: transform 0.5s ease;
+  cursor: pointer;
+  z-index: 1;
+  &:hover {
+    z-index: 15;
+  }
+  ${({ isHovered }: any) =>
+    isHovered &&
+    css`
+      box-shadow: ${({ theme }) => theme.boxShadow(0.2)};
+      transform: scale(${scale});
+      .description {
+        transform: scale(${1 / scale})
+          translateX(
+            -${calculatePourcentageFromScale({ scale, position: 'x' })}px
+          );
+        opacity: ${({ isOptionsLayerOpened }: any) =>
+          isOptionsLayerOpened ? 1 : 0};
+      }
+    `}
 `
 
 const Description = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
+  transform-origin: bottom;
+  z-index: 10;
   width: 100%;
-  padding: 1em;
+  padding: ${({ theme }) => theme.spacing.S};
   font-size: 17px;
-  background: ${({ theme }) => rgba(theme.colors.black, 0.6)};
-  span {
-    display: block;
-  }
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  opacity: 1;
 `
 
-const Title = styled.span`
+const Title = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: ${({ theme }) => theme.spacing.XS};
 `
 
-const Date = styled.span`
+const Date = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.XS};
 `
 
-const OptionsWrapper: any = styled.div`
-  display: ${({ isHovered }: any) => (isHovered ? 'flex' : 'none')};
-  position: absolute;
-  top: 0;
-  bottom: 0;
+const Gradient = styled.div`
   width: 100%;
   height: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: ${({ theme }) => rgba(theme.colors.dark, 0.9)};
+  background: linear-gradient(
+    0deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(18, 29, 43, 1) 0%,
+    rgba(19, 39, 57, 0.8981967787114846) 27%,
+    rgba(23, 96, 135, 0.10547969187675066) 100%,
+    rgba(23, 96, 135, 0) 100%
+  );
 `
 
-const StyledIcon = styled(Icon)`
-  fill: ${({ theme }) => theme.colors.white};
-`
-
-const Button = styled(Popper)`
-  &:not(:last-child) {
-    margin-bottom: ${({ theme }) => theme.spacing.XS};
-  }
-`
-
-const MovieBlock: React.FunctionComponent<Iprops> = ({ movie }) => {
+const MovieBlock: React.FunctionComponent<Iprops> = (
+  { movie, onMouseEnter, videos },
+  ...rest
+) => {
   const [isHovered, setIsHover] = React.useState(false)
+  const [isOptionsLayerOpened, setOptionsLayerOpened] = React.useState(true)
+
+  const handleMouseEnter = () => {
+    onMouseEnter && onMouseEnter()
+    setIsHover(true)
+  }
+
+  const debouncedHandleMouseEnter =
+    onMouseEnter && useDebounce(handleMouseEnter, 300)
+
+  const handleMouseLeave = () => {
+    setIsHover(false)
+    debouncedHandleMouseEnter?.cancel()
+  }
+
+  const curentMovie: any = videos?.[movie.id]?.[0]
+  const movieLink = curentMovie && curentMovie.key
 
   return (
     <Wrapper
-      filter={true}
-      src={API_IMAGE_LINK + movie.poster_path}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
+      src={API_IMAGE_LINK + (movie.backdrop_path || movie.poster_path)}
+      onMouseEnter={debouncedHandleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      isHovered={isHovered}
+      isOptionsLayerOpened={isOptionsLayerOpened}
+      {...rest}
     >
-      <Description>
-        <Title>{movie.original_title || movie.name}</Title>
-        <Date>{movie.release_date || movie.first_air_date}</Date>
-        <Rate rate={movie.vote_average} />
-      </Description>
-      <OptionsWrapper isHovered={isHovered}>
-        <Button
-          popperPlacement="right"
-          targetComponent={
-            <RoundedButton>
-              <StyledIcon glyph="checked" />
-            </RoundedButton>
-          }
-          popperComponent={<Form movieId={movie.id} />}
-        />
-        <Button
-          popperPlacement="right"
-          targetComponent={
-            <RoundedButton>
-              <StyledIcon glyph="playlist" />
-            </RoundedButton>
-          }
-          popperComponent={<p>test</p>}
-        />
-        <Panel
-          onClickOutside={() => setIsHover(false)}
-          targetComponent={
-            <RoundedButton>
-              <StyledIcon glyph="infos" />
-            </RoundedButton>
-          }
-          panelComponent={<MovieInfos movie={movie} />}
-        />
-      </OptionsWrapper>
+      <Gradient>
+        <Description className="description">
+          <Title>{movie.original_title || movie.name}</Title>
+          <Date>{movie.release_date || movie.first_air_date}</Date>
+          <Rate rate={movie.vote_average} />
+        </Description>
+        {isHovered && (
+          <ContentLayer
+            parentScale={scale}
+            movie={movie}
+            movieLink={movieLink}
+            onToggleLayerOpened={() =>
+              setOptionsLayerOpened(!isOptionsLayerOpened)
+            }
+          />
+        )}
+      </Gradient>
     </Wrapper>
   )
 }
 
-export default MovieBlock
+const mapStateToProps = (state: any, { filterId }: Iprops) => {
+  return {
+    videos: movieVideos(state, filterId),
+  }
+}
+
+const mapDispatchToProps = (
+  dispatch: any,
+  { movie, resourceType }: Iprops
+) => ({
+  onMouseEnter: () =>
+    dispatch(
+      resourceFetchAction({
+        createResource: false,
+        resourceType: resourceType,
+        resourceId: movie.id,
+        relationShip: VIDEO,
+      })
+    ),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieBlock)

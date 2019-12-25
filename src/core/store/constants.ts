@@ -11,8 +11,10 @@ export const TRENDING = 'trending'
 export const PLAYLIST = 'playlist'
 export const RATE = 'rate'
 export const GENRE = 'genre'
+export const VIDEO = 'videos'
 
 export type allowedTypes =
+  | 'videos'
   | 'movie'
   | 'tv'
   | 'discover'

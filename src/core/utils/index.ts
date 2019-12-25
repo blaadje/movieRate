@@ -1,9 +1,13 @@
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 import { useCallback, useEffect, useRef } from 'react'
 
 export type sizeOptions = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl'
+interface PourcentageFromScaleProps {
+  scale: number
+  position: 'x' | 'y'
+}
 
-export function getSize(size: sizeOptions = 'm'): string {
+export const getSize = (size: sizeOptions = 'm'): string => {
   switch (size) {
     case 'xs':
       return '9px'
@@ -20,7 +24,22 @@ export function getSize(size: sizeOptions = 'm'): string {
   }
 }
 
-export function uuid(): string {
+export const calculatePourcentageFromScale = ({
+  scale,
+  position = 'x',
+}: PourcentageFromScaleProps) => {
+  const references = {
+    x: 17,
+    y: 9.6,
+  }
+  const decimal = Number(scale?.toString().split('.')[1])
+  return decimal ? decimal * references[position] : 0
+}
+
+export const sleep = (time: number) =>
+  new Promise(resolve => setTimeout(() => resolve(), time))
+
+export const uuid = (): string => {
   let d = new Date().getTime()
 
   d += window.performance.now()
@@ -58,9 +77,10 @@ export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
 
 export const useDebounce = (
   fnToDebounce: (...args: any) => void,
-  durationInMs: number = 200
+  durationInMs: number = 200,
+  options?: object
 ) =>
-  useCallback(debounce(fnToDebounce, durationInMs), [
+  useCallback(debounce(fnToDebounce, durationInMs, options), [
     fnToDebounce,
     durationInMs,
   ])

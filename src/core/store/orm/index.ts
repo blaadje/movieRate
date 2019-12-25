@@ -10,6 +10,7 @@ import {
   Search,
   Trending,
   Tv,
+  Video,
 } from '@core/store/orm/resourcesModels'
 
 const orm = new ORM({
@@ -21,6 +22,7 @@ orm.register(
   Rate,
   Playlist,
   Discover,
+  Video,
   Search,
   Filter,
   Tv,

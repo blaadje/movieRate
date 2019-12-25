@@ -52,7 +52,7 @@ const Panel: React.FunctionComponent<Iprops> = ({
   width = '55%',
 }: Iprops) => {
   const [isOpen, setIsOpen] = React.useState(false)
-  const [element] = React.useState(document.createElement('div'))
+  const element: any = React.useRef(document.createElement('div'))
   const toggle = () => setIsOpen(!isOpen)
   const handeClickOutside = () => {
     onClickOutside && onClickOutside()
@@ -61,9 +61,9 @@ const Panel: React.FunctionComponent<Iprops> = ({
   React.useEffect(() => {
     const panel = document.getElementById('panel')
 
-    panel && panel.appendChild(element)
+    panel?.appendChild(element.current)
     return () => {
-      panel && panel.removeChild(element)
+      panel?.removeChild(element.current)
     }
   }, [])
 
@@ -79,7 +79,7 @@ const Panel: React.FunctionComponent<Iprops> = ({
           >
             {panelComponent}
           </StyledContainer>,
-          element
+          element.current
         )}
     </>
   )

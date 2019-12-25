@@ -17,6 +17,7 @@ export type glyphOptions =
   | 'clock'
   | 'playlist'
   | 'seen'
+  | 'mute'
   | 'stars'
   | 'vector'
 
@@ -29,15 +30,26 @@ interface Iprops extends React.HTMLAttributes<any> {
 
 const Icon: React.FunctionComponent<Iprops> = (props: Iprops) => {
   const { className, glyph, onClick } = props
-  const icon = iconsMap[glyph]
+  const [icon, setIcon] = React.useState(null)
+  const getIcon = async () => {
+    const { default: defaultIcon } = await iconsMap[glyph]()
+
+    setIcon(defaultIcon)
+  }
+
+  React.useEffect(() => {
+    getIcon()
+  }, [])
 
   return (
-    <Svg
-      onClick={onClick}
-      cacheRequests={true}
-      className={className}
-      src={icon}
-    />
+    icon && (
+      <Svg
+        onClick={onClick}
+        cacheRequests={true}
+        className={className}
+        src={icon}
+      />
+    )
   )
 }
 
