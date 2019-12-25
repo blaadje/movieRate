@@ -40,7 +40,7 @@ const StyledContainer: any = styled(Container)`
   ${({ direction }: Iprops) =>
     direction === 'left'
       ? css`
-          left: ${rem('295px')};
+          left: ${rem('350px')};
         `
       : css`
           right: 0;

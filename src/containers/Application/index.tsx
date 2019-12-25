@@ -67,7 +67,7 @@ const GradientWrapper = styled.div`
   overflow: auto;
   display: inline-block;
   vertical-align: top;
-  background: ${({ theme }) => theme.colors.gradient};
+  ${({ theme }) => theme.colors.gradient};
 `
 
 const AppWrapper = styled.div`

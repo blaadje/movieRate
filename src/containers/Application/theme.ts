@@ -1,4 +1,4 @@
-import { rgba } from 'polished'
+import { darken, lighten, linearGradient, rgba } from 'polished'
 import rem from 'polished/lib/helpers/rem'
 
 interface SpacingProps {
@@ -10,7 +10,7 @@ interface SpacingProps {
   XXL: string
 }
 interface ColorsProps {
-  gradient: string
+  gradient: any
   white: string
   black: string
   dark: string
@@ -21,24 +21,30 @@ interface ColorsProps {
   red: string
 }
 
+const dark = '#1e2e3d'
+
+const gradient = linearGradient({
+  colorStops: [
+    `${rgba(darken(0.02, dark), 1)} 5%`,
+    `${rgba(darken(0, dark), 1)} 20%`,
+    `${rgba(lighten(0.01, dark), 1)} 80%`,
+  ],
+  toDirection: 'to right',
+  fallback: dark,
+})
+
 const colors: ColorsProps = {
-  gradient: `linear-gradient(
-    to left,
-    rgba(20, 37, 49) 0%,
-    rgba(17, 38, 53) 5%,
-    rgba(18, 37, 51) 15%,
-    rgba(20, 36, 53) 35%,
-    rgba(16, 37, 50) 87%
-  )`,
+  gradient,
   white: '#FFFFFF',
   black: '#000000',
-  dark: '#1e2e3d',
+  dark,
   highlight: '#00ffff',
   grey: '#344350',
   greyLight: '#a5abb1',
   blue: '#176087',
   red: '#b5465a',
 }
+
 const spacingUnit: number = 8
 const spacing: SpacingProps = {
   XS: rem(spacingUnit / 2), // 4px - 0.4rem

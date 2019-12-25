@@ -1,5 +1,6 @@
+import { linearGradient, rgba } from 'polished'
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import Icon from '@components/Icon'
 import Panel from '@components/Panel'
@@ -16,18 +17,27 @@ interface Iprops extends React.HTMLAttributes<any> {
 }
 
 const Wrapper: any = styled.div`
-  position: relative;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  background: linear-gradient(
-    0deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(18, 29, 43, 1) 0%,
-    rgba(19, 39, 57, 0.8981967787114846) 27%,
-    rgba(23, 96, 135, 0.10547969187675066) 100%,
-    rgba(23, 96, 135, 0) 100%
-  );
+  ${({ theme }: any) =>
+    css`
+      width: 100%;
+      height: 100%;
+      position: relative;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      ${linearGradient({
+        colorStops: [
+          `${rgba(theme.colors.dark, 1)} 0%`,
+          `${rgba(theme.colors.dark, 1)} 5%`,
+          `${rgba(theme.colors.dark, 0.8)} 30%`,
+          `${rgba(theme.colors.dark, 0.5)} 60%`,
+          `${rgba(theme.colors.dark, 0.4)} 100%`,
+          `${rgba(theme.colors.dark, 0)} 100%`,
+        ],
+        toDirection: 'to top',
+        fallback: rgba(theme.colors.dark, 0),
+      })}
+    `}
 `
 
 const PaddedWrapper = styled.div`

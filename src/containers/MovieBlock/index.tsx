@@ -12,6 +12,7 @@ import { calculatePourcentageFromScale, useDebounce } from '@core/utils'
 import { API_IMAGE_LINK } from '@settings'
 
 import ContentLayer from './components/ContentLayer'
+import { linearGradient, rgba, darken } from 'polished'
 
 interface Iprops extends React.HTMLAttributes<any> {
   movie: any
@@ -76,16 +77,22 @@ const Date = styled.div`
 `
 
 const Gradient = styled.div`
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    0deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(18, 29, 43, 1) 0%,
-    rgba(19, 39, 57, 0.8981967787114846) 27%,
-    rgba(23, 96, 135, 0.10547969187675066) 100%,
-    rgba(23, 96, 135, 0) 100%
-  );
+  ${({ theme }: any) =>
+    css`
+      width: 100%;
+      height: 100%;
+      ${linearGradient({
+        colorStops: [
+          `${rgba(darken(0.02, theme.colors.dark), 1)} 0%`,
+          `${rgba(theme.colors.dark, 0.8)} 30%`,
+          `${rgba(theme.colors.dark, 0.5)} 60%`,
+          `${rgba(theme.colors.dark, 0.4)} 100%`,
+          `${rgba(theme.colors.dark, 0)} 100%`,
+        ],
+        toDirection: 'to top',
+        fallback: rgba(theme.colors.dark, 0),
+      })}
+    `}
 `
 
 const MovieBlock: React.FunctionComponent<Iprops> = (

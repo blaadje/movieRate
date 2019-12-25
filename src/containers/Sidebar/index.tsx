@@ -14,7 +14,7 @@ const Wrapper = styled.aside`
   background: ${({ theme }) => theme.colors.dark};
   height: 100vh;
   flex-shrink: 0;
-  flex-basis: ${rem('295px')};
+  flex-basis: ${rem('350px')};
 `
 
 const Nav = styled.nav`
@@ -36,7 +36,7 @@ const Title = styled.div`
 `
 
 const NavLink = styled(Link)`
-  padding: ${({ theme }: any) => `${theme.spacing.L} ${theme.spacing.XL}`};
+  padding: ${({ theme }: any) => `${theme.spacing.L} ${theme.spacing.XXL}`};
   &:hover {
     background: ${({ theme }) => theme.colors.grey};
     .icon {
