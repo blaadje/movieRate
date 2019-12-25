@@ -20,7 +20,9 @@ module.exports = {
     noInfo: false,
     overlay: true,
     stats: 'minimal',
-    http2: true,
+    // http2 not supported for node > 10.x.x
+    // https://github.com/expressjs/express/pull/3730
+    http2: false,
     https: {
       cert: fs.readFileSync(path.resolve(__dirname, '../ssl/cert.pem')),
       key: fs.readFileSync(path.resolve(__dirname, '../ssl/key.pem')),

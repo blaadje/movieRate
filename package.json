@@ -6,7 +6,7 @@
   "main": "src/main.js",
   "engines": {
     "npm": ">= 6.0.0",
-    "node": "~9.11.2"
+    "node": "~12.x"
   },
   "scripts": {
     "start": "NODE_ENV=development concurrently -p \"{name}\" -n \"🚋 Webpack,🔌 Electron\" -c \"green.bold,yellow.bold\" \"webpack-dev-server --config=./config/dev/webpack.config.js --mode development\" \"sleep 2 && electron .\"",
