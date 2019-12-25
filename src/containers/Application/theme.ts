@@ -54,7 +54,7 @@ export default {
   boxShadow: (opacity = 0.3, color: string = colors.black): string =>
     `0px 0px 30px ${rgba(color, opacity)}`,
   colors,
-  radius: rem('6px'),
+  radius: rem('2px'),
   delay,
   transition: `all ${delay} ease`,
   spacing,

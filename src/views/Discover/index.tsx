@@ -20,7 +20,6 @@ import {
   MOVIE,
   RATE_FILTER_ID,
   SEARCH,
-  VIDEO,
   YEAR_FILTER_ID,
 } from '@core/store/constants'
 import { GenreItem } from '@core/store/orm/resourcesModels/Genre'
@@ -37,7 +36,6 @@ import Tag from './components/Tag'
 const ContentWrapper = styled.div`
   padding: ${({ theme }) => theme.spacing.XXL};
   padding-top: 0;
-  overflow: auto;
 `
 
 const Header = styled.header`

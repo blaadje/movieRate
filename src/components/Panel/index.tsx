@@ -11,6 +11,7 @@ interface Iprops {
   direction?: 'left' | 'right'
   width?: string
   onClickOutside?: () => void
+  onClick?: () => void
 }
 
 const clickOutsideConfig = {
@@ -48,16 +49,22 @@ const Panel: React.FunctionComponent<Iprops> = ({
   targetComponent,
   panelComponent,
   onClickOutside,
+  onClick,
   direction = 'left',
   width = '55%',
 }: Iprops) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const element: any = React.useRef(document.createElement('div'))
-  const toggle = () => setIsOpen(!isOpen)
   const handeClickOutside = () => {
     onClickOutside && onClickOutside()
     setIsOpen(false)
   }
+
+  const handleClick = () => {
+    onClick && onClick()
+    setIsOpen(!isOpen)
+  }
+
   React.useEffect(() => {
     const panel = document.getElementById('panel')
 
@@ -69,7 +76,7 @@ const Panel: React.FunctionComponent<Iprops> = ({
 
   return (
     <>
-      <div onClick={toggle}>{targetComponent}</div>
+      <div onClick={handleClick}>{targetComponent}</div>
       {isOpen &&
         ReactDOM.createPortal(
           <StyledContainer

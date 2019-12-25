@@ -28,7 +28,6 @@ const Header = styled.header`
 `
 
 const CategorySelector = styled(Popper)`
-  /* font-weight: 600; */
   flex-shrink: 0;
   color: ${({ theme }) => theme.colors.greyLight};
   margin-left: ${({ theme }) => theme.spacing.XL};
@@ -91,6 +90,7 @@ const Trending: React.FunctionComponent<Iprops> = ({
               <Icon className="icon" glyph="vector" />
             </>
           }
+          popperPlacement="bottom"
           popperComponent={
             <>
               <StyledFilterButton

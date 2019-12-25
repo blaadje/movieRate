@@ -34,12 +34,10 @@ const Wrapper: any = styled(Image)`
   transition: transform 0.5s ease;
   cursor: pointer;
   z-index: 1;
-  &:hover {
-    z-index: 15;
-  }
   ${({ isHovered }: any) =>
     isHovered &&
     css`
+      z-index: 15;
       box-shadow: ${({ theme }) => theme.boxShadow(0.2)};
       transform: scale(${scale});
       .description {

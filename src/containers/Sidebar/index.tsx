@@ -10,7 +10,7 @@ const Wrapper = styled.aside`
   position: relative;
   display: inline-block;
   vertical-align: top;
-  z-index: 11;
+  z-index: 200;
   background: ${({ theme }) => theme.colors.dark};
   height: 100vh;
   flex-shrink: 0;

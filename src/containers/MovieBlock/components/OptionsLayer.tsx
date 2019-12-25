@@ -58,10 +58,29 @@ const OptionsLayer: React.FunctionComponent<Iprops> = ({
 }: Iprops) => {
   const [isFormOpenned, setFormOpenned] = React.useState(false)
   const [isPlaylistOpenned, setPlaylistOpenned] = React.useState(false)
+  const [isInfosOpenned, setInfosOpenned] = React.useState(false)
+
+  const handleFormClick = () => {
+    setFormOpenned(!isFormOpenned)
+    setPlaylistOpenned(false)
+    setInfosOpenned(false)
+  }
+  const handlePlaylistClick = () => {
+    setPlaylistOpenned(!isPlaylistOpenned)
+    setFormOpenned(false)
+    setInfosOpenned(false)
+  }
+
+  const handleInfosClick = () => {
+    setInfosOpenned(!isInfosOpenned)
+    setFormOpenned(false)
+    setPlaylistOpenned(false)
+  }
 
   React.useEffect(() => {
-    onTogglePopper && onTogglePopper(isFormOpenned || isPlaylistOpenned)
-  }, [isFormOpenned, isPlaylistOpenned])
+    onTogglePopper &&
+      onTogglePopper(isFormOpenned || isPlaylistOpenned || isInfosOpenned)
+  }, [isFormOpenned, isPlaylistOpenned, isInfosOpenned])
 
   return (
     <Wrapper>
@@ -69,15 +88,18 @@ const OptionsLayer: React.FunctionComponent<Iprops> = ({
         <ButtonsWrapper>
           <StyledRoundedButton
             active={isMuted}
-            onClick={() => onToggleMuted && onToggleMuted()}
+            onClick={() => {
+              onToggleMuted && onToggleMuted()
+              setPlaylistOpenned(false)
+              setFormOpenned(false)
+              setInfosOpenned(false)
+            }}
           >
             <StyledIcon glyph="mute" />
           </StyledRoundedButton>
           <Popper
-            onClick={() => {
-              setFormOpenned(!isFormOpenned)
-              setPlaylistOpenned(false)
-            }}
+            onClick={handleFormClick}
+            onClickOutside={handleFormClick}
             popperPlacement="right"
             targetComponent={
               <StyledRoundedButton>
@@ -87,10 +109,8 @@ const OptionsLayer: React.FunctionComponent<Iprops> = ({
             popperComponent={<Form movieId={movie.id} />}
           />
           <Popper
-            onClick={() => {
-              setPlaylistOpenned(!isPlaylistOpenned)
-              setFormOpenned(false)
-            }}
+            onClick={handlePlaylistClick}
+            onClickOutside={handlePlaylistClick}
             popperPlacement="right"
             targetComponent={
               <StyledRoundedButton>
@@ -100,6 +120,8 @@ const OptionsLayer: React.FunctionComponent<Iprops> = ({
             popperComponent={<p>test</p>}
           />
           <Panel
+            onClick={handleInfosClick}
+            onClickOutside={handleInfosClick}
             targetComponent={
               <StyledRoundedButton>
                 <StyledIcon glyph="infos" />

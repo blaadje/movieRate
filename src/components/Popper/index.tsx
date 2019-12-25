@@ -1,3 +1,4 @@
+import rgba from 'polished/lib/color/rgba'
 import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
@@ -21,43 +22,74 @@ const StyledWrapper = styled.div`
     box-shadow: ${theme.boxShadow()};
     padding: ${theme.spacing.L};
     color: ${theme.colors.white};
-    background: ${theme.colors.dark};
+    background: ${rgba(theme.colors.dark, 0.95)};
     border-radius: ${theme.radius};
     margin: ${theme.spacing.L};
     cursor: initial;
   `}
 `
 
-const size = rem('15px')
-const Arrow = styled.div`
+const ArrowArea = styled.div`
   position: absolute;
-  width: ${rem('30px')};
+  display: flex;
+  &[data-placement='bottom'] {
+    width: 100%;
+    bottom: 100%;
+    height: ${rem('30px')};
+    left: 0;
+    justify-content: center;
+  }
+  &[data-placement='top'] {
+    top: 100%;
+    width: 100%;
+    height: ${rem('30px')};
+    left: 0;
+    justify-content: center;
+  }
+  &[data-placement='right'] {
+    right: 100%;
+    top: 0;
+    height: 100%;
+    width: ${rem('30px')};
+    align-items: center;
+  }
+  &[data-placement='left'] {
+    left: 100%;
+    top: 0;
+    height: 100%;
+    width: ${rem('30px')};
+    align-items: center;
+  }
+`
+
+const size = rem('8px')
+const Arrow = styled.div`
+  width: ${rem('10px')};
   height: ${rem('10px')};
+  border: 1px solid red;
   border-style: solid;
 
   &[data-placement='bottom'] {
-    top: -${rem('10px')};
+    margin-top: auto;
     border-width: 0 ${size} ${size} ${size};
     border-color: transparent transparent ${({ theme }) => theme.colors.dark}
       transparent;
   }
 
   &[data-placement='top'] {
-    bottom: -${rem('10px')};
     border-width: ${size} ${size} 0 ${size};
     border-color: ${({ theme }) => theme.colors.dark} transparent transparent
       transparent;
   }
 
   &[data-placement='right'] {
-    left: -${rem('10px')};
+    margin-left: auto;
     border-width: ${size} ${size} ${size} 0;
     border-color: transparent ${({ theme }) => theme.colors.dark} transparent
       transparent;
   }
 
   &[data-placement='left'] {
-    right: -${rem('10px')};
     border-width: ${size} 0 ${size} ${size};
     border-color: transparent transparent transparent
       ${({ theme }) => theme.colors.dark};
@@ -103,7 +135,8 @@ const BasePopper: React.FunctionComponent<Iprops> = ({
       }
     }
 
-    onClickOutside ? onClickOutside() : setIsOpen(false)
+    onClickOutside && onClickOutside()
+    setIsOpen(false)
   }
 
   React.useEffect(() => {
@@ -137,11 +170,13 @@ const BasePopper: React.FunctionComponent<Iprops> = ({
                 <PopperContent onClickOutside={handeClickOutside}>
                   {popperComponent}
                 </PopperContent>
-                <Arrow
-                  ref={arrowProps.ref}
-                  data-placement={placement}
-                  style={arrowProps.style}
-                />
+                <ArrowArea data-placement={placement}>
+                  <Arrow
+                    ref={arrowProps.ref}
+                    data-placement={placement}
+                    style={arrowProps.style}
+                  />
+                </ArrowArea>
               </StyledWrapper>
             )}
           </Popper>,
