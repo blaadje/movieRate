@@ -28,8 +28,11 @@ interface Iprops extends React.HTMLAttributes<any> {
   onClick?: () => void
 }
 
-const Icon: React.FunctionComponent<Iprops> = (props: Iprops) => {
-  const { className, glyph, onClick } = props
+const Icon: React.FunctionComponent<Iprops> = ({
+  className,
+  glyph,
+  onClick,
+}: Iprops) => {
   const [icon, setIcon] = React.useState(null)
   const getIcon = async () => {
     const { default: defaultIcon } = await iconsMap[glyph]()
@@ -42,15 +45,17 @@ const Icon: React.FunctionComponent<Iprops> = (props: Iprops) => {
     getIcon()
   }, [])
 
+  if (!icon) {
+    return null
+  }
+
   return (
-    icon && (
-      <Svg
-        onClick={onClick}
-        cacheRequests={true}
-        className={className}
-        src={icon}
-      />
-    )
+    <Svg
+      onClick={onClick}
+      cacheRequests={true}
+      className={className}
+      src={icon}
+    />
   )
 }
 

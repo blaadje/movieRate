@@ -37,7 +37,7 @@ module.exports = smp.wrap({
         },
       },
       {
-        test: /\.js$/,
+        test: /\.(js|ts|tsx)$/,
         include: path.resolve(__dirname, '../src'),
         use: {
           loader: 'babel-loader',

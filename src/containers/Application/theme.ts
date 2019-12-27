@@ -57,7 +57,7 @@ const spacing: SpacingProps = {
 const delay: string = '0.3s'
 
 export default {
-  boxShadow: (opacity = 0.1, color: string = colors.black): string =>
+  boxShadow: (opacity = 0.3, color: string = colors.black): string =>
     `0px 0px 30px ${rgba(color, opacity)}`,
   colors,
   radius: rem('2px'),

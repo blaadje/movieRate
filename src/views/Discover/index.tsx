@@ -223,9 +223,9 @@ const Discover: React.FunctionComponent<Iprops> = ({
             }
           />
         </SearchWrapper>
-        <TagsWrapper>
-          {localGenres.length &&
-            localGenres.map((genre: any) => {
+        {(localGenres.length && (
+          <TagsWrapper>
+            {localGenres.map((genre: any) => {
               if (!genre.isChecked) {
                 return
               }
@@ -239,19 +239,23 @@ const Discover: React.FunctionComponent<Iprops> = ({
                 </StyledTag>
               )
             })}
-          {rateFilter > 1 && (
-            <StyledTag onRemove={() => setFilter({ value: 1 }, RATE_FILTER_ID)}>
-              <Rate rate={rateFilter} />
-            </StyledTag>
-          )}
-          {yearFilter && (
-            <StyledTag
-              onRemove={() => setFilter({ value: null }, YEAR_FILTER_ID)}
-            >
-              {yearFilter}
-            </StyledTag>
-          )}
-        </TagsWrapper>
+            {rateFilter > 1 && (
+              <StyledTag
+                onRemove={() => setFilter({ value: 1 }, RATE_FILTER_ID)}
+              >
+                <Rate rate={rateFilter} />
+              </StyledTag>
+            )}
+            {yearFilter && (
+              <StyledTag
+                onRemove={() => setFilter({ value: null }, YEAR_FILTER_ID)}
+              >
+                {yearFilter}
+              </StyledTag>
+            )}
+          </TagsWrapper>
+        )) ||
+          null}
       </Header>
       <ContentWrapper>
         <MovieWrapper>

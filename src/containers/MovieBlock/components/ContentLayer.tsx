@@ -13,7 +13,7 @@ interface Iprops {
   onToggleLayerOpened: () => void
 }
 
-const FadedWrapper: any = styled(Fadeout)`
+const StyledFadeout: any = styled(Fadeout)`
   ${({ parentScale }: any) => css`
     position: absolute;
     z-index: 4;
@@ -37,7 +37,7 @@ const ContentLayer: React.FunctionComponent<Iprops> = ({
   return (
     <>
       {movieLink && <Player url={movieLink} isMuted={isMuted} />}
-      <FadedWrapper
+      <StyledFadeout
         enable={shouldFade}
         parentScale={parentScale}
         onToggleFade={onToggleLayerOpened}
@@ -48,7 +48,7 @@ const ContentLayer: React.FunctionComponent<Iprops> = ({
           onTogglePopper={(value: boolean) => toggleFade(!value)}
           onToggleMuted={() => setMuted(!isMuted)}
         />
-      </FadedWrapper>
+      </StyledFadeout>
     </>
   )
 }
