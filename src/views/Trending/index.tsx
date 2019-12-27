@@ -12,6 +12,7 @@ import {
   TRENDING,
   TRENDING_FILTER_ID,
   TVS_FILTER,
+  allowedTypes,
 } from '@core/store/constants'
 import { activeFilter, trendingResources } from '@core/store/selectors'
 
@@ -53,7 +54,7 @@ const StyledFilterButton: any = styled(FilterButton)`
 interface Iprops {
   dispatch: (Object: any) => Promise<any>
   resourceFilter: {
-    value: string
+    value: allowedTypes
     label: string
   }
   movies: any
@@ -66,8 +67,7 @@ const Trending: React.FunctionComponent<Iprops> = ({
 }: Iprops) => {
   const fetch = () =>
     dispatch(
-      resourceFetchAction({
-        resourceType: TRENDING,
+      resourceFetchAction(TRENDING, {
         relationShip: resourceFilter.value,
         options: {
           parameter: 'week',

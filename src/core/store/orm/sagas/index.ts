@@ -8,23 +8,23 @@ import {
   PutEffect,
 } from 'redux-saga/effects'
 
-import { uuid } from '@core/utils'
-
 import {
   allowedTypes,
-  createResourceByType,
+  insertResourceByType,
+  RESOURCE_CREATE,
   RESOURCE_ERROR,
   RESOURCE_FETCHING,
   RESOURCE_FETCHING_MORE,
-} from '../constants'
-import request from '../request'
+} from '../../constants'
+import { apiRequest, localRequest } from '../../request/'
+import { callList, createCache, getPreviousCallId, isCached } from './utils'
 
 interface OptionsProp {
   parameter?: string
   queries?: object
 }
 
-interface ApiFetchProps {
+export interface ApiFetchProps {
   type: string
   fetchMore: boolean
   resourceType: allowedTypes
@@ -37,14 +37,6 @@ interface ApiFetchProps {
   id?: string
   options?: OptionsProp
   meta: object
-}
-
-interface CallListProps {
-  [id: string]: {
-    page: number
-    params: object
-    id: string
-  }
 }
 
 export default function* applicationSaga(): Iterator<any> {
@@ -64,28 +56,33 @@ export default function* applicationSaga(): Iterator<any> {
     const { parameter, queries } = options
 
     try {
-      const result = yield call(request, resourceType, {
+      const result: any = yield call(apiRequest, resourceType, {
+        method: 'GET',
         segment: { parameter, relationShip, resourceId, relationShipId },
         queries,
-      })
+      }) || []
 
       if (createResource) {
         yield put({
-          type: createResourceByType(resourceType),
+          type: insertResourceByType(resourceType),
           relationShip,
           resourceValues,
-          result,
+          item: result,
           meta,
         })
       }
 
       if (relationShip) {
-        yield put({
-          type: createResourceByType(relationShip),
-          relationShip: resourceType,
-          resourceId,
-          result,
-        })
+        for (let index = 0; index < result.length - 1; index++) {
+          const item = result[index]
+
+          yield put({
+            type: insertResourceByType(relationShip),
+            relationShip: resourceType,
+            resourceId,
+            item,
+          })
+        }
       }
     } catch (error) {
       yield put({
@@ -97,43 +94,8 @@ export default function* applicationSaga(): Iterator<any> {
     }
   }
 
-  const requestCallParams: object[] = []
-
-  const compareObjects = (firstObject: object, secondObject: object) =>
-    JSON.stringify(firstObject) === JSON.stringify(secondObject)
-
-  const isCached = (params: ApiFetchProps): any =>
-    requestCallParams.some((item: any) => compareObjects(item, params))
-
-  const createCache = (params: ApiFetchProps) => requestCallParams.push(params)
-
-  const callList: CallListProps = {}
-
   function* handleFetchMoreResource(params: ApiFetchProps) {
-    const getPreviousCallId = (): string => {
-      const [previousCallId]: any = Object.entries(
-        callList
-      ).find(([key, value]) => compareObjects(value.params, params)) || [false]
-
-      if (!previousCallId) {
-        const id = uuid()
-        const initialPage = 2
-
-        callList[id] = {
-          page: initialPage,
-          params,
-          id,
-        }
-
-        return id
-      }
-
-      callList[previousCallId].page = callList[previousCallId].page + 1
-
-      return previousCallId
-    }
-
-    const { page } = callList[getPreviousCallId()]
+    const { page } = callList[getPreviousCallId(params)]
 
     yield makeCall({
       ...params,
@@ -157,7 +119,7 @@ export default function* applicationSaga(): Iterator<any> {
 
     if (resourceValueToUpdate && avoidMakeCall) {
       return yield put({
-        type: createResourceByType(resourceType),
+        type: insertResourceByType(resourceType),
         relationShip,
         resourceValues,
         meta,
@@ -173,8 +135,35 @@ export default function* applicationSaga(): Iterator<any> {
     createCache(params)
   }
 
+  function* handleCreateResource(params: any) {
+    const { ignoreCall, resourceType, resource, meta } = params
+    if (isCached(params) || ignoreCall) {
+      return
+    }
+
+    try {
+      const result = yield call(localRequest, resourceType, resource, {
+        method: 'POST',
+      })
+
+      yield put({
+        type: insertResourceByType(resourceType),
+        result,
+        meta,
+      })
+    } catch (error) {
+      yield put({
+        type: RESOURCE_ERROR,
+        error: true,
+        payload: error,
+        meta,
+      })
+    }
+  }
+
   yield all([
     takeLatest(RESOURCE_FETCHING, handleFetchResource),
     takeLatest(RESOURCE_FETCHING_MORE, handleFetchMoreResource),
+    takeLatest(RESOURCE_CREATE, handleCreateResource),
   ])
 }

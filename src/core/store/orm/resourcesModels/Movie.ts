@@ -1,40 +1,39 @@
 import { capitalize } from 'lodash'
 import { fk, many, Model } from 'redux-orm'
 
-import { createResourceByType, MOVIE } from '@core/store/constants'
+import { insertResourceByType, MOVIE } from '@core/store/constants'
 
 interface ActionProps {
   type: string
-  result: object[]
+  item: any
   relationShip?: string
 }
 
 export default class Movie extends Model<typeof Movie, MovieItem> {
   static reducer(
-    { type, result, relationShip }: ActionProps,
+    { type, item, relationShip }: ActionProps,
     Movie: any,
     session: any
   ) {
     switch (type) {
-      case createResourceByType(MOVIE):
-        const createMovie = (fetchedMovie: any) => {
-          const relationShipId = session[capitalize(relationShip)].last().id
-          const item = {
-            ...fetchedMovie,
-            vote_average: Math.round(fetchedMovie.vote_average / 2),
-          }
-
-          Movie.upsert(
-            relationShip
-              ? {
-                  ...item,
-                  [`${relationShip}Id`]: relationShipId,
-                }
-              : item
-          )
+      case insertResourceByType(MOVIE):
+        console.log(item)
+        const relationShipId = session[capitalize(relationShip)]?.last()?.id
+        const fetchedMovie = {
+          ...item,
+          personal_vote: null,
+          comment: '',
+          vote_average: Math.round(item?.vote_average / 2),
         }
 
-        return result.forEach(createMovie)
+        Movie.upsert(
+          relationShip
+            ? {
+                ...fetchedMovie,
+                [`${relationShip}Id`]: relationShipId,
+              }
+            : fetchedMovie
+        )
     }
   }
 }
@@ -52,6 +51,8 @@ export interface MovieItem {
   release_date: Date
   title: string
   video: boolean
+  comment: string
+  personal_vote: number
   vote_average: number
   vote_count: number
   discoverId: number

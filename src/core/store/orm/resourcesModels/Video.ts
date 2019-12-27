@@ -1,7 +1,7 @@
 import { capitalize } from 'lodash'
 import Model, { fk } from 'redux-orm'
 
-import { createResourceByType, VIDEO } from '@core/store/constants'
+import { insertResourceByType, VIDEO } from '@core/store/constants'
 
 interface ActionProps {
   type: string
@@ -16,7 +16,7 @@ export default class Video extends Model<typeof Video, VideoItem> {
     Video: any
   ): any {
     switch (type) {
-      case createResourceByType(VIDEO):
+      case insertResourceByType(VIDEO):
         const createVideo = (video: any) =>
           Video.upsert({
             ...video,

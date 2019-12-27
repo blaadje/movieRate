@@ -6,7 +6,6 @@ import styled from 'styled-components'
 
 import Image from '@components/Image'
 import Rate from '@components/Rate'
-// import { resourceFetch } from '@core/store/actions'
 import { API_IMAGE_LINK, API_POSTER_LINK } from '@settings'
 
 interface Iprops {

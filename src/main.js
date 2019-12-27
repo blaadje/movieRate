@@ -11,7 +11,7 @@ function createWindow() {
     height: 900,
     frame: false,
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
     },
     titleBarStyle: 'hidden-inset',
   })

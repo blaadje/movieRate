@@ -11,6 +11,7 @@ module.exports = {
     filename: 'index.js',
     pathinfo: false,
   },
+  target: 'electron-renderer',
   devtool: 'cheap-module-eval-source-map',
   devServer: {
     port,

@@ -28,7 +28,7 @@ const StyledRating = styled(Rating)`
 `
 
 const Rate: React.FunctionComponent<Iprops> = ({
-  readonly,
+  readonly = true,
   onChange,
   rate,
   ...rest
@@ -42,10 +42,6 @@ const Rate: React.FunctionComponent<Iprops> = ({
       {...rest}
     />
   )
-}
-
-Rate.defaultProps = {
-  readonly: true,
 }
 
 export default Rate

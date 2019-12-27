@@ -2,37 +2,32 @@ import { capitalize } from 'lodash'
 import { fk, many, Model } from 'redux-orm'
 import { MovieItem } from './Movie'
 
-import { createResourceByType, TV } from '@core/store/constants'
+import { insertResourceByType, TV } from '@core/store/constants'
 
 interface ActionProps {
   type: string
-  result: object[]
+  item: any
   relationShip?: string
 }
 
 export default class Tv extends Model<typeof Tv, TvItem> {
   static reducer(
-    { type, result, relationShip }: ActionProps,
+    { type, item, relationShip }: ActionProps,
     Tv: any,
     session: any
   ) {
     switch (type) {
-      case createResourceByType(TV):
-        const createTv = (item: any) =>
-          Tv.upsert(
-            relationShip
-              ? {
-                  ...item,
-                  vote_average: Math.round(item.vote_average / 2),
-                  [`${relationShip}Id`]: session[
-                    capitalize(relationShip)
-                  ].last().id,
-                }
-              : item
-          )
-
-        result.forEach(createTv)
-        break
+      case insertResourceByType(TV):
+        return Tv.upsert(
+          relationShip
+            ? {
+                ...item,
+                vote_average: Math.round(item.vote_average / 2),
+                [`${relationShip}Id`]: session[capitalize(relationShip)].last()
+                  .id,
+              }
+            : item
+        )
     }
   }
 }

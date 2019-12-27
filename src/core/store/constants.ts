@@ -25,9 +25,13 @@ export type allowedTypes =
 
 export const RESOURCE_FETCHING: string = 'API/RESOURCE_FETCHING'
 export const RESOURCE_FETCHING_MORE: string = 'API/RESOURCE_FETCHING_MORE'
-export const RESOURCE_ERROR: string = 'API/RESOURCE_ERROR'
+export const RESOURCE_EDIT: string = 'LOCAL/RESOURCE_EDIT'
+export const RESOURCE_CREATE: string = 'LOCAL/RESOURCE_CREATE'
+export const RESOURCE_ERROR: string = 'ALL/RESOURCE_ERROR'
+export const insertResourceByType = (resourceType: allowedTypes) =>
+  `RESOURCE_INSERT_${resourceType.toUpperCase()}`
 export const createResourceByType = (resourceType: allowedTypes) =>
-  `API/RESOURCE_CREATE_${resourceType.toUpperCase()}`
+  `LOCAL/RESOURCE_CREATE_${resourceType.toUpperCase()}`
 
 // FILTERS
 export const SET_FILTER: string = 'filter'

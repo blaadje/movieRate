@@ -16,6 +16,9 @@ module.exports = smp.wrap({
       ['@settings']: path.resolve(__dirname, '../src/settings'),
     },
   },
+  externals: {
+    vertx: 'commonjs vertx',
+  },
   module: {
     rules: [
       {

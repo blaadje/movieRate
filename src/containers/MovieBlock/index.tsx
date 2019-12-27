@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components'
 import Image from '@components/Image'
 import Rate from '@components/Rate'
 import { resourceFetchAction } from '@core/store/actions'
-import { VIDEO } from '@core/store/constants'
+import { VIDEO, allowedTypes } from '@core/store/constants'
 import { movieVideos } from '@core/store/selectors'
 import { calculatePourcentageFromScale, useDebounce } from '@core/utils'
 import { API_IMAGE_LINK } from '@settings'
@@ -18,7 +18,7 @@ interface Iprops extends React.HTMLAttributes<any> {
   movie: any
   videos?: []
   filterId: number
-  resourceType: string
+  resourceType: allowedTypes
   onMouseEnter?: () => void
 }
 
@@ -160,9 +160,8 @@ const mapDispatchToProps = (
 ) => ({
   onMouseEnter: () =>
     dispatch(
-      resourceFetchAction({
+      resourceFetchAction(resourceType, {
         createResource: false,
-        resourceType: resourceType,
         resourceId: movie.id,
         relationShip: VIDEO,
       })
