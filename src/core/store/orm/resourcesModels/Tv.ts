@@ -18,15 +18,27 @@ export default class Tv extends Model<typeof Tv, TvItem> {
   ) {
     switch (type) {
       case insertResourceByType(TV):
-        return Tv.upsert(
+        const tvExist = Tv.idExists(item.id)
+
+        if (tvExist) {
+          return Tv.withId(item.id).update(item)
+        }
+
+        const fetchedTv = {
+          ...item,
+          personal_vote: null,
+          comment: '',
+          vote_average: Math.round(item?.vote_average / 2),
+        }
+
+        Tv.create(
           relationShip
             ? {
-                ...item,
-                vote_average: Math.round(item.vote_average / 2),
-                [`${relationShip}Id`]: session[capitalize(relationShip)].last()
-                  .id,
+                ...fetchedTv,
+                [`${relationShip}Id`]: session[capitalize(relationShip)]?.last()
+                  ?.id,
               }
-            : item
+            : fetchedTv
         )
     }
   }

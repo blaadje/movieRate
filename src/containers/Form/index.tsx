@@ -51,10 +51,10 @@ const Form: React.FunctionComponent<Iprops> = ({
     updatedMovie.comment = comment
 
     if (resourceNotInDb) {
-      return resourceCreate(MOVIE, updatedMovie)
+      return resourceCreate(movie.media_type, updatedMovie)
     }
 
-    resourceEdit(MOVIE, updatedMovie)
+    resourceEdit(movie.media_type, updatedMovie)
   }
 
   return (

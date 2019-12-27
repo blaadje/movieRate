@@ -1,7 +1,11 @@
 import { capitalize } from 'lodash'
 import { fk, many, Model } from 'redux-orm'
 
-import { insertResourceByType, MOVIE } from '@core/store/constants'
+import {
+  allowedTypes,
+  insertResourceByType,
+  MOVIE,
+} from '@core/store/constants'
 
 interface ActionProps {
   type: string
@@ -17,8 +21,12 @@ export default class Movie extends Model<typeof Movie, MovieItem> {
   ) {
     switch (type) {
       case insertResourceByType(MOVIE):
-        console.log(item)
-        const relationShipId = session[capitalize(relationShip)]?.last()?.id
+        const movieExist = Movie.idExists(item.id)
+
+        if (movieExist) {
+          return Movie.withId(item.id).update(item)
+        }
+
         const fetchedMovie = {
           ...item,
           personal_vote: null,
@@ -26,11 +34,12 @@ export default class Movie extends Model<typeof Movie, MovieItem> {
           vote_average: Math.round(item?.vote_average / 2),
         }
 
-        Movie.upsert(
+        Movie.create(
           relationShip
             ? {
                 ...fetchedMovie,
-                [`${relationShip}Id`]: relationShipId,
+                [`${relationShip}Id`]: session[capitalize(relationShip)]?.last()
+                  ?.id,
               }
             : fetchedMovie
         )
@@ -47,6 +56,7 @@ export interface MovieItem {
   original_title: string
   overview: string
   popularity: number
+  media_type: allowedTypes
   poster_path: string
   release_date: Date
   title: string

@@ -1,29 +1,25 @@
-import { capitalize } from 'lodash'
 import Model, { fk } from 'redux-orm'
 
 import { insertResourceByType, VIDEO } from '@core/store/constants'
 
 interface ActionProps {
   type: string
-  result: object[]
+  item: any
   resourceId: number
   relationShip: string
 }
 
 export default class Video extends Model<typeof Video, VideoItem> {
   static reducer(
-    { type, result, resourceId, relationShip }: ActionProps,
+    { type, item, resourceId, relationShip }: ActionProps,
     Video: any
   ): any {
     switch (type) {
       case insertResourceByType(VIDEO):
-        const createVideo = (video: any) =>
-          Video.upsert({
-            ...video,
-            [`${relationShip}Id`]: resourceId,
-          })
-
-        result.forEach(createVideo)
+        Video.upsert({
+          ...item,
+          [`${relationShip}Id`]: resourceId,
+        })
     }
   }
 }

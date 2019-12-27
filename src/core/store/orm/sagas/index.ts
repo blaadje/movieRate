@@ -142,13 +142,13 @@ export default function* applicationSaga(): Iterator<any> {
     }
 
     try {
-      const result = yield call(localRequest, resourceType, resource, {
+      yield call(localRequest, resourceType, resource, {
         method: 'POST',
       })
 
       yield put({
         type: insertResourceByType(resourceType),
-        result,
+        item: resource,
         meta,
       })
     } catch (error) {

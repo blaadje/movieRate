@@ -8,6 +8,10 @@ db.movie = datastore({
   filename: path.join(remote.app.getPath('userData'), '/movie.db'),
   autoload: true,
 })
+db.tv = datastore({
+  filename: path.join(remote.app.getPath('userData'), '/tv.db'),
+  autoload: true,
+})
 
 export default async function request(
   resourceType: string,
