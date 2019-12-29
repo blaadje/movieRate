@@ -63,7 +63,7 @@
     "@types/jest": "^24.0.25",
     "@types/loadable__component": "^5.10.0",
     "@types/node": "^12.11.5",
-    "@types/react": "^16.9.16",
+    "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
     "@types/react-motion": "^0.0.29",
     "@types/react-onclickoutside": "^6.0.3",
