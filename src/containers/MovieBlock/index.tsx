@@ -9,7 +9,7 @@ import Rate from '@components/Rate'
 import { resourceFetchAction } from '@core/store/actions'
 import { allowedTypes, VIDEO } from '@core/store/constants'
 import { movieVideos } from '@core/store/selectors'
-import { calculatePourcentageFromScale, useDebounce } from '@core/utils'
+import { calculatePourcentageFromScale, sleep, useDebounce } from '@core/utils'
 import { API_IMAGE_LINK } from '@settings'
 
 import ContentLayer from './components/ContentLayer'

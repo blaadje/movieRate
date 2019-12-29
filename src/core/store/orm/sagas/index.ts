@@ -12,11 +12,13 @@ import {
   allowedTypes,
   insertResourcesByType,
   insertResourceByType,
+  MOVIE,
   RESOURCE_CREATE,
   RESOURCE_ERROR,
   RESOURCE_FETCHING,
   RESOURCE_FETCHING_MORE,
   RESOURCES_LOAD_FROM_DB,
+  TV,
 } from '../../constants'
 import { apiRequest, localRequest } from '../../request/'
 import { callList, createCache, getPreviousCallId, isCached } from './utils'
@@ -140,9 +142,14 @@ export default function* applicationSaga(): Iterator<any> {
     }
 
     try {
-      yield call(localRequest, resourceType, resource, {
-        method: 'POST',
-      })
+      yield call(
+        localRequest,
+        resourceType,
+        {
+          method: 'POST',
+        },
+        resource
+      )
 
       yield put({
         type: insertResourceByType(resourceType),
@@ -160,15 +167,29 @@ export default function* applicationSaga(): Iterator<any> {
   }
 
   function* handleLoadResourcesFromDb({ meta }: any) {
-    const result = yield call(localRequest, 'movie', {
-      method: 'GET',
-    })
+    function* getMovies() {
+      const result = yield call(localRequest, MOVIE, {
+        method: 'GET',
+      })
 
-    yield put({
-      type: insertResourcesByType('movie'),
-      result,
-      meta,
-    })
+      yield put({
+        type: insertResourcesByType(MOVIE),
+        result,
+        meta,
+      })
+    }
+    function* getTvs() {
+      const result = yield call(localRequest, TV, {
+        method: 'GET',
+      })
+
+      yield put({
+        type: insertResourcesByType(TV),
+        result,
+        meta,
+      })
+    }
+    yield all([getMovies(), getTvs()])
   }
 
   yield all([

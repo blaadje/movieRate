@@ -1,33 +1,29 @@
 import { remote } from 'electron'
+import low from 'lowdb'
+import FileSync from 'lowdb/adapters/FileSync'
 import path from 'path'
 
-import datastore from './datastore'
+const adapter = new FileSync(
+  path.join(remote.app.getPath('userData'), '/database.json')
+)
+const db: any = low(adapter)
 
-const db: any = {}
-db.movie = datastore({
-  filename: path.join(remote.app.getPath('userData'), '/movie.db'),
-  autoload: true,
-})
-db.tv = datastore({
-  filename: path.join(remote.app.getPath('userData'), '/tv.db'),
-  autoload: true,
-})
+db.defaults({ movie: [], tv: [] }).write()
 
 export default function request(
   resourceType: string,
   { method }: any,
   resource?: any
 ) {
-  const database = db[resourceType]
-
   switch (method) {
     case 'GET':
-      return database.find(resource)
+      return db.getState()[resourceType]
     case 'PUT':
-      return database.update(resource)
     case 'DELETE':
-      return database.delete(resource)
     case 'POST':
-      return database.insert(resource)
+      return db
+        .get(resourceType)
+        .push(resource)
+        .write()
   }
 }
