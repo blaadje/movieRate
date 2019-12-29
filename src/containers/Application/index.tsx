@@ -8,7 +8,6 @@ import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 
 import Sidebar from '@containers/Sidebar'
 import store from '@core/store'
-import { resourcesLoadFromDatabase } from '@core/store/actions'
 import loadable from '@loadable/component'
 
 import theme from './theme'
@@ -98,7 +97,6 @@ const App: React.FunctionComponent = () => {
   }
 
   React.useEffect(() => {
-    store.dispatch(resourcesLoadFromDatabase())
     // tslint:disable-next-line: no-floating-promises
     LoadFont()
   }, [])

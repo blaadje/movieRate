@@ -4,7 +4,6 @@ import {
   RESOURCE_EDIT,
   RESOURCE_FETCHING,
   RESOURCE_FETCHING_MORE,
-  RESOURCES_LOAD_FROM_DB,
   SET_FILTER,
 } from './constants'
 
@@ -54,13 +53,6 @@ export const resourceFetchMoreAction = (
     relationShip,
     resourceValues,
     options,
-    meta: { thunk: false },
-  }
-}
-
-export const resourcesLoadFromDatabase = () => {
-  return {
-    type: RESOURCES_LOAD_FROM_DB,
     meta: { thunk: false },
   }
 }

@@ -17,7 +17,6 @@ import {
   RESOURCE_ERROR,
   RESOURCE_FETCHING,
   RESOURCE_FETCHING_MORE,
-  RESOURCES_LOAD_FROM_DB,
   TV,
 } from '../../constants'
 import { apiRequest, localRequest } from '../../request/'
@@ -166,7 +165,7 @@ export default function* applicationSaga(): Iterator<any> {
     }
   }
 
-  function* handleLoadResourcesFromDb({ meta }: any) {
+  function* handleLoadResourcesFromDb() {
     function* getMovies() {
       const result = yield call(localRequest, MOVIE, {
         method: 'GET',
@@ -175,7 +174,6 @@ export default function* applicationSaga(): Iterator<any> {
       yield put({
         type: insertResourcesByType(MOVIE),
         result,
-        meta,
       })
     }
     function* getTvs() {
@@ -186,14 +184,13 @@ export default function* applicationSaga(): Iterator<any> {
       yield put({
         type: insertResourcesByType(TV),
         result,
-        meta,
       })
     }
     yield all([getMovies(), getTvs()])
   }
 
   yield all([
-    takeLatest(RESOURCES_LOAD_FROM_DB, handleLoadResourcesFromDb),
+    handleLoadResourcesFromDb(),
     takeLatest(RESOURCE_FETCHING, handleFetchResource),
     takeLatest(RESOURCE_FETCHING_MORE, handleFetchMoreResource),
     takeLatest(RESOURCE_CREATE, handleCreateResource),
