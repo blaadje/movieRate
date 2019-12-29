@@ -46,7 +46,10 @@ export default async function request(
       })
       .toString()
 
-    const { data } = await axios({ method, url: createUrl })
+    const { data } = await axios.request({
+      method,
+      url: createUrl,
+    })
 
     return data.results || data
   } catch (error) {

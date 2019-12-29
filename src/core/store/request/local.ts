@@ -13,10 +13,10 @@ db.tv = datastore({
   autoload: true,
 })
 
-export default async function request(
+export default function request(
   resourceType: string,
-  resource: any,
-  { method }: any
+  { method }: any,
+  resource?: any
 ) {
   const database = db[resourceType]
 

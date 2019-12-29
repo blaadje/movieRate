@@ -1,5 +1,5 @@
 import { applyMiddleware, compose, createStore } from 'redux'
-// import logger from 'redux-logger'
+import logger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
 import { middleware as thunkMiddleware } from 'redux-saga-thunk'
 
@@ -12,7 +12,7 @@ const store = createStore(
   reducer,
   {},
   compose(
-    applyMiddleware(thunkMiddleware, sagaMiddleware),
+    applyMiddleware(thunkMiddleware, sagaMiddleware, logger),
     (window as any).__REDUX_DEVTOOLS_EXTENSION__ &&
       (window as any).__REDUX_DEVTOOLS_EXTENSION__()
   )

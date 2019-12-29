@@ -7596,13 +7596,6 @@ promise-inflight@^1.0.1:
   resolved "https://registry.yarnpkg.com/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
   integrity sha1-mEcocL8igTL8vdhoEputEsPAKeM=
 
-promisify@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/promisify/-/promisify-0.0.3.tgz#754db61f29ee6476ab543c45b464d21f5ef55686"
-  integrity sha1-dU22HynuZHarVDxFtGTSH171VoY=
-  dependencies:
-    when ""
-
 prompts@^2.0.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/prompts/-/prompts-2.2.1.tgz#f901dd2a2dfee080359c0e20059b24188d75ad35"
@@ -8031,6 +8024,11 @@ realpath-native@^1.1.0:
   integrity sha512-wlgPA6cCIIg9gKz0fgAPjnzh4yR/LnXovwuo9hvyGvx3h8nX4+/iLZplfUWasXpqD8BdnGnP5njOFjkUwPzvjA==
   dependencies:
     util.promisify "^1.0.0"
+
+redux-async-initial-state@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/redux-async-initial-state/-/redux-async-initial-state-0.3.0.tgz#65cff4e4761e3f43df6da5dff84eb5477f09f8a3"
+  integrity sha512-Is+i60mt0eDG64xICQFej7nueSF0ZHozPLINr7KqQk2Yp04zTmPEIY6xJmBEyaz7tmWtFoVeYqfKqt7gMSSKhA==
 
 redux-logger@^3.0.6:
   version "3.0.6"
@@ -10057,11 +10055,6 @@ whatwg-url@^7.0.0:
     lodash.sortby "^4.7.0"
     tr46 "^1.0.1"
     webidl-conversions "^4.0.2"
-
-when@:
-  version "3.7.8"
-  resolved "https://registry.yarnpkg.com/when/-/when-3.7.8.tgz#c7130b6a7ea04693e842cdc9e7a1f2aa39a39f82"
-  integrity sha1-xxMLan6gRpPoQs3J56Hyqjmjn4I=
 
 which-module@^2.0.0:
   version "2.0.0"

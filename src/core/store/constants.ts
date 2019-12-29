@@ -28,10 +28,13 @@ export const RESOURCE_FETCHING_MORE: string = 'API/RESOURCE_FETCHING_MORE'
 export const RESOURCE_EDIT: string = 'LOCAL/RESOURCE_EDIT'
 export const RESOURCE_CREATE: string = 'LOCAL/RESOURCE_CREATE'
 export const RESOURCE_ERROR: string = 'ALL/RESOURCE_ERROR'
+export const RESOURCES_LOAD_FROM_DB: string = 'LOCAL/RESOURCES_LOAD'
 export const insertResourceByType = (resourceType: allowedTypes) =>
   `RESOURCE_INSERT_${resourceType.toUpperCase()}`
 export const createResourceByType = (resourceType: allowedTypes) =>
   `LOCAL/RESOURCE_CREATE_${resourceType.toUpperCase()}`
+export const insertResourcesByType = (resourceType: allowedTypes) =>
+  `LOCAL/RESOURCES_CREATE_${resourceType.toUpperCase()}`
 
 // FILTERS
 export const SET_FILTER: string = 'filter'

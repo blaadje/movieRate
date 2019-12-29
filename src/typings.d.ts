@@ -17,6 +17,7 @@ declare module 'react-inlinesvg' {
   const value: any
   export default value
 }
+
 declare module 'es6-promisify' {
   const promisify: any
   export { promisify }

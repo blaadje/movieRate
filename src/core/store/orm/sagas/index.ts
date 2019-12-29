@@ -10,11 +10,13 @@ import {
 
 import {
   allowedTypes,
+  insertResourcesByType,
   insertResourceByType,
   RESOURCE_CREATE,
   RESOURCE_ERROR,
   RESOURCE_FETCHING,
   RESOURCE_FETCHING_MORE,
+  RESOURCES_LOAD_FROM_DB,
 } from '../../constants'
 import { apiRequest, localRequest } from '../../request/'
 import { callList, createCache, getPreviousCallId, isCached } from './utils'
@@ -67,22 +69,18 @@ export default function* applicationSaga(): Iterator<any> {
           type: insertResourceByType(resourceType),
           relationShip,
           resourceValues,
-          item: result,
+          result,
           meta,
         })
       }
 
       if (relationShip) {
-        for (let index = 0; index < result.length - 1; index++) {
-          const item = result[index]
-
-          yield put({
-            type: insertResourceByType(relationShip),
-            relationShip: resourceType,
-            resourceId,
-            item,
-          })
-        }
+        yield put({
+          type: insertResourcesByType(relationShip),
+          relationShip: resourceType,
+          resourceId,
+          result,
+        })
       }
     } catch (error) {
       yield put({
@@ -119,7 +117,7 @@ export default function* applicationSaga(): Iterator<any> {
 
     if (resourceValueToUpdate && avoidMakeCall) {
       return yield put({
-        type: insertResourceByType(resourceType),
+        type: insertResourcesByType(resourceType),
         relationShip,
         resourceValues,
         meta,
@@ -148,7 +146,7 @@ export default function* applicationSaga(): Iterator<any> {
 
       yield put({
         type: insertResourceByType(resourceType),
-        item: resource,
+        result: resource,
         meta,
       })
     } catch (error) {
@@ -161,7 +159,20 @@ export default function* applicationSaga(): Iterator<any> {
     }
   }
 
+  function* handleLoadResourcesFromDb({ meta }: any) {
+    const result = yield call(localRequest, 'movie', {
+      method: 'GET',
+    })
+
+    yield put({
+      type: insertResourcesByType('movie'),
+      result,
+      meta,
+    })
+  }
+
   yield all([
+    takeLatest(RESOURCES_LOAD_FROM_DB, handleLoadResourcesFromDb),
     takeLatest(RESOURCE_FETCHING, handleFetchResource),
     takeLatest(RESOURCE_FETCHING_MORE, handleFetchMoreResource),
     takeLatest(RESOURCE_CREATE, handleCreateResource),

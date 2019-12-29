@@ -10,30 +10,32 @@ import {
   TRENDING,
   TV,
 } from '../constants'
-import { ORMModels } from './model'
 
 export interface FilterProps {
   value: string | number | [] | null
   label?: string
 }
 
-const createDefaultState = ({ Filter, Genre }: ORMModels) => {
-  const rateFilter: FilterProps = {
-    value: 1,
-  }
+const rateFilter: FilterProps = {
+  value: 1,
+}
 
-  const genreFilter: { [resourceType: string]: FilterProps } = {
-    [MOVIE]: {
-      value: [],
-    },
-    [TV]: {
-      value: [],
-    },
-  }
+const genreFilter: { [resourceType: string]: FilterProps } = {
+  [MOVIE]: {
+    value: [],
+  },
+  [TV]: {
+    value: [],
+  },
+}
 
-  const yearfilter: FilterProps = {
-    value: null,
-  }
+const yearfilter: FilterProps = {
+  value: null,
+}
+
+const createDefaultState = (localOrm: any) => {
+  const state = localOrm.getEmptyState()
+  const { Filter, Genre } = localOrm.mutableSession(state)
 
   Filter.create({ type: DISCOVER, ...MOVIES_FILTER })
   Filter.create({ type: TRENDING, ...MOVIES_FILTER })
@@ -41,6 +43,8 @@ const createDefaultState = ({ Filter, Genre }: ORMModels) => {
   Filter.create({ type: GENRE, ...genreFilter })
   Filter.create({ type: 'year', ...yearfilter })
   genres.forEach(genre => Genre.create(genre))
+
+  return state
 }
 
 function defaultUpdater(session: any, action: object) {
@@ -52,13 +56,9 @@ function defaultUpdater(session: any, action: object) {
 }
 
 function createReducer(orm: any, updater = defaultUpdater) {
-  return (state: any, action: object) => {
-    const session = orm.session(state || orm.getEmptyState())
+  return (state: any, action: any) => {
+    const session = orm.session(state || createDefaultState(orm))
 
-    // if there's no db yet we generate our default models
-    if (!state) {
-      createDefaultState(session)
-    }
     updater(session, action)
     return session.state
   }

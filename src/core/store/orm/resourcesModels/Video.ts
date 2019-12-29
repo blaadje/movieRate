@@ -1,25 +1,27 @@
 import Model, { fk } from 'redux-orm'
 
-import { insertResourceByType, VIDEO } from '@core/store/constants'
+import { insertResourcesByType, VIDEO } from '@core/store/constants'
 
 interface ActionProps {
   type: string
-  item: any
+  result: any
   resourceId: number
   relationShip: string
 }
 
 export default class Video extends Model<typeof Video, VideoItem> {
   static reducer(
-    { type, item, resourceId, relationShip }: ActionProps,
+    { type, result, resourceId, relationShip }: ActionProps,
     Video: any
   ): any {
     switch (type) {
-      case insertResourceByType(VIDEO):
-        Video.upsert({
-          ...item,
-          [`${relationShip}Id`]: resourceId,
-        })
+      case insertResourcesByType(VIDEO):
+        const createVideo = (video: any) =>
+          Video.upsert({
+            ...video,
+            [`${relationShip}Id`]: resourceId,
+          })
+        return result.forEach(createVideo)
     }
   }
 }

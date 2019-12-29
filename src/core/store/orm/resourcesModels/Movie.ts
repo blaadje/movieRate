@@ -1,40 +1,41 @@
-import { capitalize } from 'lodash'
+import { capitalize, result } from 'lodash'
 import { fk, many, Model } from 'redux-orm'
 
 import {
   allowedTypes,
+  insertResourcesByType,
   insertResourceByType,
   MOVIE,
 } from '@core/store/constants'
 
 interface ActionProps {
   type: string
-  item: any
+  result: any
   relationShip?: string
 }
 
 export default class Movie extends Model<typeof Movie, MovieItem> {
   static reducer(
-    { type, item, relationShip }: ActionProps,
+    { type, result, relationShip }: ActionProps,
     Movie: any,
     session: any
   ) {
     switch (type) {
       case insertResourceByType(MOVIE):
-        const movieExist = Movie.idExists(item.id)
+        const movieExist = Movie.idExists(result.id)
 
         if (movieExist) {
-          return Movie.withId(item.id).update(item)
+          return Movie.withId(result.id).update(result)
         }
 
         const fetchedMovie = {
-          ...item,
+          ...result,
           personal_vote: null,
           comment: '',
-          vote_average: Math.round(item?.vote_average / 2),
+          vote_average: Math.round(result?.vote_average / 2),
         }
 
-        Movie.create(
+        return Movie.create(
           relationShip
             ? {
                 ...fetchedMovie,
@@ -43,6 +44,26 @@ export default class Movie extends Model<typeof Movie, MovieItem> {
               }
             : fetchedMovie
         )
+      case insertResourcesByType(MOVIE):
+        const createMovie = (fetchedMovie: any) => {
+          const movie = {
+            ...fetchedMovie,
+            vote_average: Math.round(fetchedMovie.vote_average / 2),
+          }
+
+          Movie.upsert(
+            relationShip
+              ? {
+                  ...movie,
+                  [`${relationShip}Id`]: session[
+                    capitalize(relationShip)
+                  ].last().id,
+                }
+              : movie
+          )
+        }
+
+        return result.forEach(createMovie)
     }
   }
 }

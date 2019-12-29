@@ -76,7 +76,7 @@ const Date = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.XS};
 `
 
-const Gradient = styled.div`
+const Gradient: any = styled.div`
   ${({ theme, isRated }: any) =>
     css`
       border: ${isRated
@@ -120,6 +120,7 @@ const MovieBlock: React.FunctionComponent<Iprops> = (
 
   const curentMovie: any = videos?.[movie.id]?.[0]
   const movieLink = curentMovie && curentMovie.key
+  const isRated = Boolean(movie.personal_vote)
 
   return (
     <Wrapper
@@ -130,7 +131,7 @@ const MovieBlock: React.FunctionComponent<Iprops> = (
       isOptionsLayerOpened={isOptionsLayerOpened}
       {...rest}
     >
-      <Gradient isRated={Boolean(movie.personal_vote)}>
+      <Gradient isRated={isRated}>
         <Description className="description">
           <Title>{movie.original_title || movie.name}</Title>
           <Date>{movie.release_date || movie.first_air_date}</Date>
