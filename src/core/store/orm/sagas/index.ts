@@ -14,6 +14,7 @@ import {
   insertResourceByType,
   MOVIE,
   RESOURCE_CREATE,
+  RESOURCE_EDIT,
   RESOURCE_ERROR,
   RESOURCE_FETCHING,
   RESOURCE_FETCHING_MORE,
@@ -165,6 +166,37 @@ export default function* applicationSaga(): Iterator<any> {
     }
   }
 
+  function* handleEditResource(params: any) {
+    const { ignoreCall, resourceType, resource, meta } = params
+    if (isCached(params) || ignoreCall) {
+      return
+    }
+
+    try {
+      yield call(
+        localRequest,
+        resourceType,
+        {
+          method: 'PUT',
+        },
+        resource
+      )
+
+      yield put({
+        type: insertResourceByType(resourceType),
+        result: resource,
+        meta,
+      })
+    } catch (error) {
+      yield put({
+        type: RESOURCE_ERROR,
+        error: true,
+        payload: error,
+        meta,
+      })
+    }
+  }
+
   function* handleLoadResourcesFromDb() {
     function* getMovies() {
       const result = yield call(localRequest, MOVIE, {
@@ -194,5 +226,6 @@ export default function* applicationSaga(): Iterator<any> {
     takeLatest(RESOURCE_FETCHING, handleFetchResource),
     takeLatest(RESOURCE_FETCHING_MORE, handleFetchMoreResource),
     takeLatest(RESOURCE_CREATE, handleCreateResource),
+    takeLatest(RESOURCE_EDIT, handleEditResource),
   ])
 }

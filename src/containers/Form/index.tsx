@@ -9,7 +9,7 @@ import Icon from '@components/Icon'
 import Rate from '@components/Rate'
 import Textarea from '@components/Textarea'
 import { resourceCreateAction, resourceEditAction } from '@core/store/actions'
-import { allowedTypes, MOVIE } from '@core/store/constants'
+import { allowedTypes } from '@core/store/constants'
 import { MovieItem } from '@core/store/orm/resourcesModels/Movie'
 
 interface Iprops {
@@ -43,10 +43,11 @@ const Form: React.FunctionComponent<Iprops> = ({
 }) => {
   const [comment, setComment] = React.useState('')
   const [rate, setRate] = React.useState(0)
+
   const submit = (event: any) => {
     event.preventDefault()
     const updatedMovie = { ...movie }
-    const resourceNotInDb = !movie.personal_vote
+    const resourceNotInDb = !movie.personal_vote && !movie.comment
     updatedMovie.personal_vote = rate
     updatedMovie.comment = comment
 
@@ -57,18 +58,23 @@ const Form: React.FunctionComponent<Iprops> = ({
     resourceEdit(movie.media_type, updatedMovie)
   }
 
+  React.useEffect(() => {
+    setComment(movie.comment)
+    setRate(movie.personal_vote)
+  }, [])
+
   return (
     <Wrapper onSubmit={submit}>
       <Rate
         readonly={false}
-        rate={movie.personal_vote || rate}
+        rate={rate}
         onClick={(value: any) => setRate(value)}
       />
       <Divider />
       <>
         <Title>Description</Title>
         <StyledTextarea
-          value={movie.comment || comment}
+          value={comment}
           onChange={({ target }: any) => setComment(target.value)}
           placeholder="Put what you think about the movie here..."
         />

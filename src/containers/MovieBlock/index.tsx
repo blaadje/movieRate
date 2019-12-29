@@ -120,7 +120,7 @@ const MovieBlock: React.FunctionComponent<Iprops> = (
 
   const curentMovie: any = videos?.[movie.id]?.[0]
   const movieLink = curentMovie && curentMovie.key
-  const isRated = Boolean(movie.personal_vote)
+  const isRated = Boolean(movie.personal_vote || movie.comment)
 
   return (
     <Wrapper

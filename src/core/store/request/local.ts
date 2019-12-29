@@ -19,6 +19,11 @@ export default function request(
     case 'GET':
       return db.getState()[resourceType]
     case 'PUT':
+      return db
+        .get(resourceType)
+        .find({ id: resource.id })
+        .assign(resource)
+        .write()
     case 'DELETE':
     case 'POST':
       return db
