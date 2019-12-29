@@ -8,23 +8,27 @@ import {
   PutEffect,
 } from 'redux-saga/effects'
 
-import { uuid } from '@core/utils'
-
 import {
   allowedTypes,
-  createResourceByType,
+  insertResourcesByType,
+  insertResourceByType,
+  MOVIE,
+  RESOURCE_CREATE,
+  RESOURCE_EDIT,
   RESOURCE_ERROR,
   RESOURCE_FETCHING,
   RESOURCE_FETCHING_MORE,
-} from '../constants'
-import request from '../request'
+  TV,
+} from '../../constants'
+import { apiRequest, localRequest } from '../../request/'
+import { callList, createCache, getPreviousCallId, isCached } from './utils'
 
 interface OptionsProp {
   parameter?: string
   queries?: object
 }
 
-interface ApiFetchProps {
+export interface ApiFetchProps {
   type: string
   fetchMore: boolean
   resourceType: allowedTypes
@@ -37,14 +41,6 @@ interface ApiFetchProps {
   id?: string
   options?: OptionsProp
   meta: object
-}
-
-interface CallListProps {
-  [id: string]: {
-    page: number
-    params: object
-    id: string
-  }
 }
 
 export default function* applicationSaga(): Iterator<any> {
@@ -64,14 +60,15 @@ export default function* applicationSaga(): Iterator<any> {
     const { parameter, queries } = options
 
     try {
-      const result = yield call(request, resourceType, {
+      const result: any = yield call(apiRequest, resourceType, {
+        method: 'GET',
         segment: { parameter, relationShip, resourceId, relationShipId },
         queries,
-      })
+      }) || []
 
       if (createResource) {
         yield put({
-          type: createResourceByType(resourceType),
+          type: insertResourceByType(resourceType),
           relationShip,
           resourceValues,
           result,
@@ -81,7 +78,7 @@ export default function* applicationSaga(): Iterator<any> {
 
       if (relationShip) {
         yield put({
-          type: createResourceByType(relationShip),
+          type: insertResourcesByType(relationShip),
           relationShip: resourceType,
           resourceId,
           result,
@@ -97,43 +94,8 @@ export default function* applicationSaga(): Iterator<any> {
     }
   }
 
-  const requestCallParams: object[] = []
-
-  const compareObjects = (firstObject: object, secondObject: object) =>
-    JSON.stringify(firstObject) === JSON.stringify(secondObject)
-
-  const isCached = (params: ApiFetchProps): any =>
-    requestCallParams.some((item: any) => compareObjects(item, params))
-
-  const createCache = (params: ApiFetchProps) => requestCallParams.push(params)
-
-  const callList: CallListProps = {}
-
   function* handleFetchMoreResource(params: ApiFetchProps) {
-    const getPreviousCallId = (): string => {
-      const [previousCallId]: any = Object.entries(
-        callList
-      ).find(([key, value]) => compareObjects(value.params, params)) || [false]
-
-      if (!previousCallId) {
-        const id = uuid()
-        const initialPage = 2
-
-        callList[id] = {
-          page: initialPage,
-          params,
-          id,
-        }
-
-        return id
-      }
-
-      callList[previousCallId].page = callList[previousCallId].page + 1
-
-      return previousCallId
-    }
-
-    const { page } = callList[getPreviousCallId()]
+    const { page } = callList[getPreviousCallId(params)]
 
     yield makeCall({
       ...params,
@@ -157,7 +119,7 @@ export default function* applicationSaga(): Iterator<any> {
 
     if (resourceValueToUpdate && avoidMakeCall) {
       return yield put({
-        type: createResourceByType(resourceType),
+        type: insertResourcesByType(resourceType),
         relationShip,
         resourceValues,
         meta,
@@ -173,8 +135,97 @@ export default function* applicationSaga(): Iterator<any> {
     createCache(params)
   }
 
+  function* handleCreateResource(params: any) {
+    const { ignoreCall, resourceType, resource, meta } = params
+    if (isCached(params) || ignoreCall) {
+      return
+    }
+
+    try {
+      yield call(
+        localRequest,
+        resourceType,
+        {
+          method: 'POST',
+        },
+        resource
+      )
+
+      yield put({
+        type: insertResourceByType(resourceType),
+        result: resource,
+        meta,
+      })
+    } catch (error) {
+      yield put({
+        type: RESOURCE_ERROR,
+        error: true,
+        payload: error,
+        meta,
+      })
+    }
+  }
+
+  function* handleEditResource(params: any) {
+    const { ignoreCall, resourceType, resource, meta } = params
+    if (isCached(params) || ignoreCall) {
+      return
+    }
+
+    try {
+      yield call(
+        localRequest,
+        resourceType,
+        {
+          method: 'PUT',
+        },
+        resource
+      )
+
+      yield put({
+        type: insertResourceByType(resourceType),
+        result: resource,
+        meta,
+      })
+    } catch (error) {
+      yield put({
+        type: RESOURCE_ERROR,
+        error: true,
+        payload: error,
+        meta,
+      })
+    }
+  }
+
+  function* handleLoadResourcesFromDb() {
+    function* getMovies() {
+      const result = yield call(localRequest, MOVIE, {
+        method: 'GET',
+      })
+
+      yield put({
+        type: insertResourcesByType(MOVIE),
+        result,
+      })
+    }
+    function* getTvs() {
+      const result = yield call(localRequest, TV, {
+        method: 'GET',
+      })
+
+      yield put({
+        type: insertResourcesByType(TV),
+        result,
+      })
+    }
+    yield all([getMovies(), getTvs()])
+  }
+
   yield all([
+    handleLoadResourcesFromDb(),
     takeLatest(RESOURCE_FETCHING, handleFetchResource),
     takeLatest(RESOURCE_FETCHING_MORE, handleFetchMoreResource),
+    takeLatest(RESOURCE_CREATE, handleCreateResource),
+    takeLatest(RESOURCE_EDIT, handleEditResource),
   ])
 }

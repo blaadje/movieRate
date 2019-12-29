@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { Method } from 'axios'
 
 import { API_BASE_URL, API_KEY } from '@settings'
 
@@ -10,6 +10,7 @@ interface SegmentProps {
 }
 
 export interface RequestOptionsProps {
+  method: Method
   segment: SegmentProps
   queries?: object
 }
@@ -17,6 +18,7 @@ export interface RequestOptionsProps {
 export default async function request(
   resourceType: string,
   {
+    method,
     segment: {
       parameter = '',
       relationShip = '',
@@ -44,7 +46,10 @@ export default async function request(
       })
       .toString()
 
-    const { data } = await axios.get(createUrl)
+    const { data } = await axios.request({
+      method,
+      url: createUrl,
+    })
 
     return data.results || data
   } catch (error) {

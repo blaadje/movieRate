@@ -1,6 +1,6 @@
 import Model from 'redux-orm'
 
-import { createResourceByType, DISCOVER } from '@core/store/constants'
+import { insertResourceByType, DISCOVER } from '@core/store/constants'
 
 interface ActionProps {
   type: string
@@ -11,7 +11,7 @@ interface ActionProps {
 export default class Discover extends Model<typeof Discover> {
   static reducer({ type }: ActionProps, Discover: any) {
     switch (type) {
-      case createResourceByType(DISCOVER):
+      case insertResourceByType(DISCOVER):
         if (Discover.idExists(0)) {
           return
         }

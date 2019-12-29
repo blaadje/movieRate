@@ -6,12 +6,13 @@ import { Provider } from 'react-redux'
 import { Route } from 'react-router-dom'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 
-// import ErrorManager from '@containers/ErrorManager'
 import Sidebar from '@containers/Sidebar'
 import store from '@core/store'
 import loadable from '@loadable/component'
 
 import theme from './theme'
+
+// import ErrorManager from '@containers/ErrorManager'
 
 const Trending = loadable(() => import('@views/Trending'))
 const Discover = loadable(() => import('@views/Discover'))

@@ -8,10 +8,14 @@ import Divider from '@components/Divider'
 import Icon from '@components/Icon'
 import Rate from '@components/Rate'
 import Textarea from '@components/Textarea'
+import { resourceCreateAction, resourceEditAction } from '@core/store/actions'
+import { allowedTypes } from '@core/store/constants'
+import { MovieItem } from '@core/store/orm/resourcesModels/Movie'
 
 interface Iprops {
-  dispatch: (Object: any) => void
-  movie: any
+  resourceEdit: (resourceType: allowedTypes, resource: any) => void
+  resourceCreate: (resourceType: allowedTypes, resource: any) => void
+  movie: MovieItem
 }
 
 const Wrapper = styled.form`
@@ -32,15 +36,46 @@ const StyledButton = styled(Button)`
   width: 100%;
 `
 
-const Form: React.FunctionComponent<Iprops> = ({ movie }) => {
+const Form: React.FunctionComponent<Iprops> = ({
+  movie,
+  resourceEdit,
+  resourceCreate,
+}) => {
+  const [comment, setComment] = React.useState('')
+  const [rate, setRate] = React.useState(0)
+
+  const submit = (event: any) => {
+    event.preventDefault()
+    const updatedMovie = { ...movie }
+    const resourceNotInDb = !movie.personal_vote && !movie.comment
+    updatedMovie.personal_vote = rate
+    updatedMovie.comment = comment
+
+    if (resourceNotInDb) {
+      return resourceCreate(movie.media_type, updatedMovie)
+    }
+
+    resourceEdit(movie.media_type, updatedMovie)
+  }
+
+  React.useEffect(() => {
+    setComment(movie.comment)
+    setRate(movie.personal_vote)
+  }, [])
+
   return (
-    <Wrapper>
-      <Rate readonly={false} rate={movie.rate} />
+    <Wrapper onSubmit={submit}>
+      <Rate
+        readonly={false}
+        rate={rate}
+        onClick={(value: any) => setRate(value)}
+      />
       <Divider />
       <>
         <Title>Description</Title>
         <StyledTextarea
-          value={movie.description}
+          value={comment}
+          onChange={({ target }: any) => setComment(target.value)}
           placeholder="Put what you think about the movie here..."
         />
 
@@ -52,4 +87,15 @@ const Form: React.FunctionComponent<Iprops> = ({ movie }) => {
   )
 }
 
-export default connect()(Form)
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    resourceEdit: (resourceType: allowedTypes, resource: any) => {
+      dispatch(resourceEditAction(resourceType, resource))
+    },
+    resourceCreate: (resourceType: allowedTypes, resource: any) => {
+      dispatch(resourceCreateAction(resourceType, resource))
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Form)

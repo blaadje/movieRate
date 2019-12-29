@@ -1,11 +1,16 @@
-import { capitalize } from 'lodash'
+import { capitalize, result } from 'lodash'
 import { fk, many, Model } from 'redux-orm'
 
-import { createResourceByType, MOVIE } from '@core/store/constants'
+import {
+  allowedTypes,
+  insertResourcesByType,
+  insertResourceByType,
+  MOVIE,
+} from '@core/store/constants'
 
 interface ActionProps {
   type: string
-  result: object[]
+  result: any
   relationShip?: string
 }
 
@@ -16,10 +21,32 @@ export default class Movie extends Model<typeof Movie, MovieItem> {
     session: any
   ) {
     switch (type) {
-      case createResourceByType(MOVIE):
+      case insertResourceByType(MOVIE):
+        const movieExist = Movie.idExists(result.id)
+
+        if (movieExist) {
+          return Movie.withId(result.id).update(result)
+        }
+
+        const fetchedMovie = {
+          ...result,
+          personal_vote: null,
+          comment: '',
+          vote_average: Math.round(result?.vote_average / 2),
+        }
+
+        return Movie.create(
+          relationShip
+            ? {
+                ...fetchedMovie,
+                [`${relationShip}Id`]: session[capitalize(relationShip)]?.last()
+                  ?.id,
+              }
+            : fetchedMovie
+        )
+      case insertResourcesByType(MOVIE):
         const createMovie = (fetchedMovie: any) => {
-          const relationShipId = session[capitalize(relationShip)].last().id
-          const item = {
+          const movie = {
             ...fetchedMovie,
             vote_average: Math.round(fetchedMovie.vote_average / 2),
           }
@@ -27,10 +54,12 @@ export default class Movie extends Model<typeof Movie, MovieItem> {
           Movie.upsert(
             relationShip
               ? {
-                  ...item,
-                  [`${relationShip}Id`]: relationShipId,
+                  ...movie,
+                  [`${relationShip}Id`]: session[
+                    capitalize(relationShip)
+                  ].last().id,
                 }
-              : item
+              : movie
           )
         }
 
@@ -48,10 +77,13 @@ export interface MovieItem {
   original_title: string
   overview: string
   popularity: number
+  media_type: allowedTypes
   poster_path: string
   release_date: Date
   title: string
   video: boolean
+  comment: string
+  personal_vote: number
   vote_average: number
   vote_count: number
   discoverId: number

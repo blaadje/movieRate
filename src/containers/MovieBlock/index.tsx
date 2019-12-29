@@ -1,3 +1,4 @@
+import { darken, linearGradient, rgba } from 'polished'
 import rem from 'polished/lib/helpers/rem'
 import * as React from 'react'
 import { connect } from 'react-redux'
@@ -6,19 +7,18 @@ import styled, { css } from 'styled-components'
 import Image from '@components/Image'
 import Rate from '@components/Rate'
 import { resourceFetchAction } from '@core/store/actions'
-import { VIDEO } from '@core/store/constants'
+import { allowedTypes, VIDEO } from '@core/store/constants'
 import { movieVideos } from '@core/store/selectors'
-import { calculatePourcentageFromScale, useDebounce } from '@core/utils'
+import { calculatePourcentageFromScale, sleep, useDebounce } from '@core/utils'
 import { API_IMAGE_LINK } from '@settings'
 
 import ContentLayer from './components/ContentLayer'
-import { linearGradient, rgba, darken } from 'polished'
 
 interface Iprops extends React.HTMLAttributes<any> {
   movie: any
   videos?: []
   filterId: number
-  resourceType: string
+  resourceType: allowedTypes
   onMouseEnter?: () => void
 }
 
@@ -76,9 +76,12 @@ const Date = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.XS};
 `
 
-const Gradient = styled.div`
-  ${({ theme }: any) =>
+const Gradient: any = styled.div`
+  ${({ theme, isRated }: any) =>
     css`
+      border: ${isRated
+        ? `6px solid ${rgba(theme.colors.highlight, 0.3)}`
+        : 'none'}};
       width: 100%;
       height: 100%;
       ${linearGradient({
@@ -117,6 +120,7 @@ const MovieBlock: React.FunctionComponent<Iprops> = (
 
   const curentMovie: any = videos?.[movie.id]?.[0]
   const movieLink = curentMovie && curentMovie.key
+  const isRated = Boolean(movie.personal_vote || movie.comment)
 
   return (
     <Wrapper
@@ -127,7 +131,7 @@ const MovieBlock: React.FunctionComponent<Iprops> = (
       isOptionsLayerOpened={isOptionsLayerOpened}
       {...rest}
     >
-      <Gradient>
+      <Gradient isRated={isRated}>
         <Description className="description">
           <Title>{movie.original_title || movie.name}</Title>
           <Date>{movie.release_date || movie.first_air_date}</Date>
@@ -160,9 +164,8 @@ const mapDispatchToProps = (
 ) => ({
   onMouseEnter: () =>
     dispatch(
-      resourceFetchAction({
+      resourceFetchAction(resourceType, {
         createResource: false,
-        resourceType: resourceType,
         resourceId: movie.id,
         relationShip: VIDEO,
       })

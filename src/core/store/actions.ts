@@ -1,4 +1,7 @@
 import {
+  allowedTypes,
+  RESOURCE_CREATE,
+  RESOURCE_EDIT,
   RESOURCE_FETCHING,
   RESOURCE_FETCHING_MORE,
   SET_FILTER,
@@ -6,7 +9,6 @@ import {
 
 export interface ResourceFetchParams {
   createResource?: boolean
-  resourceType: string
   relationShip?: string
   resourceId?: number
   relationShipId?: number
@@ -15,16 +17,18 @@ export interface ResourceFetchParams {
   options?: object
 }
 
-export const resourceFetchAction = ({
-  resourceType,
-  resourceId,
-  resourceValues,
-  relationShip,
-  relationShipId,
-  ignoreCall,
-  createResource = true,
-  options = {},
-}: ResourceFetchParams): object => {
+export const resourceFetchAction = (
+  resourceType: allowedTypes,
+  {
+    resourceId,
+    resourceValues,
+    relationShip,
+    relationShipId,
+    ignoreCall,
+    createResource = true,
+    options = {},
+  }: ResourceFetchParams
+): object => {
   return {
     type: RESOURCE_FETCHING,
     resourceType,
@@ -35,27 +39,45 @@ export const resourceFetchAction = ({
     relationShipId: relationShipId && String(relationShipId),
     ignoreCall,
     options,
-    meta: {
-      thunk: false,
-    },
+    meta: { thunk: false },
   }
 }
 
-export const resourceFetchMoreAction = ({
-  resourceType,
-  relationShip,
-  resourceValues,
-  options = {},
-}: ResourceFetchParams): object => {
+export const resourceFetchMoreAction = (
+  resourceType: allowedTypes,
+  { relationShip, resourceValues, options = {} }: ResourceFetchParams
+): object => {
   return {
     type: RESOURCE_FETCHING_MORE,
     resourceType,
     relationShip,
     resourceValues,
     options,
-    meta: {
-      thunk: false,
-    },
+    meta: { thunk: false },
+  }
+}
+
+export const resourceCreateAction = (
+  resourceType: allowedTypes,
+  resource: any
+) => {
+  return {
+    type: RESOURCE_CREATE,
+    resourceType,
+    resource,
+    meta: { thunk: false },
+  }
+}
+
+export const resourceEditAction = (
+  resourceType: allowedTypes,
+  resource: object
+) => {
+  return {
+    type: RESOURCE_EDIT,
+    resourceType,
+    resource,
+    meta: { thunk: false },
   }
 }
 

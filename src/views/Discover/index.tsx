@@ -14,6 +14,7 @@ import {
   ResourceFetchParams,
 } from '@core/store/actions'
 import {
+  allowedTypes,
   DISCOVER,
   DISCOVER_FILTER_ID,
   GENRE_FILTER_ID,
@@ -78,14 +79,20 @@ interface Iprops {
   movies: MovieItem[]
   genres: GenreItem[]
   resourceFilter: {
-    value: string
+    value: allowedTypes
     label: string
   }
   yearFilter: null | number
   genreFilter: []
   rateFilter: number
-  resourceFetch: (params: ResourceFetchParams) => void
-  resourceFetchMore: (params: ResourceFetchParams) => void
+  resourceFetch: (
+    resourceType: allowedTypes,
+    options: ResourceFetchParams
+  ) => void
+  resourceFetchMore: (
+    resourceType: allowedTypes,
+    options: ResourceFetchParams
+  ) => void
   setFilter: (Object: object, filterId: number) => void
 }
 
@@ -117,8 +124,7 @@ const Discover: React.FunctionComponent<Iprops> = ({
 
   React.useEffect(
     () =>
-      resourceFetch({
-        resourceType: DISCOVER,
+      resourceFetch(DISCOVER, {
         relationShip: resourceFilter.value,
         options: {
           queries,
@@ -144,8 +150,7 @@ const Discover: React.FunctionComponent<Iprops> = ({
   const loadMore = () => {
     const isSearching = Boolean(searchQuery)
 
-    resourceFetchMore({
-      resourceType: isSearching ? SEARCH : DISCOVER,
+    resourceFetchMore(isSearching ? SEARCH : DISCOVER, {
       relationShip: resourceFilter.value,
       ...(isSearching && { resourceValues: { query: searchQuery } }),
       options: {
@@ -189,8 +194,7 @@ const Discover: React.FunctionComponent<Iprops> = ({
 
   const handleSearch = (value: string) => {
     setSearchQuery(value)
-    resourceFetch({
-      resourceType: SEARCH,
+    resourceFetch(SEARCH, {
       relationShip: resourceFilter.value,
       resourceValues: { query: value },
       ignoreCall: !Boolean(value),
@@ -277,11 +281,17 @@ const Discover: React.FunctionComponent<Iprops> = ({
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    resourceFetch: (params: any) => {
-      dispatch(resourceFetchAction(params))
+    resourceFetch: (
+      resourceType: allowedTypes,
+      options: ResourceFetchParams
+    ) => {
+      dispatch(resourceFetchAction(resourceType, options))
     },
-    resourceFetchMore: (params: any) => {
-      dispatch(resourceFetchMoreAction(params))
+    resourceFetchMore: (
+      resourceType: allowedTypes,
+      options: ResourceFetchParams
+    ) => {
+      dispatch(resourceFetchMoreAction(resourceType, options))
     },
     setFilter: (filterBy: object, filterId: number) => {
       dispatch(setFilterAction(filterBy, filterId))
