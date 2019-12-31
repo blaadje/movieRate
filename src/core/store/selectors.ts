@@ -74,7 +74,7 @@ export const discoverResources = createSelector(
           byName(movie) && byRate(movie) && byGenre(movie) && byYear(movie)
       )
       .sort(
-        (a: any, b: any) => new Date(b.release_date) < new Date(a.release_date)
+        (a: any, b: any) => new Date(b.release_date) - new Date(a.release_date)
       )
   }
 )
@@ -106,7 +106,15 @@ export const trendingResources = createSelector(
   orm,
   activeFilter,
   ({ Trending }: any, filter: any) =>
-    Trending.first() ? Trending.first()[`${filter.value}s`].toRefArray() : []
+    Trending.first()
+      ? Trending.first()
+          [`${filter.value}s`].toRefArray()
+          .sort(
+            (a: any, b: any) =>
+              new Date(b.release_date) - new Date(a.release_date) ||
+              new Date(b.first_air_date) - new Date(a.first_air_date)
+          )
+      : []
 )
 
 export const movieGenres = createSelector(
