@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { spring, Motion } from 'react-motion'
 import styled from 'styled-components'
 

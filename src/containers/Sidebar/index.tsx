@@ -1,5 +1,5 @@
 import rem from 'polished/lib/helpers/rem'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import Icon from '@components/Icon'

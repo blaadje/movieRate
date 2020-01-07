@@ -1,7 +1,7 @@
 import FontFaceObserver from 'fontfaceobserver'
 import rgba from 'polished/lib/color/rgba'
 import rem from 'polished/lib/helpers/rem'
-import * as React from 'react'
+import React from 'react'
 import { Provider } from 'react-redux'
 import { Route } from 'react-router-dom'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'

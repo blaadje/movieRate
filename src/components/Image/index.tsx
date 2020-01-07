@@ -1,5 +1,5 @@
 import rgba from 'polished/lib/color/rgba'
-import * as React from 'react'
+import React from 'react'
 import ImageLoader from 'react-load-image'
 import styled from 'styled-components'
 
