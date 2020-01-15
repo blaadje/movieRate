@@ -3,13 +3,13 @@
   "version": "0.0.1",
   "author": "Charlot Alexandre <acharlot91@gmail.com>",
   "description": "Application for rate movies",
-  "main": "src/main.js",
+  "main": "src/dist/main.js",
   "engines": {
     "npm": ">= 6.0.0",
     "node": "~12.x"
   },
   "scripts": {
-    "start": "NODE_ENV=development concurrently -p \"{name}\" -n \"🚋 Webpack,🔌 Electron\" -c \"green.bold,yellow.bold\" \"webpack-dev-server --config=./config/dev/webpack.config.js --mode development\" \"sleep 2 && electron .\"",
+    "start": "NODE_ENV=development concurrently -p \"{name}\" -n \"🚋 Webpack,🔌 Electron\" -c \"green.bold,yellow.bold\" \"webpack-dev-server --config=./config/dev/webpack.config.js --mode development\" \"sleep 2 && electron ./src/main.js\"",
     "build": "node config/prod/build.js && electron-builder",
     "lint": "tslint -c tslint.json --project tsconfig.json --fix",
     "test": "jest"
