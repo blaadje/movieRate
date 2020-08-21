@@ -117,7 +117,7 @@
   },
   "dependencies": {
     "@types/lowdb": "^1.0.9",
-    "axios": "^0.19.0",
+    "axios": "^0.20.0",
     "fontfaceobserver": "^2.1.0",
     "lodash": "^4.17.15",
     "lowdb": "^1.0.0",
