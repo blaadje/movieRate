@@ -58,7 +58,7 @@
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
     "@babel/runtime": "^7.7.7",
-    "@loadable/component": "^5.11.0",
+    "@loadable/component": "^5.14.1",
     "@types/fontfaceobserver": "^0.0.6",
     "@types/jest": "^24.0.25",
     "@types/loadable__component": "^5.10.0",
