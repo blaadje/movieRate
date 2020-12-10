@@ -73,7 +73,7 @@
     "@types/react-test-renderer": "^16.0.1",
     "@types/redux-logger": "^3.0.6",
     "@types/redux-orm": "^0.13.6",
-    "@types/styled-components": "^4.4.1",
+    "@types/styled-components": "^5.1.5",
     "@types/urijs": "^1.15.38",
     "@types/youtube-player": "^5.5.1",
     "babel-loader": "^8.0.6",
